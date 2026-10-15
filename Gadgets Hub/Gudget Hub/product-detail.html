@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>GAOGETS HUB · Premium UltraBook X1</title>
+  
+  <!-- Tailwind + Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Material Symbols (for cart system compatibility) -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Tailwind Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            // Brand colors from GAOGETS HUB logo
+            "brand-orange": "#E46A1A",
+            "brand-orange-light": "#FF8C42",
+            "brand-orange-dark": "#B5520F",
+            "brand-orange-soft": "#FEF3E9",
+            "brand-blue": "#1A5B8C",
+            "brand-blue-light": "#3A7BBF",
+            "brand-blue-dark": "#0E3D61",
+            "brand-blue-soft": "#E8F0F8",
+            "trust": "#2E2A29",
+            "trust-light": "#4A4543",
+            "surface": "#FAF6F2",
+            "surface-card": "#FFFFFF",
+            "outline": "#E6DCD2",
+            "muted": "#7C6F64"
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          borderRadius: {
+            'xl': '1rem',
+            '2xl': '1.5rem',
+          },
+          boxShadow: {
+            'soft': '0 8px 24px rgba(0,0,0,0.04)',
+            'card': '0 4px 12px rgba(26, 91, 140, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* Toast notification */
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1A5B8C;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      max-width: 90vw;
+      text-align: center;
+    }
+    .toast-notification.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    /* Cart drawer */
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      background: white;
+      z-index: 100;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-drawer.open {
+      transform: translateX(0);
+    }
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 99;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+    .cart-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    /* Mobile nav */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 60;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      padding-top: 70px;
+      overflow-y: auto;
+    }
+    .mobile-nav.open {
+      transform: translateX(0);
+    }
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 59;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    /* Scroll reveal */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease-out;
+    }
+    .scroll-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Custom scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #E46A1A;
+      border-radius: 8px;
+    }
+    
+    /* Option buttons */
+    .option-btn.selected {
+      border-color: #E46A1A;
+      background: #FEF3E9;
+      color: #B5520F;
+      border-width: 2px;
+    }
+    .option-btn:not(.selected) {
+      border-color: #E6DCD2;
+      color: #4A4543;
+      border-width: 1px;
+    }
+    .option-btn:not(.selected):hover {
+      border-color: #E46A1A;
+    }
+    
+    /* Thumbnail active */
+    .thumbnail-item.active {
+      border-color: #E46A1A;
+      border-width: 2px;
+    }
+  </style>
+</head>
+<body class="bg-surface text-trust font-sans antialiased overflow-x-hidden">
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="bg-brand-orange text-white py-2.5 text-center text-sm font-medium tracking-wide">
+    <i class="fas fa-tag mr-2 text-brand-orange-light"></i> Free delivery in Accra on orders over ₵500 • Ghana Independence Month Deals!
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white/80 backdrop-blur-xl sticky top-0 z-50 border-b border-outline shadow-soft">
+    <div class="flex items-center justify-between px-4 md:px-6 py-3 max-w-7xl mx-auto gap-3">
+      <!-- Mobile Menu Toggle -->
+      <button id="mobileMenuToggle" class="xl:hidden text-trust-light hover:text-brand-orange transition text-2xl p-1">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <!-- Logo -->
+      <a class="flex items-center gap-2 shrink-0" href="index.html">
+        <div class="flex flex-col leading-none">
+          <span class="text-xl md:text-2xl font-black tracking-tight text-brand-orange">GAOGETS</span>
+          <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] text-brand-blue">HUB</span>
+        </div>
+        <div class="hidden sm:block h-8 w-px bg-outline mx-1"></div>
+        <div class="hidden sm:block text-[10px] md:text-xs font-medium text-muted italic leading-tight">
+          WHERE <span class="text-brand-orange font-semibold">TECH</span><br>MEETS <span class="text-brand-blue font-semibold">TRUST</span>
+        </div>
+      </a>
+      
+      <!-- Search (desktop) -->
+      <div class="hidden md:flex flex-grow max-w-lg relative">
+        <input class="w-full h-11 pl-5 pr-12 rounded-full border border-outline bg-surface/70 focus:ring-2 focus:ring-brand-orange focus:border-brand-orange transition-all text-sm" placeholder="Search laptops..." type="text" />
+        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-orange hover:text-brand-orange-dark">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden xl:flex items-center gap-5 text-sm font-semibold">
+        <a class="text-brand-orange border-b-2 border-brand-orange pb-1" href="index.html">New Arrivals</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="index.html">Gaming</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="index.html">Business</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="index.html">Student</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="index.html">Accessories</a>
+      </nav>
+
+      <!-- Icons + Cart -->
+      <div class="flex items-center gap-2 md:gap-3">
+        <button class="text-trust-light hover:text-brand-orange transition hidden sm:inline-block"><i class="far fa-bell text-lg md:text-xl"></i></button>
+        <button class="text-trust-light hover:text-brand-orange transition hidden sm:inline-block"><i class="far fa-heart text-lg md:text-xl"></i></button>
+        <div class="hidden sm:block h-7 w-px bg-outline"></div>
+        <button class="flex items-center gap-1 md:gap-1.5 bg-brand-blue-soft px-2 md:px-3 py-1.5 md:py-2 rounded-full hover:bg-brand-blue/10 transition" data-cart-toggle="true">
+          <i class="fas fa-shopping-cart text-brand-blue text-sm md:text-base"></i>
+          <span class="text-xs md:text-sm font-bold text-trust hidden sm:inline">Cart</span>
+          <span class="cart-badge bg-brand-orange text-white text-[10px] font-bold px-1.5 md:px-2 py-0.5 rounded-full hidden">0</span>
+        </button>
+        <a href="index.html" class="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-trust/5 hover:bg-trust/10 transition">
+          <i class="far fa-user-circle text-lg md:text-xl text-trust-light"></i>
+          <span class="text-xs md:text-sm font-medium hidden sm:inline">Account</span>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Mobile Search Bar -->
+    <div class="md:hidden px-4 pb-3 max-w-7xl mx-auto">
+      <div class="relative">
+        <input class="w-full h-10 pl-4 pr-10 rounded-full border border-outline bg-surface/70 focus:ring-2 focus:ring-brand-orange focus:border-brand-orange transition-all text-sm" placeholder="Search laptops..." type="text" />
+        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-orange">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE NAV OVERLAY ===== -->
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+  
+  <!-- ===== MOBILE NAV ===== -->
+  <nav id="mobileNav" class="mobile-nav">
+    <div class="px-6 py-4 border-b border-outline/60 flex justify-between items-center">
+      <span class="font-bold text-brand-orange text-xl">Menu</span>
+      <button id="closeMobileMenu" class="text-trust-light text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="px-6 py-4 space-y-4">
+      <a href="index.html" class="block text-lg font-semibold text-brand-orange border-l-4 border-brand-orange pl-3">New Arrivals</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-orange transition pl-3">Gaming</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-orange transition pl-3">Business</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-orange transition pl-3">Student</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-orange transition pl-3">Accessories</a>
+      <hr class="border-outline/60" />
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-blue transition pl-3"><i class="far fa-heart mr-2"></i> Wishlist</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-blue transition pl-3"><i class="far fa-bell mr-2"></i> Notifications</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-blue transition pl-3"><i class="far fa-user-circle mr-2"></i> My Account</a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
+
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-1 md:gap-2 text-sm text-muted mb-4 md:mb-6 overflow-x-auto">
+      <a class="hover:text-brand-orange transition whitespace-nowrap" href="index.html">Home</a>
+      <i class="fas fa-chevron-right text-[10px] text-muted"></i>
+      <a class="hover:text-brand-orange transition whitespace-nowrap" href="index.html">Electronics</a>
+      <i class="fas fa-chevron-right text-[10px] text-muted"></i>
+      <a class="hover:text-brand-orange transition whitespace-nowrap" href="index.html">Laptops</a>
+      <i class="fas fa-chevron-right text-[10px] text-muted"></i>
+      <span class="text-trust font-medium whitespace-nowrap">Premium UltraBook X1</span>
+    </nav>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
+
+      <!-- Left: Gallery -->
+      <div class="lg:col-span-7 flex flex-col md:flex-row gap-3 md:gap-4">
+        <!-- Thumbnails -->
+        <div class="flex md:flex-col order-2 md:order-1 gap-2 overflow-x-auto md:overflow-y-auto max-h-[600px] custom-scrollbar">
+          <div class="thumbnail-item active min-w-[60px] md:min-w-[80px] w-14 md:w-20 h-14 md:h-20 rounded-lg border-2 border-brand-orange cursor-pointer overflow-hidden flex-shrink-0" data-thumbnail>
+            <img alt="Product view 1" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvrOL7mlvnx4RWIC1rKdKUtHgKwCg3Mhv4thmQkhzrs3W9Rr8-NzPFXEF8b2yKgduLIureZto9k8IgqUlAs905DCIo3QbDN4eRhfh4E8eZGE5_zhf5zgOEyc7JxMTeJvtSmfFx6IRfDPAb5tJI6DZL46T_3iYD_a7WVyGD2OiDbfYjosucFKYcG2T0DIp_6I7SNEhLfTgHdc1iU74quCTWRmSEgZcYNtB_Q5PndVDVceDaCz7x973_8vgG_oHaXeyBv847p3DkUg" />
+          </div>
+          <div class="thumbnail-item min-w-[60px] md:min-w-[80px] w-14 md:w-20 h-14 md:h-20 rounded-lg border border-outline cursor-pointer hover:border-brand-orange transition-colors overflow-hidden flex-shrink-0" data-thumbnail>
+            <img alt="Product view 2" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnyCeeT-zBthVx5OllanSIZJufsECOSt_LbTbOpxAFLgi-6KzTZ7H9XYd54aid2s6bbIP6ATGQBoY_kaBV63NDomYwfCpDxJBfIrA9F5RT_2ZcUkkPIJSvNC-nqxDTGUTdaK3ibEeJZXrYdlYK3c-ZkHrqW9709rXJvDqOt53CUw99yH8LOGfzQbE4L7ISl3YS_6aiBTxAyhzPH5BXBDFno8Hn7BcrereU_HMopjCuINFvBovkkfOlxuoShNH4x89V50zKRlFBkw" />
+          </div>
+          <div class="thumbnail-item min-w-[60px] md:min-w-[80px] w-14 md:w-20 h-14 md:h-20 rounded-lg border border-outline cursor-pointer hover:border-brand-orange transition-colors overflow-hidden flex-shrink-0" data-thumbnail>
+            <img alt="Product view 3" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATpgXFCWWcNS1KTb0AhrnrKZ-elc0RuIu-GJdhBgu-Gzu5Z90oZXbUIUuvdcKAS-uhU7SofhEWAontlab2EzKKjZ6WlBeFz84L1SPY43sadDMT1LE5LAoLPt7kPAU73bxOLk1kDNmzZ-Di-McX7mRBIo8fVO1GXSpxUzLSf7scwefbYWHoZ4OGghCWqHaJ1rgXGL5zTvJcmoUKrAdbyrJQHV8hXxtVZOmfD__2tQaPazMFU8immBYJtuWH6ISJ9SeQxh4mcSFMyQ" />
+          </div>
+        </div>
+
+        <!-- Main Image -->
+        <div class="flex-1 order-1 md:order-2">
+          <div class="relative aspect-square rounded-xl overflow-hidden bg-white border border-outline group">
+            <img alt="Main Product Image" class="main-image w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHHxKTZYwFyrqzjITf7iWTrvawnMjGbMdaKGYGw2Lclb6xYCrs8nbrE6Q1idwT5qDVzbpqzxV9_U9KyDJi46UbYlLADV-ifyZOdIPH5gpkfD1xDRaBS2r7UbzotxP8vIq5sCcc8jr1NPmZU5YAXMHER_DfX2-SrW5pb5__Pwtvh4DBHlR9MeHTGyc33H4AWs8AUFheRxXO0CGppP6qeZxgi0OkhbHtp0zXszEg3aPsPJePBleKo6QJQlKYB_IVSzm2mz8j4ybB8w" />
+            <div class="absolute top-3 left-3 bg-brand-orange text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">20% OFF</div>
+            <button class="absolute top-3 right-3 w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-trust-light hover:text-brand-orange transition-all">
+              <i class="far fa-heart"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="lg:col-span-5 space-y-4 md:space-y-5">
+        <div class="space-y-2">
+          <p class="text-brand-orange font-semibold text-xs uppercase tracking-widest">Premium Collection</p>
+          <h1 class="text-xl md:text-2xl font-bold text-trust">Premium UltraBook X1 - 14" Titanium Edition</h1>
+          <div class="flex flex-wrap items-center gap-2 md:gap-3">
+            <div class="flex items-center text-brand-orange">
+              <i class="fas fa-star text-xs md:text-sm"></i>
+              <i class="fas fa-star text-xs md:text-sm"></i>
+              <i class="fas fa-star text-xs md:text-sm"></i>
+              <i class="fas fa-star text-xs md:text-sm"></i>
+              <i class="fas fa-star-half-alt text-xs md:text-sm"></i>
+              <span class="ml-1 text-sm text-muted">4.5/5 (128 reviews)</span>
+            </div>
+            <div class="h-4 w-px bg-outline"></div>
+            <span class="text-green-600 flex items-center gap-1 text-sm font-medium">
+              <i class="fas fa-check-circle"></i> In Stock
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-baseline gap-3">
+          <span class="text-2xl md:text-3xl font-bold text-brand-orange">GH₵ 12,499.00</span>
+          <span class="text-sm md:text-base text-muted line-through">GH₵ 15,624.00</span>
+        </div>
+
+        <!-- Options -->
+        <div class="p-3 md:p-4 bg-surface rounded-xl border border-outline/60 space-y-3 md:space-y-4">
+          <div class="space-y-1.5">
+            <p class="font-semibold text-sm text-trust">Select Processor</p>
+            <div class="flex flex-wrap gap-2">
+              <button class="option-btn selected px-3 py-1.5 rounded-lg font-medium text-sm transition-colors" data-group="processor">Core i7-13th Gen</button>
+              <button class="option-btn px-3 py-1.5 rounded-lg font-medium text-sm transition-colors" data-group="processor">Core i9-13th Gen</button>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <p class="font-semibold text-sm text-trust">Select Storage</p>
+            <div class="flex flex-wrap gap-2">
+              <button class="option-btn px-3 py-1.5 rounded-lg font-medium text-sm transition-colors" data-group="storage">512GB SSD</button>
+              <button class="option-btn selected px-3 py-1.5 rounded-lg font-medium text-sm transition-colors" data-group="storage">1TB NVMe SSD</button>
+              <button class="option-btn px-3 py-1.5 rounded-lg font-medium text-sm transition-colors" data-group="storage">2TB NVMe SSD</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col gap-2">
+          <div class="flex gap-3">
+            <div class="flex items-center border border-outline rounded-lg overflow-hidden">
+              <button class="qty-btn w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-brand-orange-soft transition text-lg font-bold" data-action="decrease">-</button>
+              <input class="qty-input w-12 md:w-16 border-none text-center font-bold focus:ring-0 text-sm md:text-base" type="number" value="1" min="1" />
+              <button class="qty-btn w-10 h-10 md:w-12 md:h-12 flex items-center justify-center hover:bg-brand-orange-soft transition text-lg font-bold" data-action="increase">+</button>
+            </div>
+            <button class="flex-1 bg-brand-blue text-white font-bold rounded-lg h-10 md:h-12 flex items-center justify-center gap-2 hover:bg-brand-blue-dark active:scale-[0.98] transition-all text-sm md:text-base add-to-cart-btn">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+          <button class="buy-now-btn w-full bg-brand-orange text-white font-bold rounded-lg h-10 md:h-12 flex items-center justify-center hover:bg-brand-orange-dark active:scale-[0.98] transition-all text-sm md:text-base">
+            Buy Now
+          </button>
+        </div>
+
+        <!-- Delivery Info -->
+        <div class="grid grid-cols-2 gap-3 pt-3 border-t border-outline/60">
+          <div class="flex items-start gap-2 text-sm text-muted">
+            <i class="fas fa-truck text-brand-orange mt-0.5"></i>
+            <div>
+              <p class="font-semibold text-trust">Free Delivery</p>
+              <p class="text-xs">Within Accra &amp; Kumasi</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2 text-sm text-muted">
+            <i class="fas fa-shield-alt text-brand-blue mt-0.5"></i>
+            <div>
+              <p class="font-semibold text-trust">2 Years Warranty</p>
+              <p class="text-xs">Manufacturer Direct</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Tabs Section -->
+    <div class="mt-8 md:mt-12">
+      <div class="flex border-b border-outline/60 overflow-x-auto">
+        <button class="tab-btn px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold border-b-2 border-brand-orange text-brand-orange active whitespace-nowrap" data-tab="description">Description</button>
+        <button class="tab-btn px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold border-b-2 border-transparent text-muted hover:text-trust transition-colors whitespace-nowrap" data-tab="specifications">Specifications</button>
+        <button class="tab-btn px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-semibold border-b-2 border-transparent text-muted hover:text-trust transition-colors whitespace-nowrap" data-tab="reviews">Reviews (128)</button>
+      </div>
+      <div class="py-4 md:py-6">
+        <!-- Description Tab -->
+        <div class="tab-content space-y-4 max-w-3xl" id="tab-description">
+          <h3 class="text-lg md:text-xl font-bold text-trust">Performance Meets Elegance</h3>
+          <p class="text-sm md:text-base text-muted leading-relaxed">
+            The UltraBook X1 is engineered for the modern professional who demands both power and portability. Encased in a precision-milled titanium chassis, this machine weighs just 1.1kg while housing the latest 13th Generation processor. Its stunning 14-inch OLED display offers 100% DCI-P3 color gamut, making it the perfect companion for creative workflows and immersive entertainment.
+          </p>
+          <div class="grid sm:grid-cols-2 gap-3 md:gap-4">
+            <div class="p-3 md:p-4 bg-surface rounded-xl border border-outline/60">
+              <i class="fas fa-battery-full text-brand-orange text-xl md:text-2xl mb-2 block"></i>
+              <h4 class="font-semibold text-sm md:text-base mb-1">20-Hour Battery</h4>
+              <p class="text-xs md:text-sm text-muted">Intelligent power management ensures you can work all day without reaching for a charger.</p>
+            </div>
+            <div class="p-3 md:p-4 bg-surface rounded-xl border border-outline/60">
+              <i class="fas fa-lock text-brand-blue text-xl md:text-2xl mb-2 block"></i>
+              <h4 class="font-semibold text-sm md:text-base mb-1">Titanium Security</h4>
+              <p class="text-xs md:text-sm text-muted">Next-gen biometric encryption and a hardware-level kill switch for your peace of mind.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specifications Tab -->
+        <div class="tab-content hidden space-y-2 max-w-3xl" id="tab-specifications">
+          <div class="grid grid-cols-2 py-2 border-b border-outline/60">
+            <span class="font-semibold text-sm text-trust">Processor</span>
+            <span class="text-sm text-muted">Intel® Core™ i7-13700H (Up to 5.0 GHz)</span>
+          </div>
+          <div class="grid grid-cols-2 py-2 border-b border-outline/60">
+            <span class="font-semibold text-sm text-trust">Graphics</span>
+            <span class="text-sm text-muted">Intel® Iris® Xe Graphics</span>
+          </div>
+          <div class="grid grid-cols-2 py-2 border-b border-outline/60">
+            <span class="font-semibold text-sm text-trust">Memory</span>
+            <span class="text-sm text-muted">16GB LPDDR5 5200MHz</span>
+          </div>
+          <div class="grid grid-cols-2 py-2 border-b border-outline/60">
+            <span class="font-semibold text-sm text-trust">Display</span>
+            <span class="text-sm text-muted">14.0" 2.8K (2880 x 1800) OLED 90Hz</span>
+          </div>
+          <div class="grid grid-cols-2 py-2 border-b border-outline/60">
+            <span class="font-semibold text-sm text-trust">Weight</span>
+            <span class="text-sm text-muted">1.12 kg (2.47 lbs)</span>
+          </div>
+        </div>
+
+        <!-- Reviews Tab -->
+        <div class="tab-content hidden" id="tab-reviews">
+          <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+            <div class="md:w-1/3 space-y-3">
+              <h3 class="text-3xl md:text-4xl font-bold text-trust">4.5</h3>
+              <div class="flex text-brand-orange text-sm md:text-base">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <p class="text-sm text-muted">Based on 128 global reviews</p>
+              <div class="space-y-1.5">
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-6 text-xs">5 ★</span>
+                  <div class="flex-1 h-1.5 bg-outline/60 rounded-full overflow-hidden">
+                    <div class="bg-brand-orange h-full w-[70%]"></div>
+                  </div>
+                  <span class="w-6 text-xs text-muted">70%</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-6 text-xs">4 ★</span>
+                  <div class="flex-1 h-1.5 bg-outline/60 rounded-full overflow-hidden">
+                    <div class="bg-brand-orange h-full w-[20%]"></div>
+                  </div>
+                  <span class="w-6 text-xs text-muted">20%</span>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-2/3 space-y-4">
+              <div class="pb-4 border-b border-outline/60">
+                <div class="flex flex-wrap justify-between items-start gap-2 mb-1.5">
+                  <div>
+                    <p class="font-semibold text-sm">Kwame Mensah</p>
+                    <div class="flex text-brand-orange text-xs">
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                      <i class="fas fa-star"></i>
+                    </div>
+                  </div>
+                  <span class="text-xs text-muted">Oct 12, 2023</span>
+                </div>
+                <p class="text-sm text-muted">Absolutely brilliant machine. The OLED screen is a game changer for my photography work. Delivery to Kumasi was surprisingly fast!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations Slider -->
+    <section class="mt-8 md:mt-12 mb-8 md:mb-12">
+      <div class="flex flex-wrap justify-between items-end gap-3 mb-4 md:mb-6">
+        <div>
+          <h2 class="text-lg md:text-xl font-bold text-trust">Customers also viewed</h2>
+          <p class="text-sm text-muted">Handpicked alternatives based on your interests</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="slider-nav w-8 h-8 md:w-10 md:h-10 rounded-full border border-outline flex items-center justify-center hover:bg-brand-orange-soft transition" data-direction="prev">
+            <i class="fas fa-chevron-left text-xs md:text-sm"></i>
+          </button>
+          <button class="slider-nav w-8 h-8 md:w-10 md:h-10 rounded-full border border-outline flex items-center justify-center hover:bg-brand-orange-soft transition" data-direction="next">
+            <i class="fas fa-chevron-right text-xs md:text-sm"></i>
+          </button>
+        </div>
+      </div>
+      <div class="flex gap-3 md:gap-4 overflow-x-auto pb-3 custom-scrollbar product-slider">
+        <!-- Product Card 1 -->
+        <div class="min-w-[220px] md:min-w-[280px] group bg-white rounded-xl border border-outline/60 overflow-hidden hover:shadow-card transition-all duration-300">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square relative overflow-hidden">
+              <img alt="Recommended Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALLCvnWuC_wirNGGjsSHFnDhp4s1nd_0VIYMOQq0NCU48QtidVUWx5wEUQX9A4a61f6IKtGTg-I4NFwVJUH4BCWlCvEYAGRLcMMJa2DWHtLA2FooxoCuwYpT4u1TAVyCbClDazAqMVJXBxUez1wtfP-iPDKl2_mlKGP0EmyoEsMr0JR7e2SlpoxNTAR5IwaydDYYnT1TW-wAK97wcQdpiGR5gHOe0FJT-iPrIgNfoof_0FADQZBGppuU5MrNaCoHOiYmRkeN45Qw" />
+            </div>
+          </a>
+          <div class="p-3 md:p-4 space-y-1.5">
+            <p class="text-xs text-muted">Tablets</p>
+            <h4 class="font-semibold text-sm md:text-base line-clamp-2">Galaxy Tab S9 Ultra - 14.6"</h4>
+            <div class="flex items-center text-brand-orange text-xs">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span class="ml-1 text-muted text-xs">(42)</span>
+            </div>
+            <p class="font-bold text-brand-orange text-sm md:text-base">GH₵ 8,200.00</p>
+            <button class="mt-1 w-full bg-brand-blue text-white font-semibold rounded-lg py-1.5 md:py-2 text-xs md:text-sm flex items-center justify-center gap-1.5 hover:bg-brand-blue-dark active:scale-95 transition-all add-to-cart-btn-home" 
+                    data-name='Galaxy Tab S9 Ultra - 14.6" Dynamic AMOLED' 
+                    data-price="8200" 
+                    data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuALLCvnWuC_wirNGGjsSHFnDhp4s1nd_0VIYMOQq0NCU48QtidVUWx5wEUQX9A4a61f6IKtGTg-I4NFwVJUH4BCWlCvEYAGRLcMMJa2DWHtLA2FooxoCuwYpT4u1TAVyCbClDazAqMVJXBxUez1wtfP-iPDKl2_mlKGP0EmyoEsMr0JR7e2SlpoxNTAR5IwaydDYYnT1TW-wAK97wcQdpiGR5gHOe0FJT-iPrIgNfoof_0FADQZBGppuU5MrNaCoHOiYmRkeN45Qw">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <!-- Product Card 2 -->
+        <div class="min-w-[220px] md:min-w-[280px] group bg-white rounded-xl border border-outline/60 overflow-hidden hover:shadow-card transition-all duration-300">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square relative overflow-hidden">
+              <img alt="Recommended Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlLMOtYgJqNvNanHiDUIRl_eJae6FXJDs_byIHjvUNyPTgGtoRz4P6Bu5NvMoif0nzGwmabXyCBk_8JHsbtlJWwWtM-OYAKxP8g_XsxDlnJhg1E2IETbbei1FaMW5wvcP7cbKRtNkWbCB95KXyhXh7V57oiCw9g5grDHkpAivgxfSZ_XKYADmNVvt0wFw_kgsnCrPSnmRQKIzeGvhJUFokZPbtEIeLHtc1EDjhyAxb6D9Zj9H28igSMp0zo85R7yEK15K4QZp30g" />
+            </div>
+          </a>
+          <div class="p-3 md:p-4 space-y-1.5">
+            <p class="text-xs text-muted">Monitors</p>
+            <h4 class="font-semibold text-sm md:text-base line-clamp-2">Studio Display 5K - Nanotexture</h4>
+            <div class="flex items-center text-brand-orange text-xs">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span class="ml-1 text-muted text-xs">(86)</span>
+            </div>
+            <p class="font-bold text-brand-orange text-sm md:text-base">GH₵ 18,500.00</p>
+            <button class="mt-1 w-full bg-brand-blue text-white font-semibold rounded-lg py-1.5 md:py-2 text-xs md:text-sm flex items-center justify-center gap-1.5 hover:bg-brand-blue-dark active:scale-95 transition-all add-to-cart-btn-home" 
+                    data-name="Studio Display 5K - Nanotexture Glass" 
+                    data-price="18500" 
+                    data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuDlLMOtYgJqNvNanHiDUIRl_eJae6FXJDs_byIHjvUNyPTgGtoRz4P6Bu5NvMoif0nzGwmabXyCBk_8JHsbtlJWwWtM-OYAKxP8g_XsxDlnJhg1E2IETbbei1FaMW5wvcP7cbKRtNkWbCB95KXyhXh7V57oiCw9g5grDHkpAivgxfSZ_XKYADmNVvt0wFw_kgsnCrPSnmRQKIzeGvhJUFokZPbtEIeLHtc1EDjhyAxb6D9Zj9H28igSMp0zo85R7yEK15K4QZp30g">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <!-- Product Card 3 -->
+        <div class="min-w-[220px] md:min-w-[280px] group bg-white rounded-xl border border-outline/60 overflow-hidden hover:shadow-card transition-all duration-300">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square relative overflow-hidden">
+              <img alt="Recommended Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArERZjwjUs557U0AgHZ4RCEoKnkZ0X_e-u95FHHe5035yStXbyqOFjGxtCLRCoYSKywrEvdw3fmY2xHLIRyp3Gu4ugnZmXwO40k9GaHq7AVmQj3uX1g4mFElEqADRFPm8ZBW2g0xHm_eN_FIO44g2tfJwgW8ZP7dVfJ_52coHLQd8xrtT682iaLvWU55moMZOMHP_3UPk-n89Aq30ofSwfiieakx0bYzk3dPdEoS3iO29HAdwBA6iiPK74UvHIMyDWJB6Oq8dNOg" />
+            </div>
+          </a>
+          <div class="p-3 md:p-4 space-y-1.5">
+            <p class="text-xs text-muted">Audio</p>
+            <h4 class="font-semibold text-sm md:text-base line-clamp-2">Acoustic Pro Wireless ANC</h4>
+            <div class="flex items-center text-brand-orange text-xs">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span class="ml-1 text-muted text-xs">(215)</span>
+            </div>
+            <p class="font-bold text-brand-orange text-sm md:text-base">GH₵ 2,450.00</p>
+            <button class="mt-1 w-full bg-brand-blue text-white font-semibold rounded-lg py-1.5 md:py-2 text-xs md:text-sm flex items-center justify-center gap-1.5 hover:bg-brand-blue-dark active:scale-95 transition-all add-to-cart-btn-home" 
+                    data-name="Acoustic Pro Wireless Headphones ANC" 
+                    data-price="2450" 
+                    data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuArERZjwjUs557U0AgHZ4RCEoKnkZ0X_e-u95FHHe5035yStXbyqOFjGxtCLRCoYSKywrEvdw3fmY2xHLIRyp3Gu4ugnZmXwO40k9GaHq7AVmQj3uX1g4mFElEqADRFPm8ZBW2g0xHm_eN_FIO44g2tfJwgW8ZP7dVfJ_52coHLQd8xrtT682iaLvWU55moMZOMHP_3UPk-n89Aq30ofSwfiieakx0bYzk3dPdEoS3iO29HAdwBA6iiPK74UvHIMyDWJB6Oq8dNOg">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+        <!-- Product Card 4 -->
+        <div class="min-w-[220px] md:min-w-[280px] group bg-white rounded-xl border border-outline/60 overflow-hidden hover:shadow-card transition-all duration-300">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square relative overflow-hidden">
+              <img alt="Recommended Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgI-HpqKZceJVyyoTJKEMEoZI0p0fiHv0TODtp2hHuliwPThXzFUSVICGQwXW6vRx56PpCKgBrxxz7LUTXAvXeQ2bibk1TnQ0OdRbyt0eSSbaPn1sb46UMNwLVC45DHr8F624dDyq41aazn_9mhfd-89e85DCsPyDF35NIo_d3c1wXSEYpZeBSrE5fsHEgIwBckE_7rLacC_zVw6aV2kHXeE8w3gNRXKylxx-hLzUMBNjmog8hN2biBuxEAwWFYHi-pCddq99oXw" />
+            </div>
+          </a>
+          <div class="p-3 md:p-4 space-y-1.5">
+            <p class="text-xs text-muted">Cameras</p>
+            <h4 class="font-semibold text-sm md:text-base line-clamp-2">Lumix GH6 Cinema Camera</h4>
+            <div class="flex items-center text-brand-orange text-xs">
+              <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+              <span class="ml-1 text-muted text-xs">(33)</span>
+            </div>
+            <p class="font-bold text-brand-orange text-sm md:text-base">GH₵ 11,200.00</p>
+            <button class="mt-1 w-full bg-brand-blue text-white font-semibold rounded-lg py-1.5 md:py-2 text-xs md:text-sm flex items-center justify-center gap-1.5 hover:bg-brand-blue-dark active:scale-95 transition-all add-to-cart-btn-home" 
+                    data-name="Lumix GH6 Mirrorless Cinema Camera" 
+                    data-price="11200" 
+                    data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuCgI-HpqKZceJVyyoTJKEMEoZI0p0fiHv0TODtp2hHuliwPThXzFUSVICGQwXW6vRx56PpCKgBrxxz7LUTXAvXeQ2bibk1TnQ0OdRbyt0eSSbaPn1sb46UMNwLVC45DHr8F624dDyq41aazn_9mhfd-89e85DCsPyDF35NIo_d3c1wXSEYpZeBSrE5fsHEgIwBckE_7rLacC_zVw6aV2kHXeE8w3gNRXKylxx-hLzUMBNjmog8hN2biBuxEAwWFYHi-pCddq99oXw">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-white border-t border-outline/60">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-xl md:text-2xl font-black text-brand-orange">GAOGETS</span>
+          <span class="text-[10px] md:text-xs font-bold text-brand-blue">HUB</span>
+        </div>
+        <p class="text-muted text-xs md:text-sm mb-4">Premium marketplace for quality electronics and lifestyle products in Ghana and beyond.</p>
+        <div class="flex gap-3">
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-surface flex items-center justify-center text-trust-light hover:bg-brand-orange hover:text-white transition" href="#"><i class="fab fa-twitter text-sm md:text-base"></i></a>
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-surface flex items-center justify-center text-trust-light hover:bg-brand-blue hover:text-white transition" href="#"><i class="fab fa-instagram text-sm md:text-base"></i></a>
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-surface flex items-center justify-center text-trust-light hover:bg-brand-orange hover:text-white transition" href="#"><i class="fab fa-youtube text-sm md:text-base"></i></a>
+        </div>
+      </div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider text-trust mb-3">Company</h4><ul class="space-y-2 text-xs md:text-sm text-muted"><li><a href="#" class="hover:text-brand-orange">About Us</a></li><li><a href="#" class="hover:text-brand-orange">Contact</a></li><li><a href="#" class="hover:text-brand-orange">Careers</a></li></ul></div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider text-trust mb-3">Support</h4><ul class="space-y-2 text-xs md:text-sm text-muted"><li><a href="#" class="hover:text-brand-blue">FAQ</a></li><li><a href="#" class="hover:text-brand-blue">Shipping Policy</a></li><li><a href="#" class="hover:text-brand-blue">Returns</a></li></ul></div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider text-trust mb-3">Legal</h4><ul class="space-y-2 text-xs md:text-sm text-muted"><li><a href="#" class="hover:text-brand-orange">Terms of Service</a></li><li><a href="#" class="hover:text-brand-orange">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="border-t border-outline/30 py-3 md:py-4 px-4 md:px-6 flex flex-col md:flex-row justify-between items-center text-[10px] md:text-xs text-muted gap-2 max-w-7xl mx-auto">
+      <div class="flex gap-3 md:gap-4">
+        <i class="fas fa-credit-card text-brand-blue"></i>
+        <i class="fas fa-shield-alt text-brand-orange"></i>
+        <i class="fas fa-truck text-brand-blue"></i>
+      </div>
+      <p>© 2024 GAOGETS HUB. <span class="text-brand-orange">Where Tech</span> <span class="text-brand-blue">Meets Trust</span>.</p>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ==========================================
+    // MOBILE NAV TOGGLE
+    // ==========================================
+    (function() {
+      const menuToggle = document.getElementById('mobileMenuToggle');
+      const closeMenu = document.getElementById('closeMobileMenu');
+      const mobileNav = document.getElementById('mobileNav');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      
+      function openMobileNav() {
+        mobileNav.classList.add('open');
+        mobileOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeMobileNav() {
+        mobileNav.classList.remove('open');
+        mobileOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+      
+      if (menuToggle) menuToggle.addEventListener('click', openMobileNav);
+      if (closeMenu) closeMenu.addEventListener('click', closeMobileNav);
+      if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileNav);
+      
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeMobileNav();
+      });
+      
+      mobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMobileNav);
+      });
+    })();
+
+    // ==========================================
+    // CART SYSTEM
+    // ==========================================
+    (function() {
+      let cart = [];
+      let cartCount = 0;
+      let isCartOpen = false;
+
+      function loadCart() {
+        try {
+          const saved = localStorage.getItem('shopghana_cart');
+          if (saved) {
+            cart = JSON.parse(saved);
+            cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            updateCartBadge();
+          }
+        } catch (e) { console.warn('Failed to load cart:', e); }
+      }
+
+      function saveCart() {
+        try {
+          localStorage.setItem('shopghana_cart', JSON.stringify(cart));
+        } catch (e) { console.warn('Failed to save cart:', e); }
+      }
+
+      function updateCartBadge() {
+        const badges = document.querySelectorAll('.cart-badge');
+        badges.forEach(badge => {
+          if (cartCount > 0) {
+            badge.textContent = cartCount;
+            badge.classList.remove('hidden');
+          } else {
+            badge.textContent = '0';
+            badge.classList.add('hidden');
+          }
+        });
+      }
+
+      function getCartTotal() {
+        return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+      }
+
+      function showToast(message, duration = 2500) {
+        const existingToast = document.querySelector('.toast-notification');
+        if (existingToast) existingToast.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, duration);
+      }
+
+      function addToCart(productName, price, quantity = 1, image = '', options = {}) {
+        const existingItem = cart.find(item => 
+          item.name === productName && 
+          JSON.stringify(item.options) === JSON.stringify(options)
+        );
+
+        if (existingItem) {
+          existingItem.quantity += quantity;
+        } else {
+          cart.push({
+            id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+            name: productName,
+            price: price,
+            quantity: quantity,
+            image: image || 'https://via.placeholder.com/80',
+            options: options
+          });
+        }
+
+        cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        updateCartBadge();
+        saveCart();
+        showToast(`🛒 Added "${productName}" to cart!`);
+        renderCartItems();
+        
+        setTimeout(() => {
+          openCart();
+        }, 400);
+      }
+
+      function removeFromCart(itemId) {
+        cart = cart.filter(item => item.id !== itemId);
+        cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        updateCartBadge();
+        saveCart();
+        renderCartItems();
+        if (cart.length === 0) showToast('🛒 Cart is now empty');
+      }
+
+      function updateCartQuantity(itemId, newQuantity) {
+        const item = cart.find(item => item.id === itemId);
+        if (item) {
+          if (newQuantity <= 0) {
+            removeFromCart(itemId);
+            return;
+          }
+          item.quantity = newQuantity;
+          cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+          updateCartBadge();
+          saveCart();
+          renderCartItems();
+        }
+      }
+
+      function createCartDrawer() {
+        const existingDrawer = document.querySelector('.cart-drawer');
+        if (existingDrawer) existingDrawer.remove();
+
+        const drawer = document.createElement('div');
+        drawer.className = 'cart-drawer';
+        drawer.innerHTML = `
+          <div class="flex items-center justify-between p-4 border-b border-outline/60">
+            <h2 class="text-xl font-bold text-trust">Your Cart</h2>
+            <button class="close-cart p-2 hover:bg-brand-blue-soft rounded-full transition-all">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <div class="cart-items-container flex-1 overflow-y-auto p-4 space-y-4">
+            <!-- Cart items rendered here -->
+          </div>
+          <div class="border-t border-outline/60 p-4 bg-surface">
+            <div class="flex justify-between items-center mb-4">
+              <span class="font-semibold text-sm">Total:</span>
+              <span class="text-xl font-bold text-brand-orange cart-total">₵ 0.00</span>
+            </div>
+            <button class="checkout-btn w-full bg-brand-blue text-white font-bold py-3 rounded-full hover:bg-brand-blue-dark transition">
+              Proceed to Checkout
+            </button>
+            <button class="continue-shopping w-full mt-2 text-muted hover:text-brand-orange transition font-semibold text-sm">
+              Continue Shopping
+            </button>
+          </div>
+        `;
+
+        document.body.appendChild(drawer);
+
+        const closeBtn = drawer.querySelector('.close-cart');
+        const continueBtn = drawer.querySelector('.continue-shopping');
+        const overlay = document.querySelector('.cart-overlay');
+
+        closeBtn.addEventListener('click', closeCart);
+        continueBtn.addEventListener('click', closeCart);
+        if (overlay) overlay.addEventListener('click', closeCart);
+
+        const checkoutBtn = drawer.querySelector('.checkout-btn');
+        checkoutBtn.addEventListener('click', function() {
+          if (cart.length === 0) {
+            showToast('🛒 Your cart is empty!');
+            return;
+          }
+          const total = getCartTotal();
+          showToast(`💳 Proceeding to checkout. Total: ₵ ${total.toFixed(2)}`);
+        });
+      }
+
+      function renderCartItems() {
+        const container = document.querySelector('.cart-items-container');
+        const totalElement = document.querySelector('.cart-total');
+        if (!container) return;
+
+        if (cart.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-12">
+              <span class="material-symbols-outlined text-6xl text-muted/40 mb-4">shopping_cart</span>
+              <p class="text-muted font-medium">Your cart is empty</p>
+              <p class="text-muted text-sm mt-2">Start adding some items!</p>
+            </div>
+          `;
+          if (totalElement) totalElement.textContent = '₵ 0.00';
+          return;
+        }
+
+        let html = '';
+        cart.forEach(item => {
+          html += `
+            <div class="flex gap-4 p-3 bg-surface rounded-xl border border-outline/60 cart-item" data-id="${item.id}">
+              <div class="w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden flex-shrink-0 bg-surface/50">
+                <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <h4 class="font-semibold text-sm md:text-base line-clamp-1">${item.name}</h4>
+                <p class="font-bold text-brand-orange text-sm md:text-base">₵ ${item.price.toFixed(2)}</p>
+                ${item.options && Object.keys(item.options).length > 0 ? 
+                  `<p class="text-muted text-xs">${Object.values(item.options).join(' • ')}</p>` : ''}
+                <div class="flex items-center gap-2 mt-2">
+                  <button class="qty-decrease w-7 h-7 md:w-8 md:h-8 rounded-full border border-outline hover:bg-brand-blue-soft transition flex items-center justify-center text-sm" data-id="${item.id}">-</button>
+                  <span class="font-semibold text-sm min-w-[20px] text-center">${item.quantity}</span>
+                  <button class="qty-increase w-7 h-7 md:w-8 md:h-8 rounded-full border border-outline hover:bg-brand-blue-soft transition flex items-center justify-center text-sm" data-id="${item.id}">+</button>
+                  <button class="remove-item ml-auto text-red-500 hover:bg-red-50 rounded-full p-1 transition" data-id="${item.id}">
+                    <span class="material-symbols-outlined text-sm">delete</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+        if (totalElement) {
+          totalElement.textContent = `₵ ${getCartTotal().toFixed(2)}`;
+        }
+
+        container.querySelectorAll('.qty-decrease').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const item = cart.find(i => i.id === id);
+            if (item) updateCartQuantity(id, item.quantity - 1);
+          });
+        });
+
+        container.querySelectorAll('.qty-increase').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const item = cart.find(i => i.id === id);
+            if (item) updateCartQuantity(id, item.quantity + 1);
+          });
+        });
+
+        container.querySelectorAll('.remove-item').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            removeFromCart(id);
+            showToast('🗑️ Item removed from cart');
+          });
+        });
+      }
+
+      function openCart() {
+        if (isCartOpen) {
+          renderCartItems();
+          return;
+        }
+        isCartOpen = true;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'cart-overlay';
+        document.body.appendChild(overlay);
+        setTimeout(() => { overlay.classList.add('show'); }, 10);
+
+        if (!document.querySelector('.cart-drawer')) {
+          createCartDrawer();
+        }
+
+        renderCartItems();
+        const drawer = document.querySelector('.cart-drawer');
+        if (drawer) {
+          setTimeout(() => { drawer.classList.add('open'); }, 50);
+        }
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeCart() {
+        if (!isCartOpen) return;
+        isCartOpen = false;
+
+        const drawer = document.querySelector('.cart-drawer');
+        const overlay = document.querySelector('.cart-overlay');
+
+        if (drawer) drawer.classList.remove('open');
+        if (overlay) {
+          overlay.classList.remove('show');
+          setTimeout(() => overlay.remove(), 300);
+        }
+        document.body.style.overflow = '';
+      }
+
+      // Init
+      loadCart();
+
+      document.querySelectorAll('[data-cart-toggle]').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          openCart();
+        });
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isCartOpen) closeCart();
+      });
+
+      // Home page add to cart buttons
+      document.querySelectorAll('.add-to-cart-btn-home').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const productName = this.dataset.name || 'Product';
+          const price = parseFloat(this.dataset.price) || 0;
+          const image = this.dataset.image || '';
+          addToCart(productName, price, 1, image, {});
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => { this.style.transform = ''; }, 200);
+        });
+      });
+
+      // Product detail add to cart
+      const addToCartBtn = document.querySelector('.add-to-cart-btn');
+      if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', function() {
+          const qty = parseInt(document.querySelector('.qty-input')?.value || 1);
+          const productName = document.querySelector('h1')?.textContent || 'Premium UltraBook X1';
+          const priceText = document.querySelector('.text-brand-orange.font-bold')?.textContent || 'GH₵ 12,499.00';
+          const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
+          const mainImg = document.querySelector('.main-image');
+          const image = mainImg ? mainImg.src : '';
+          
+          const selectedProcessor = document.querySelector('.option-btn[data-group="processor"].selected');
+          const selectedStorage = document.querySelector('.option-btn[data-group="storage"].selected');
+          
+          const options = {};
+          if (selectedProcessor) options.processor = selectedProcessor.textContent.trim();
+          if (selectedStorage) options.storage = selectedStorage.textContent.trim();
+
+          addToCart(productName, price, qty, image, options);
+        });
+      }
+
+      // Buy now
+      const buyNowBtn = document.querySelector('.buy-now-btn');
+      if (buyNowBtn) {
+        buyNowBtn.addEventListener('click', function() {
+          const qty = parseInt(document.querySelector('.qty-input')?.value || 1);
+          const productName = document.querySelector('h1')?.textContent || 'Premium UltraBook X1';
+          const priceText = document.querySelector('.text-brand-orange.font-bold')?.textContent || 'GH₵ 12,499.00';
+          const price = parseFloat(priceText.replace(/[^0-9.]/g, ''));
+          const mainImg = document.querySelector('.main-image');
+          const image = mainImg ? mainImg.src : '';
+          
+          const selectedProcessor = document.querySelector('.option-btn[data-group="processor"].selected');
+          const selectedStorage = document.querySelector('.option-btn[data-group="storage"].selected');
+          
+          const options = {};
+          if (selectedProcessor) options.processor = selectedProcessor.textContent.trim();
+          if (selectedStorage) options.storage = selectedStorage.textContent.trim();
+
+          addToCart(productName, price, qty, image, options);
+          
+          setTimeout(() => { openCart(); }, 500);
+        });
+      }
+
+      // Quantity controls
+      document.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const action = this.dataset.action;
+          const input = this.closest('.flex').querySelector('.qty-input');
+          if (!input) return;
+          let val = parseInt(input.value) || 1;
+          if (action === 'increase') val++;
+          else if (action === 'decrease' && val > 1) val--;
+          input.value = val;
+        });
+      });
+
+      // Tab switching
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabContents = {
+        description: document.getElementById('tab-description'),
+        specifications: document.getElementById('tab-specifications'),
+        reviews: document.getElementById('tab-reviews')
+      };
+
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const tabId = this.dataset.tab;
+          tabButtons.forEach(b => {
+            b.classList.remove('border-brand-orange', 'text-brand-orange');
+            b.classList.add('border-transparent', 'text-muted');
+          });
+          this.classList.remove('border-transparent', 'text-muted');
+          this.classList.add('border-brand-orange', 'text-brand-orange');
+
+          Object.keys(tabContents).forEach(key => {
+            const content = tabContents[key];
+            if (key === tabId) content.classList.remove('hidden');
+            else content.classList.add('hidden');
+          });
+        });
+      });
+
+      // Thumbnail selection
+      document.querySelectorAll('.thumbnail-item').forEach(thumb => {
+        thumb.addEventListener('click', function() {
+          const img = this.querySelector('img');
+          const mainImage = document.querySelector('.main-image');
+          if (img && mainImage) mainImage.src = img.src;
+          
+          document.querySelectorAll('.thumbnail-item').forEach(t => {
+            t.classList.remove('active');
+            t.style.borderColor = '#E6DCD2';
+            t.style.borderWidth = '1px';
+          });
+          this.classList.add('active');
+          this.style.borderColor = '#E46A1A';
+          this.style.borderWidth = '2px';
+        });
+      });
+
+      // Option buttons
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const group = this.dataset.group;
+          this.closest('.space-y-1.5').querySelectorAll('.option-btn').forEach(sib => {
+            sib.classList.remove('selected');
+            sib.style.borderColor = '#E6DCD2';
+            sib.style.borderWidth = '1px';
+            sib.style.background = 'transparent';
+            sib.style.color = '#4A4543';
+          });
+          this.classList.add('selected');
+          this.style.borderColor = '#E46A1A';
+          this.style.borderWidth = '2px';
+          this.style.background = '#FEF3E9';
+          this.style.color = '#B5520F';
+        });
+      });
+
+      // Slider navigation
+      const slider = document.querySelector('.product-slider');
+      document.querySelectorAll('.slider-nav').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (!slider) return;
+          const dir = this.dataset.direction;
+          const scrollAmount = 300;
+          slider.scrollTo({
+            left: slider.scrollLeft + (dir === 'next' ? scrollAmount : -scrollAmount),
+            behavior: 'smooth'
+          });
+        });
+      });
+
+      // Scroll reveal
+      const sections = document.querySelectorAll('.scroll-reveal');
+      if (sections.length > 0 && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+            }
+          });
+        }, { threshold: 0.1 });
+        sections.forEach(section => observer.observe(section));
+      }
+
+      console.log('🛍️ GAOGETS HUB Product Detail initialized');
+    })();
+  </script>
+</body>
+</html>

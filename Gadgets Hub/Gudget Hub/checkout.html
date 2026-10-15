@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>GAOGETS HUB · Secure Checkout</title>
+  
+  <!-- Tailwind + Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "brand-orange": "#E46A1A",
+            "brand-orange-light": "#FF8C42",
+            "brand-orange-dark": "#B5520F",
+            "brand-orange-soft": "#FEF3E9",
+            "brand-blue": "#1A5B8C",
+            "brand-blue-light": "#3A7BBF",
+            "brand-blue-dark": "#0E3D61",
+            "brand-blue-soft": "#E8F0F8",
+            "trust": "#2E2A29",
+            "trust-light": "#4A4543",
+            "surface": "#FAF6F2",
+            "surface-card": "#FFFFFF",
+            "outline": "#E6DCD2",
+            "muted": "#7C6F64"
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          borderRadius: { 'xl': '1rem', '2xl': '1.5rem' },
+          boxShadow: {
+            'soft': '0 8px 24px rgba(0,0,0,0.04)',
+            'card': '0 4px 12px rgba(26, 91, 140, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1A5B8C;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      max-width: 90vw;
+      text-align: center;
+    }
+    .toast-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      max-width: 85vw;
+      height: 100%;
+      background: white;
+      z-index: 60;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      padding-top: 20px;
+      overflow-y: auto;
+      box-shadow: 4px 0 30px rgba(0,0,0,0.1);
+    }
+    .mobile-nav.open { transform: translateX(0); }
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 59;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.show { opacity: 1; pointer-events: auto; }
+    
+    .payment-option { cursor: pointer; transition: all 0.2s ease; }
+    .payment-option:hover { border-color: #E46A1A; }
+    .payment-option.selected {
+      border-color: #E46A1A;
+      background: #FEF3E9;
+      border-width: 2px;
+    }
+    
+    .order-items-scroll::-webkit-scrollbar { width: 4px; }
+    .order-items-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px; }
+    .order-items-scroll::-webkit-scrollbar-thumb { background: #E46A1A; border-radius: 8px; }
+    
+    footer { background: #2E2A29; color: #D4D0CC; }
+    footer a { color: #D4D0CC; }
+    footer a:hover { color: #E46A1A; }
+    
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 50%;
+      background: #E46A1A;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+    }
+    .cart-btn-wrapper { position: relative; }
+  </style>
+</head>
+<body class="bg-surface text-trust font-sans antialiased overflow-x-hidden">
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div id="announcementBar" class="bg-brand-orange text-white py-2.5 text-center text-sm font-medium tracking-wide">
+    <i class="fas fa-tag mr-2 text-brand-orange-light"></i> 
+    <span id="announcementText">Free delivery on orders over ₵30,000 • Ghana Independence Month Deals!</span>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white/80 backdrop-blur-xl sticky top-0 z-50 border-b border-outline shadow-soft">
+    <div class="flex items-center justify-between px-4 md:px-6 py-3 max-w-7xl mx-auto gap-3">
+      <button id="mobileMenuToggle" class="xl:hidden text-trust-light hover:text-brand-orange transition text-2xl p-1">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <a class="flex items-center gap-2 shrink-0" href="index.html">
+        <div class="flex flex-col leading-none">
+          <span class="text-xl md:text-2xl font-black tracking-tight text-brand-orange">GAOGETS</span>
+          <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] text-brand-blue">HUB</span>
+        </div>
+        <div class="hidden sm:block h-8 w-px bg-outline mx-1"></div>
+        <div class="hidden sm:block text-[10px] md:text-xs font-medium text-muted italic leading-tight">
+          <span class="text-brand-orange font-semibold">SECURE</span> <span class="text-brand-blue font-semibold">CHECKOUT</span>
+        </div>
+      </a>
+      
+      <div class="hidden md:flex items-center gap-2 text-sm font-medium text-muted">
+        <i class="fas fa-lock text-brand-orange"></i>
+        <span class="uppercase tracking-wider">SSL Secure Encryption</span>
+      </div>
+
+      <div class="flex items-center gap-2 md:gap-3">
+        <button id="notificationToggle" class="text-trust-light hover:text-brand-orange transition hidden sm:inline-block">
+          <i class="far fa-bell text-lg md:text-xl"></i>
+          <span class="notification-dot hidden w-2 h-2 bg-red-500 rounded-full inline-block ml-0.5"></span>
+        </button>
+        <button id="wishlistToggle" class="text-trust-light hover:text-brand-orange transition hidden sm:inline-block">
+          <i class="far fa-heart text-lg md:text-xl"></i>
+        </button>
+        <div class="hidden sm:block h-7 w-px bg-outline"></div>
+        <a href="cart.html" class="cart-btn-wrapper flex items-center gap-1 md:gap-1.5 bg-brand-blue-soft px-2 md:px-3 py-1.5 md:py-2 rounded-full hover:bg-brand-blue/10 transition">
+          <i class="fas fa-shopping-cart text-brand-blue text-sm md:text-base"></i>
+          <span class="text-xs md:text-sm font-bold text-trust hidden sm:inline">Cart</span>
+          <span class="cart-badge hidden" id="cartBadge">0</span>
+        </a>
+        <a href="index.html" class="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-trust/5 hover:bg-trust/10 transition">
+          <i class="far fa-user-circle text-lg md:text-xl text-trust-light"></i>
+          <span class="text-xs md:text-sm font-medium hidden sm:inline">Account</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="md:hidden px-4 pb-2 flex items-center gap-2 text-xs font-medium text-muted">
+      <i class="fas fa-lock text-brand-orange"></i>
+      <span class="uppercase tracking-wider">SSL Secure</span>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE NAV ===== -->
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+  <nav id="mobileNav" class="mobile-nav">
+    <div class="px-5 py-4 border-b border-outline/60 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-lg font-black text-brand-orange">GAOGETS</span>
+        <span class="text-[10px] font-bold text-brand-blue">HUB</span>
+      </div>
+      <button id="closeMobileMenu" class="text-trust-light text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="px-5 py-4 space-y-3">
+      <a href="index.html" class="block text-base font-semibold text-brand-orange border-l-4 border-brand-orange pl-3">Home</a>
+      <a href="index.html" class="block text-base font-medium text-trust-light hover:text-brand-orange transition pl-3">New Arrivals</a>
+      <a href="index.html" class="block text-base font-medium text-trust-light hover:text-brand-orange transition pl-3">Gaming</a>
+      <a href="index.html" class="block text-base font-medium text-trust-light hover:text-brand-orange transition pl-3">Business</a>
+      <a href="index.html" class="block text-base font-medium text-trust-light hover:text-brand-orange transition pl-3">Student</a>
+      <hr class="border-outline/60" />
+      <a href="cart.html" class="block text-base font-medium text-brand-orange hover:text-brand-orange-dark transition pl-3"><i class="fas fa-shopping-cart mr-2"></i> Cart</a>
+      <a href="index.html" class="block text-base font-medium text-trust-light hover:text-brand-blue transition pl-3"><i class="far fa-heart mr-2"></i> Wishlist</a>
+      <a href="index.html" class="block text-base font-medium text-trust-light hover:text-brand-blue transition pl-3"><i class="far fa-user-circle mr-2"></i> My Account</a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
+    
+    <!-- Progress Stepper -->
+    <nav class="mb-6 md:mb-8 max-w-3xl mx-auto">
+      <div class="relative flex items-center justify-between">
+        <div class="absolute top-1/2 left-0 w-full h-0.5 bg-outline/60 -translate-y-1/2 z-0"></div>
+        <div class="absolute top-1/2 left-0 w-3/4 h-0.5 bg-brand-orange -translate-y-1/2 z-0 transition-all duration-700"></div>
+        
+        <div class="relative z-10 flex flex-col items-center gap-1">
+          <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-blue flex items-center justify-center text-white">
+            <i class="fas fa-check text-sm md:text-base"></i>
+          </div>
+          <span class="text-[10px] md:text-xs font-semibold text-brand-blue">Shipping</span>
+        </div>
+        <div class="relative z-10 flex flex-col items-center gap-1">
+          <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-blue flex items-center justify-center text-white">
+            <i class="fas fa-check text-sm md:text-base"></i>
+          </div>
+          <span class="text-[10px] md:text-xs font-semibold text-brand-blue">Delivery</span>
+        </div>
+        <div class="relative z-10 flex flex-col items-center gap-1">
+          <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-brand-orange border-4 border-white flex items-center justify-center text-white shadow-md ring-2 ring-brand-orange">
+            <span class="text-sm md:text-base font-bold">3</span>
+          </div>
+          <span class="text-[10px] md:text-xs font-bold text-brand-orange">Payment</span>
+        </div>
+        <div class="relative z-10 flex flex-col items-center gap-1">
+          <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-outline/60 flex items-center justify-center text-muted">
+            <span class="text-sm md:text-base font-bold">4</span>
+          </div>
+          <span class="text-[10px] md:text-xs font-medium text-muted">Review</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
+      <!-- Main Content -->
+      <div class="lg:col-span-8 space-y-4 md:space-y-6">
+        <section class="bg-surface-card border border-outline/60 rounded-xl p-4 md:p-6 shadow-soft">
+          <h2 class="font-bold text-lg md:text-xl mb-2 flex items-center gap-2">
+            <i class="fas fa-credit-card text-brand-orange"></i>
+            Select Payment Method
+          </h2>
+          <p class="text-sm text-muted mb-4 md:mb-6">All transactions are secure and encrypted. Choose your preferred method below.</p>
+
+          <div class="space-y-3">
+            <div class="payment-option selected border-2 border-brand-orange bg-brand-orange-soft rounded-xl p-3 md:p-4 cursor-pointer transition-all" data-method="momo">
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 md:w-12 md:h-12 bg-surface flex items-center justify-center rounded-lg">
+                    <i class="fas fa-mobile-alt text-brand-orange text-xl md:text-2xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-semibold text-sm md:text-base">Mobile Money (MoMo)</h3>
+                    <p class="text-xs text-muted">MTN, Vodafone, or AirtelTigo</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold text-brand-blue">Popular</span>
+                  <i class="fas fa-check-circle text-brand-orange"></i>
+                </div>
+              </div>
+              <div class="mt-3 pt-3 border-t border-brand-orange/20">
+                <div class="max-w-md space-y-3">
+                  <div>
+                    <label class="block text-xs font-semibold text-trust mb-1">Select Provider</label>
+                    <select class="w-full bg-surface border border-outline rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-brand-orange focus:border-brand-orange">
+                      <option>MTN Mobile Money</option>
+                      <option>Vodafone Cash</option>
+                      <option>AirtelTigo Money</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-semibold text-trust mb-1">Phone Number</label>
+                    <input class="w-full bg-surface border border-outline rounded-lg py-2 px-3 text-sm focus:ring-2 focus:ring-brand-orange focus:border-brand-orange" placeholder="0XX XXX XXXX" type="tel" />
+                  </div>
+                  <p class="text-[10px] text-muted italic"><i class="fas fa-info-circle mr-1"></i> A prompt will be sent to your phone to authorize the transaction.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="payment-option border border-outline bg-surface-card rounded-xl p-3 md:p-4 cursor-pointer transition-all hover:border-brand-orange/50" data-method="card">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-surface flex items-center justify-center rounded-lg">
+                  <i class="fas fa-credit-card text-muted text-xl md:text-2xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-sm md:text-base">Debit or Credit Card</h3>
+                  <p class="text-xs text-muted">Visa, Mastercard, or Maestro</p>
+                </div>
+                <div class="ml-auto flex items-center gap-1 opacity-50">
+                  <i class="fab fa-cc-visa text-xl"></i>
+                  <i class="fab fa-cc-mastercard text-xl"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="payment-option border border-outline bg-surface-card rounded-xl p-3 md:p-4 cursor-pointer transition-all hover:border-brand-orange/50" data-method="bank">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-surface flex items-center justify-center rounded-lg">
+                  <i class="fas fa-university text-muted text-xl md:text-2xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-sm md:text-base">Bank Transfer</h3>
+                  <p class="text-xs text-muted">Direct transfer from your local bank</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-surface-card border border-outline/60 rounded-xl p-4 md:p-6 shadow-soft">
+          <div class="flex items-center gap-3">
+            <input checked class="w-4 h-4 md:w-5 md:h-5 text-brand-orange border-outline rounded focus:ring-2 focus:ring-brand-orange" id="billing_same" type="checkbox" />
+            <label class="text-sm md:text-base font-medium" for="billing_same">Billing address is the same as shipping address</label>
+          </div>
+        </section>
+
+        <div class="flex flex-col md:flex-row justify-between items-center gap-3 pt-2">
+          <a href="cart.html" class="flex items-center gap-1 text-sm text-muted hover:text-brand-orange transition">
+            <i class="fas fa-arrow-left"></i> Back to Cart
+          </a>
+          <button id="reviewPayBtn" class="w-full md:w-auto bg-brand-orange hover:bg-brand-orange-dark text-white font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-full transition active:scale-[0.98] shadow-md flex items-center justify-center gap-2 text-sm md:text-base">
+            Review Order &amp; Pay <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar Summary -->
+      <aside class="lg:col-span-4 space-y-4 sticky top-24">
+        <div class="bg-surface-card border border-outline/60 rounded-xl overflow-hidden shadow-soft">
+          <div class="p-4 bg-brand-orange-soft border-b border-outline/60">
+            <h3 class="font-bold text-base flex items-center gap-2">
+              <i class="fas fa-receipt text-brand-orange"></i>
+              Order Summary
+            </h3>
+          </div>
+          <div class="p-4 space-y-3">
+            <div class="space-y-3 max-h-56 overflow-y-auto order-items-scroll" id="orderItemsContainer">
+              <div class="text-center py-8 text-muted text-sm">
+                <i class="fas fa-shopping-cart text-2xl mb-2 block"></i>
+                <p>No items in cart</p>
+              </div>
+            </div>
+            <div class="h-px bg-outline/60"></div>
+            <div class="space-y-1.5">
+              <div class="flex justify-between text-sm text-muted">
+                <span>Subtotal</span>
+                <span class="subtotal-amount font-medium text-trust">₵ 0.00</span>
+              </div>
+              <div class="flex justify-between text-sm text-muted">
+                <span>Shipping</span>
+                <span class="shipping-amount font-medium text-trust">₵ 0.00</span>
+              </div>
+              <div class="flex justify-between text-sm text-muted">
+                <span>Estimated Tax</span>
+                <span class="tax-amount font-medium text-trust">₵ 0.00</span>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-outline/60 flex justify-between items-center">
+              <span class="font-bold text-base">Total</span>
+              <span class="text-xl md:text-2xl font-bold text-brand-orange grand-total">₵ 0.00</span>
+            </div>
+          </div>
+          <div class="p-4 bg-surface border-t border-outline/60">
+            <div class="flex gap-2">
+              <input id="promoInput" class="flex-1 bg-surface border border-outline rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-brand-orange focus:border-brand-orange" placeholder="Promo Code" type="text" />
+              <button id="applyPromoBtn" class="bg-trust hover:bg-trust-light text-white px-4 py-1.5 rounded-lg font-semibold text-sm transition">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4 space-y-3 shadow-soft">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-shield-alt text-brand-orange text-lg mt-0.5"></i>
+            <div>
+              <p class="font-semibold text-sm">Buyer Protection</p>
+              <p class="text-xs text-muted">Full refund if item not as described.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="fas fa-lock text-brand-blue text-lg mt-0.5"></i>
+            <div>
+              <p class="font-semibold text-sm">SSL Secured Payment</p>
+              <p class="text-xs text-muted">Your data is always encrypted.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <i class="fas fa-truck text-brand-orange text-lg mt-0.5"></i>
+            <div>
+              <p class="font-semibold text-sm">Tracked Delivery</p>
+              <p class="text-xs text-muted">Real-time SMS updates on your order.</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="mt-8 md:mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div class="flex flex-col items-center md:items-start gap-1">
+        <div class="flex items-center gap-2">
+          <span class="text-lg md:text-xl font-black text-brand-orange">GAOGETS</span>
+          <span class="text-[10px] font-bold text-brand-blue">HUB</span>
+        </div>
+        <p class="text-xs opacity-70">© 2024 GAOGETS HUB. Where Tech Meets Trust.</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-4 text-xs opacity-70">
+        <a class="hover:text-brand-orange transition" href="#">Privacy Policy</a>
+        <a class="hover:text-brand-orange transition" href="#">Terms of Service</a>
+        <a class="hover:text-brand-orange transition" href="#">Refund Policy</a>
+        <a class="hover:text-brand-orange transition" href="#">Help Center</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script type="module" src="js/checkout.js"></script>
+</body>
+</html>

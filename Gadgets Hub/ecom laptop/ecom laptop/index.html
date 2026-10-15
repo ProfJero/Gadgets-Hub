@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>ShopGhana | Premium Marketplace</title>
+  
+  <!-- Tailwind + Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Tailwind Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#914d00",
+            "inverse-primary": "#ffb77e",
+            "on-surface": "#1a1c1c",
+            "secondary-fixed": "#e2e2e2",
+            "tertiary-container": "#a7a6a6",
+            "primary-fixed-dim": "#ffb77e",
+            "on-secondary-fixed": "#1a1c1c",
+            "inverse-surface": "#2f3131",
+            "surface-variant": "#e2e2e2",
+            "surface-dim": "#dadada",
+            "outline-variant": "#dcc2af",
+            "on-background": "#1a1c1c",
+            "inverse-on-surface": "#f1f1f1",
+            "on-surface-variant": "#554335",
+            "background": "#f9f9f9",
+            "secondary-fixed-dim": "#c6c6c7",
+            "on-tertiary-container": "#3c3c3c",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#6e3900",
+            "tertiary": "#5f5e5e",
+            "on-tertiary-fixed-variant": "#474747",
+            "on-secondary-fixed-variant": "#454747",
+            "error": "#ba1a1a",
+            "on-tertiary": "#ffffff",
+            "outline": "#897363",
+            "primary-fixed": "#ffdcc3",
+            "on-primary-container": "#5e3000",
+            "secondary": "#5d5f5f",
+            "surface-tint": "#914d00",
+            "on-secondary-container": "#616363",
+            "primary-container": "#f68b1e",
+            "surface-container-highest": "#e2e2e2",
+            "surface-container": "#eeeeee",
+            "secondary-container": "#dfe0e0",
+            "surface-container-low": "#f3f3f3",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#2f1500",
+            "on-primary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f9f9f9",
+            "tertiary-fixed-dim": "#c8c6c6",
+            "surface": "#f9f9f9",
+            "tertiary-fixed": "#e4e2e1",
+            "on-tertiary-fixed": "#1b1c1c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#e8e8e8"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          spacing: {
+            xs: "4px",
+            "container-max": "1280px",
+            "margin-desktop": "24px",
+            "margin-mobile": "16px",
+            xl: "32px",
+            sm: "8px",
+            base: "8px",
+            lg: "24px",
+            xxl: "48px",
+            md: "16px",
+            gutter: "16px"
+          },
+          fontFamily: {
+            "label-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "display-sm": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"],
+            "title-md": ["Inter"],
+            "price-lg": ["Inter"],
+            "label-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "title-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "display-lg": ["Inter"],
+            "price-sm": ["Inter"]
+          },
+          fontSize: {
+            "label-md": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+            "headline-lg": ["30px", { lineHeight: "38px", fontWeight: "600" }],
+            "display-sm": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "title-md": ["16px", { lineHeight: "24px", fontWeight: "500" }],
+            "price-lg": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+            "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "title-lg": ["18px", { lineHeight: "26px", fontWeight: "500" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "price-sm": ["16px", { lineHeight: "24px", fontWeight: "700" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="bg-primary-container text-on-primary-container py-2 text-center overflow-hidden">
+    <p class="font-label-lg text-label-lg animate-pulse">Free delivery in Accra on orders over ₵500 • Shop Ghana Independence Month Deals!</p>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl sticky top-0 z-50 border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none">
+    <div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop py-sm max-w-container-max mx-auto gap-lg">
+      <a class="font-display-sm text-display-sm font-black text-primary dark:text-primary-fixed-dim shrink-0" href="index.html">ShopGhana</a>
+      
+      <div class="flex-grow max-w-2xl relative">
+        <input class="search-input w-full h-11 pl-md pr-12 rounded-lg border-outline-variant bg-surface-container-low focus:ring-2 focus:ring-primary focus:border-primary transition-all" placeholder="Search for electronics, fashion, beauty..." type="text" />
+        <button class="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-primary">
+          <span class="material-symbols-outlined">search</span>
+        </button>
+      </div>
+
+      <nav class="hidden xl:flex items-center gap-md">
+        <a class="text-primary dark:text-inverse-primary border-b-2 border-primary font-bold pb-1 font-label-lg text-label-lg" href="product-detail.html">Electronics</a>
+        <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="product-detail.html">Fashion</a>
+        <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="product-detail.html">Home</a>
+        <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="product-detail.html">Beauty</a>
+        <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="product-detail.html">Groceries</a>
+      </nav>
+
+      <div class="flex items-center gap-md">
+        <button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all relative">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+        </button>
+        <button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-all">
+          <span class="material-symbols-outlined">favorite</span>
+        </button>
+        <div class="h-8 w-[1px] bg-outline-variant"></div>
+        <button class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-surface-container-low transition-all relative" data-cart-toggle="true">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          <span class="font-label-lg text-label-lg text-primary">Cart</span>
+          <span class="cart-badge bg-error text-white text-[10px] px-1.5 py-0.5 rounded-full hidden">0</span>
+        </button>
+        <a href="product-detail.html" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest transition-all">
+          <span class="material-symbols-outlined">account_circle</span>
+          <span class="font-label-lg text-label-lg">Account</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop space-y-xxl pt-lg">
+
+    <!-- Hero Section -->
+    <section class="relative h-[600px] rounded-xxl overflow-hidden group">
+      <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-10"></div>
+      <img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfmI0cvuQjRTeKIDhHfir3Dnmq0-pcJBd8BPfuUxxI_dO5a8a6HVOuwSR2WTPBD2xT57bZ1nQ7tZMyLdEbmcJzsLPJ8aO0pKD9cGvJKDn-caEKaljLjdJuMvFBUmHhlwte_oRQD9PXsg3Zi4P4lqzrYzYOaCe-0Lnd_AUWbdSavWKFTMy1NrDDA62K-qNclp3XGTHpKSMyBtcs66Lny2x8yO1PagnL3ep_sfJN-p5tsg7WKPS1QOAh0XWU4gmq7GkqmSsm1Z0elg" />
+      <div class="relative z-20 h-full flex flex-col justify-center px-xxl max-w-2xl text-white">
+        <span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full font-label-lg text-label-lg w-fit mb-md">GHANA INDEPENDENCE MONTH</span>
+        <h1 class="font-display-lg text-display-lg mb-md leading-tight">Celebrate Ghana with Up to 40% Off Tech</h1>
+        <p class="font-body-lg text-body-lg mb-lg opacity-90">Discover the best of electronics, local craftsmanship, and global fashion. Premium quality, delivered to your doorstep in Accra and beyond.</p>
+        <div class="flex gap-md">
+          <a href="product-detail.html" class="bg-primary-container text-on-primary-container font-label-lg text-label-lg px-xl py-md rounded-lg hover:opacity-90 active:scale-95 transition-all shadow-lg font-bold">Shop Now</a>
+          <button class="bg-white/20 backdrop-blur-md border border-white/30 text-white font-label-lg text-label-lg px-xl py-md rounded-lg hover:bg-white/30 transition-all font-bold">Learn More</button>
+        </div>
+      </div>
+      <div class="absolute bottom-lg left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        <div class="w-12 h-1.5 bg-primary-container rounded-full"></div>
+        <div class="w-3 h-1.5 bg-white/40 rounded-full"></div>
+        <div class="w-3 h-1.5 bg-white/40 rounded-full"></div>
+      </div>
+    </section>
+
+    <!-- Flash Sales Section -->
+    <section>
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-lg gap-md">
+        <div class="flex items-center gap-lg">
+          <h2 class="font-headline-lg text-headline-lg text-on-surface">Flash Sales</h2>
+          <div class="flex gap-2 items-center bg-error-container text-on-error-container px-4 py-2 rounded-lg">
+            <span class="material-symbols-outlined text-sm">schedule</span>
+            <span class="font-label-lg text-label-lg font-bold tabular-nums" id="countdown">08 : 24 : 12</span>
+          </div>
+        </div>
+        <a class="text-primary font-bold hover:underline flex items-center gap-1 font-label-lg text-label-lg" href="product-detail.html">
+          View All Sales <span class="material-symbols-outlined text-sm">chevron_right</span>
+        </a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+        <!-- Product Card 1 -->
+        <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl hover:shadow-lg transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="relative aspect-square rounded-lg overflow-hidden mb-md bg-surface-container-low">
+              <span class="absolute top-2 left-2 bg-error text-white text-[10px] font-bold px-2 py-1 rounded z-10">-25%</span>
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFRrLSfL6I0ggBxfyB3Zoqax9CPURPSUue5vLGwi4wdTq9pjt2B5cCnesBYFRNWqcbEIyhuuVRmegsZW0651ics5RzGsXYyiWaJdA68Ha0MajQvoR0dzWdvtFbtt7AW-vlxNDGXi3-FDpNQi8MkaUh6Bdd3GNB_dVD0MjagkRIYdky-kJHvWmtTWkfolzPFQrtKVSHVAMbvaqPNTfHoNb3mabnwevN75UwjjBpD6SjhukE5LiNApizIJ1mW8MXqUUqwCTmhNSJwQ" />
+            </div>
+          </a>
+          <p class="text-on-surface-variant font-label-md text-label-md mb-xs">Sony Tech</p>
+          <h3 class="font-title-md text-title-md mb-xs line-clamp-1">WH-1000XM5 Noise Canceling Headphones</h3>
+          <div class="flex items-center gap-2 mb-sm">
+            <div class="flex text-primary-container">
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs">star</span>
+            </div>
+            <span class="text-on-surface-variant text-[12px]">(124)</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-price-lg text-price-lg text-primary">₵1,850</span>
+            <span class="font-body-md text-body-md text-on-surface-variant line-through">₵2,450</span>
+          </div>
+          <button class="mt-3 w-full bg-primary-container text-on-primary-container font-bold rounded-lg py-2 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="WH-1000XM5 Noise Canceling Headphones" 
+                  data-price="1850" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuAFRrLSfL6I0ggBxfyB3Zoqax9CPURPSUue5vLGwi4wdTq9pjt2B5cCnesBYFRNWqcbEIyhuuVRmegsZW0651ics5RzGsXYyiWaJdA68Ha0MajQvoR0dzWdvtFbtt7AW-vlxNDGXi3-FDpNQi8MkaUh6Bdd3GNB_dVD0MjagkRIYdky-kJHvWmtTWkfolzPFQrtKVSHVAMbvaqPNTfHoNb3mabnwevN75UwjjBpD6SjhukE5LiNApizIJ1mW8MXqUUqwCTmhNSJwQ">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+            Add to Cart
+          </button>
+        </div>
+
+        <!-- Product Card 2 -->
+        <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl hover:shadow-lg transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="relative aspect-square rounded-lg overflow-hidden mb-md bg-surface-container-low">
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8s0aN1URqGGL_GQ-B2eBYW8PyYQJUU-Zk6LVB7HrRHabKtS93417aCZ5PcStAMj0PScKf3p_7ed34mO_ma-AHynOr_r5Hb5nfXOn6pAG0YW7nz-V4MgWAXpKJLA29VUQojzK0WC3bieixXvgYF_ffe6Lm1wJ4EiKw23sRZb7009OzTQGvyvl-4xDomHmRotaDTQQ1BRHbSLeDU_REgjcIUTKkQn0fA-ujDFbn-p-zk213mvLa7Qi95FxGP78SVS-mjPmJM3P69w" />
+            </div>
+          </a>
+          <p class="text-on-surface-variant font-label-md text-label-md mb-xs">Elite Computing</p>
+          <h3 class="font-title-md text-title-md mb-xs line-clamp-1">ProBook 14" Slim Laptop Gen 2</h3>
+          <div class="flex items-center gap-2 mb-sm">
+            <div class="flex text-primary-container">
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+            </div>
+            <span class="text-on-surface-variant text-[12px]">(89)</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-price-lg text-price-lg text-primary">₵5,200</span>
+          </div>
+          <button class="mt-3 w-full bg-primary-container text-on-primary-container font-bold rounded-lg py-2 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name='ProBook 14" Slim Laptop Gen 2' 
+                  data-price="5200" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuB8s0aN1URqGGL_GQ-B2eBYW8PyYQJUU-Zk6LVB7HrRHabKtS93417aCZ5PcStAMj0PScKf3p_7ed34mO_ma-AHynOr_r5Hb5nfXOn6pAG0YW7nz-V4MgWAXpKJLA29VUQojzK0WC3bieixXvgYF_ffe6Lm1wJ4EiKw23sRZb7009OzTQGvyvl-4xDomHmRotaDTQQ1BRHbSLeDU_REgjcIUTKkQn0fA-ujDFbn-p-zk213mvLa7Qi95FxGP78SVS-mjPmJM3P69w">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+            Add to Cart
+          </button>
+        </div>
+
+        <!-- Product Card 3 -->
+        <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl hover:shadow-lg transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="relative aspect-square rounded-lg overflow-hidden mb-md bg-surface-container-low">
+              <span class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded z-10">BESTSELLER</span>
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxaU2oF1y9HCADeoCf1GqsEu65XSM2g7GtagJvDcgClpssgspjZkETOGWA7FeWQ9bjxAhZ60bzyEdo_DVlymyQ6XwaHoB41oo-Va-JhfMNjt9sWXYETKKhv970YTwfLM8e8h2oUQWFSAvUd7WiQv3IS_EbNvJ0CVRuQGJh5LyoBqECxoLT9dIW-p7FNUukZyFJp52YCDe-ulvJdJxv-7oSav-UjL11sUaUl-kQYRjwQ0bx0lPc3sHhl6zWa54AzFErmLzVzkoXhQ" />
+            </div>
+          </a>
+          <p class="text-on-surface-variant font-label-md text-label-md mb-xs">StreetStyle</p>
+          <h3 class="font-title-md text-title-md mb-xs line-clamp-1">AirSpeed Performance Running Shoes</h3>
+          <div class="flex items-center gap-2 mb-sm">
+            <div class="flex text-primary-container">
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs">star_half</span>
+            </div>
+            <span class="text-on-surface-variant text-[12px]">(2,104)</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-price-lg text-price-lg text-primary">₵650</span>
+          </div>
+          <button class="mt-3 w-full bg-primary-container text-on-primary-container font-bold rounded-lg py-2 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="AirSpeed Performance Running Shoes" 
+                  data-price="650" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuBxaU2oF1y9HCADeoCf1GqsEu65XSM2g7GtagJvDcgClpssgspjZkETOGWA7FeWQ9bjxAhZ60bzyEdo_DVlymyQ6XwaHoB41oo-Va-JhfMNjt9sWXYETKKhv970YTwfLM8e8h2oUQWFSAvUd7WiQv3IS_EbNvJ0CVRuQGJh5LyoBqECxoLT9dIW-p7FNUukZyFJp52YCDe-ulvJdJxv-7oSav-UjL11sUaUl-kQYRjwQ0bx0lPc3sHhl6zWa54AzFErmLzVzkoXhQ">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+            Add to Cart
+          </button>
+        </div>
+
+        <!-- Product Card 4 -->
+        <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl hover:shadow-lg transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="relative aspect-square rounded-lg overflow-hidden mb-md bg-surface-container-low">
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAT0V9FvXISWdgwDhAig71LDrJWayDuzQhQD9VAsT2rIqTm4ha-ubxXt0wa54HHKuPROk-NXfAaUbe_CDeWCec3HOQdrtxuhq5YvEEHCtKSRqX-Uy12Ur8yyY0JdIrs1VSNJXm86aFfLD9DoxgzHlg5tVtAJo_bB4Hn86VXsAW3mXw5PNN_f1_tXyx2CHIYZOGe9Vcb-8A8wGj684Ic_X3ZbDMkj7hj1iYGK1k8zIUOG0fjQLZVfpZ3_AVXeTR_boqnLUPnsfTXxQ" />
+            </div>
+          </a>
+          <p class="text-on-surface-variant font-label-md text-label-md mb-xs">Core Wearables</p>
+          <h3 class="font-title-md text-title-md mb-xs line-clamp-1">Elite Smartwatch Series 7</h3>
+          <div class="flex items-center gap-2 mb-sm">
+            <div class="flex text-primary-container">
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+              <span class="material-symbols-outlined text-xs" data-weight="fill">star</span>
+            </div>
+            <span class="text-on-surface-variant text-[12px]">(432)</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-price-lg text-price-lg text-primary">₵1,120</span>
+          </div>
+          <button class="mt-3 w-full bg-primary-container text-on-primary-container font-bold rounded-lg py-2 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="Elite Smartwatch Series 7" 
+                  data-price="1120" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuAT0V9FvXISWdgwDhAig71LDrJWayDuzQhQD9VAsT2rIqTm4ha-ubxXt0wa54HHKuPROk-NXfAaUbe_CDeWCec3HOQdrtxuhq5YvEEHCtKSRqX-Uy12Ur8yyY0JdIrs1VSNJXm86aFfLD9DoxgzHlg5tVtAJo_bB4Hn86VXsAW3mXw5PNN_f1_tXyx2CHIYZOGe9Vcb-8A8wGj684Ic_X3ZbDMkj7hj1iYGK1k8zIUOG0fjQLZVfpZ3_AVXeTR_boqnLUPnsfTXxQ">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Visual Grid (Bento Style) -->
+    <section>
+      <h2 class="font-headline-lg text-headline-lg text-on-surface mb-lg">Browse Categories</h2>
+      <div class="bento-grid h-[500px]">
+        <a href="product-detail.html" class="col-span-12 md:col-span-6 bg-surface-container-high rounded-xxl relative overflow-hidden group cursor-pointer">
+          <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYxHGvJ52s8rPP5d-ltA-peup1iZ0roUIVSPhOJ8m1wqYZUOCoarBt0uNdcoxIoUlQdyoUhfkHoA8Juq3MztOvQtSjGigC4v0UGdabX2IWw_oZP7RsS7UKgDD7TZuHD-EW0ZqP44_Td-832_CFwwsB7_0a8g4uRfhQoiucQHo27kU2vB744DYx3kKWZC3N2P6XuTkHPjZayJYXovHaQ1OtX28CaGpEe1qROuH5gyfol79_O1w2uUJHd_xUifiL6RmIFYccJfw3Tw" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-lg">
+            <h3 class="text-white font-headline-md text-headline-md">Home &amp; Decor</h3>
+            <p class="text-white/80 font-body-md text-body-md">Transform your living space</p>
+          </div>
+        </a>
+        <a href="product-detail.html" class="col-span-6 md:col-span-3 bg-surface-container-high rounded-xxl relative overflow-hidden group cursor-pointer">
+          <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkiRlNygwVcsxKRzToD9fBJRLE5Ezsikh1ZFxzYWMqAk_d2QKx3gLCa66dzZeurQKe0tJhrZ5MAR0yedyBDOf631qqqtPQozGCWq643fvR-olL-IGxRYySV0pRnm5hM-v7xipVuFxvnBDOmrgLRI4lnkwT2dTDd2KV-oay-0TBybQUoYbJ9SyZlvYCCg7UqTFqKp3STzBdLipyY6zwI9vX6feW0to47OKxYKUBwZ9N64UlxiLlIpkL6Vp8QfAXB2j2bPmKSXkZcA" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-lg">
+            <h3 class="text-white font-title-lg text-title-lg">Fashion</h3>
+          </div>
+        </a>
+        <a href="product-detail.html" class="col-span-6 md:col-span-3 bg-surface-container-high rounded-xxl relative overflow-hidden group cursor-pointer">
+          <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXbwO7NBmnpIGhRCyuKLfJY5p48vaRfGAxcJw-LiZIKKaHHmRkCQmDlG39YS0sm6JVuUinG9kVrufQee0aXZ_yXWd98xbU0rrrlbTAFjwYCmGImi82ZwxmKsqq6EVofMO3wBqpFknkCbuRsfY7yEi5zxzD4HqIEns1aCdYyeU8QjaRZcqXUAjjfESO79FvJDD8TS2gUOK6C0Wl93cq1RZd8GiMp3dJFITyEmw-oUbCISFmRf4yNxb5f2R6RcLgyVhFuhndMOtgAw" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-lg">
+            <h3 class="text-white font-title-lg text-title-lg">Electronics</h3>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Promo Banner -->
+    <section class="bg-primary text-white rounded-xxl p-xxl flex flex-col md:flex-row items-center gap-xl relative overflow-hidden">
+      <div class="absolute right-0 top-0 w-1/3 h-full bg-white/5 skew-x-[-20deg] translate-x-1/2"></div>
+      <div class="relative z-10 flex-1">
+        <h2 class="font-display-sm text-display-sm mb-md">Shop Local, Go Global</h2>
+        <p class="font-body-lg text-body-lg mb-lg opacity-90 max-w-xl">Join over 10,000 Ghanaian merchants selling premium products to the world. Get free shipping on your first merchant order today.</p>
+        <div class="flex items-center gap-md">
+          <a href="product-detail.html" class="bg-white text-primary font-bold px-xl py-md rounded-lg hover:bg-surface-variant transition-all">Become a Seller</a>
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-secondary-fixed">verified</span>
+            <span class="font-label-lg text-label-lg">Verified Merchants</span>
+          </div>
+        </div>
+      </div>
+      <div class="relative z-10 w-full md:w-1/3 aspect-video md:aspect-square bg-white/10 rounded-xl overflow-hidden border border-white/20">
+        <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwLM2hbhsE21Lwh0K979K3DoK-PvKS8OZguo-p-UITsmPjhNYC9OrDZBjCyA7rzqVQL76luaV3ALleDNXHtBxEx5JKkoclPQ-WZaMioVE98DIbQjz3mUwF84FxN8xsWBuN70h_FUyAULo8R2gJxN9A9S4WT_e5lTyVX1cjXGi-B4RpkNW1ttfHeshyu9zhAQFa8bqAu6P3V7QoCvYGa3XD-In-vCIl5riav4EfyC9FppzRIYx1yI1YHVTRNUWtNEUK86HMMMsEJA" />
+      </div>
+    </section>
+
+    <!-- Trending Now -->
+    <section>
+      <div class="flex items-center justify-between mb-lg">
+        <h2 class="font-headline-lg text-headline-lg text-on-surface">Trending Now</h2>
+        <div class="flex gap-2">
+          <button class="p-2 border border-outline-variant rounded-full hover:bg-surface-container-low transition-all">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <button class="p-2 border border-outline-variant rounded-full hover:bg-surface-container-low transition-all">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-md">
+        <!-- Trending Product 1 -->
+        <div class="bg-white border border-outline-variant p-sm rounded-xl hover:shadow-md transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square rounded-lg overflow-hidden mb-sm">
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApSDwEn3LEFuRzf5UFyhlIF8WAUIX3ze7sADtL_IyuomJBRxS4TWY9lyr06ESyXZ9g4502GpdvI7p_ULJnHuBt9GAfs1Ge5sj0a0zDq6OyiSzl-cbSc-7Zo1jsqP4dJ4bhHgNsmbKMZMKmM-ucYUg-yY6c_maPVnNaEdYF49HjA9ewBQDonZhRqGL5MXEb89AiDQWgGf8268JFDsHpMflMxqNUTob6Ri9osdRMZrsD4I_fPWTKxl7JzQsOHmUr3ZeAQJlHQhd7eA" />
+            </div>
+          </a>
+          <h4 class="font-label-lg text-label-lg line-clamp-1">RetroCam Z1</h4>
+          <p class="text-primary font-bold">₵450</p>
+          <button class="mt-2 w-full text-sm bg-primary-container text-on-primary-container font-bold rounded-lg py-1 flex items-center justify-center gap-1 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="RetroCam Z1" 
+                  data-price="450" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuApSDwEn3LEFuRzf5UFyhlIF8WAUIX3ze7sADtL_IyuomJBRxS4TWY9lyr06ESyXZ9g4502GpdvI7p_ULJnHuBt9GAfs1Ge5sj0a0zDq6OyiSzl-cbSc-7Zo1jsqP4dJ4bhHgNsmbKMZMKmM-ucYUg-yY6c_maPVnNaEdYF49HjA9ewBQDonZhRqGL5MXEb89AiDQWgGf8268JFDsHpMflMxqNUTob6Ri9osdRMZrsD4I_fPWTKxl7JzQsOHmUr3ZeAQJlHQhd7eA">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+          </button>
+        </div>
+        <!-- Trending Product 2 -->
+        <div class="bg-white border border-outline-variant p-sm rounded-xl hover:shadow-md transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square rounded-lg overflow-hidden mb-sm">
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgJ6DXi2dG5aE6uQAVzhTHDos8oTfYRsQim9-848La-X3TqyyNb3ZU36EMc06sZXiy9GssWQ0yDWWh_GZ4m8Yx89DTE4jEMND4qQQg7WSB_81i21msRf33uIXcSCZG0KInrXbGTYhDBEHzHMgpf_RR2CnHu90sTaUbOAOm7dFeGgbWsHNcWYw1Ojha71Hs5RgdyGbVCLi1JTT3NprA6NWDyz_K8yJdbhN2Ltq76o9kU-IrwpEwG6usXZ6hOO5pAVPiGuZjN1gGfA" />
+            </div>
+          </a>
+          <h4 class="font-label-lg text-label-lg line-clamp-1">SunRay Shades</h4>
+          <p class="text-primary font-bold">₵120</p>
+          <button class="mt-2 w-full text-sm bg-primary-container text-on-primary-container font-bold rounded-lg py-1 flex items-center justify-center gap-1 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="SunRay Shades" 
+                  data-price="120" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuAgJ6DXi2dG5aE6uQAVzhTHDos8oTfYRsQim9-848La-X3TqyyNb3ZU36EMc06sZXiy9GssWQ0yDWWh_GZ4m8Yx89DTE4jEMND4qQQg7WSB_81i21msRf33uIXcSCZG0KInrXbGTYhDBEHzHMgpf_RR2CnHu90sTaUbOAOm7dFeGgbWsHNcWYw1Ojha71Hs5RgdyGbVCLi1JTT3NprA6NWDyz_K8yJdbhN2Ltq76o9kU-IrwpEwG6usXZ6hOO5pAVPiGuZjN1gGfA">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+          </button>
+        </div>
+        <!-- Trending Product 3 -->
+        <div class="bg-white border border-outline-variant p-sm rounded-xl hover:shadow-md transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square rounded-lg overflow-hidden mb-sm">
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYRBiuaDDApknu0iayZI3qfpFe-uz2QFA0rQrntc89fV_TArbyCWm6CsaRD6vip1FQscOTHSbomob2YnreRmPfJ6QpJeP36xogYMBlXkfTxeTyum4DPM4PEu9T8OPAXGf5iDOFBVj-a6EWwYEnaffvnxASYtYfzMz0QF0DEWmUgFsXeKqS6oQ3gy1eB_NgLki0n0I9nChEAE2O13haJI4wOPhNb-iZ3CuTmNenWbBSNhI5kdQz5J36xx3Ig5t94lr98Y0nis1bBg" />
+            </div>
+          </a>
+          <h4 class="font-label-lg text-label-lg line-clamp-1">AudioMax Pro</h4>
+          <p class="text-primary font-bold">₵890</p>
+          <button class="mt-2 w-full text-sm bg-primary-container text-on-primary-container font-bold rounded-lg py-1 flex items-center justify-center gap-1 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="AudioMax Pro" 
+                  data-price="890" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuBYRBiuaDDApknu0iayZI3qfpFe-uz2QFA0rQrntc89fV_TArbyCWm6CsaRD6vip1FQscOTHSbomob2YnreRmPfJ6QpJeP36xogYMBlXkfTxeTyum4DPM4PEu9T8OPAXGf5iDOFBVj-a6EWwYEnaffvnxASYtYfzMz0QF0DEWmUgFsXeKqS6oQ3gy1eB_NgLki0n0I9nChEAE2O13haJI4wOPhNb-iZ3CuTmNenWbBSNhI5kdQz5J36xx3Ig5t94lr98Y0nis1bBg">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+          </button>
+        </div>
+        <!-- Trending Product 4 -->
+        <div class="bg-white border border-outline-variant p-sm rounded-xl hover:shadow-md transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square rounded-lg overflow-hidden mb-sm">
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeOWc4f-85lxlHoBZnr6XtBkUJbXoseeLpkxGnyyQSMZs6NT0CusX3Xi5oj7LT90og6RDJ_epiYNcySzn8hyDt9tO2R9kniq0ZRfEAqAz_bEV7EV_mFjGoTyinnrHcEpc_UW_eZYD-TysqDh1Y98YFveQ7gWe7GoXSEgPVDQtRB0WbEPVq8d-qVJwHhTsx9Mwapw_Fk6371gX4lR9kiPaCZvIgkUcI4qx2rMZyfnmhiDR5T0INQoSS28LYPgxmIH9MfEx7dTMr9A" />
+            </div>
+          </a>
+          <h4 class="font-label-lg text-label-lg line-clamp-1">Velvet Heel</h4>
+          <p class="text-primary font-bold">₵720</p>
+          <button class="mt-2 w-full text-sm bg-primary-container text-on-primary-container font-bold rounded-lg py-1 flex items-center justify-center gap-1 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="Velvet Heel" 
+                  data-price="720" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuCeOWc4f-85lxlHoBZnr6XtBkUJbXoseeLpkxGnyyQSMZs6NT0CusX3Xi5oj7LT90og6RDJ_epiYNcySzn8hyDt9tO2R9kniq0ZRfEAqAz_bEV7EV_mFjGoTyinnrHcEpc_UW_eZYD-TysqDh1Y98YFveQ7gWe7GoXSEgPVDQtRB0WbEPVq8d-qVJwHhTsx9Mwapw_Fk6371gX4lR9kiPaCZvIgkUcI4qx2rMZyfnmhiDR5T0INQoSS28LYPgxmIH9MfEx7dTMr9A">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+          </button>
+        </div>
+        <!-- Trending Product 5 -->
+        <div class="bg-white border border-outline-variant p-sm rounded-xl hover:shadow-md transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square rounded-lg overflow-hidden mb-sm">
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5QQ2AMFdqXvoAiZSPmXQwk2_OI1SmSnxdxIPOhS-ghQh7Zorm_P_tCloPPg7N-0JwZMcxVuQPwyqFwYhUo5BAfAeK4eot5yqaFC5T4qKCcnB-XTJuccWJ4cwrxIeJ-gAw3TW_gv9gJAaCMNY3Xm8tzPTSxtzW1PfwdrvDNx8yKauuS_Vv0leItHJk9ba3s2fiHBChbtOoWnEYl9S7KgxA9j0MoWtLEvrBZqDwPwr10YQvS6BJHs2RBz2zmQMyy9rU5pM0-GtqUw" />
+            </div>
+          </a>
+          <h4 class="font-label-lg text-label-lg line-clamp-1">Crafted Tote</h4>
+          <p class="text-primary font-bold">₵1,100</p>
+          <button class="mt-2 w-full text-sm bg-primary-container text-on-primary-container font-bold rounded-lg py-1 flex items-center justify-center gap-1 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="Crafted Tote" 
+                  data-price="1100" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuD5QQ2AMFdqXvoAiZSPmXQwk2_OI1SmSnxdxIPOhS-ghQh7Zorm_P_tCloPPg7N-0JwZMcxVuQPwyqFwYhUo5BAfAeK4eot5yqaFC5T4qKCcnB-XTJuccWJ4cwrxIeJ-gAw3TW_gv9gJAaCMNY3Xm8tzPTSxtzW1PfwdrvDNx8yKauuS_Vv0leItHJk9ba3s2fiHBChbtOoWnEYl9S7KgxA9j0MoWtLEvrBZqDwPwr10YQvS6BJHs2RBz2zmQMyy9rU5pM0-GtqUw">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+          </button>
+        </div>
+        <!-- Trending Product 6 -->
+        <div class="bg-white border border-outline-variant p-sm rounded-xl hover:shadow-md transition-all group">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square rounded-lg overflow-hidden mb-sm">
+              <img class="w-full h-full object-cover group-hover:scale-110 transition-transform" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD1BOQFRprpJ056n-P4uKXGh8SZt20lCWe2W15ppTtRAnq-nOHcAyML4NOPJgcqvOK7Rg3TOWUJputA379YYASsi3Lupu6W6jPC2g9SLrl4kRA_uJ9BtvVX5HlEZbQYXEm7CWqgh0EWvni7PO9qsGWQRCw-92kUmlyfo3DOCVD1xNjK0MPyykTU51SZ8PSKnrwA8c3MhH0yeZGwmaNSMbHfzhzsKk1QLg3RIrJXY5k1oZaySOT2miAOmbkPt-0IDydlOtakb6Y-g" />
+            </div>
+          </a>
+          <h4 class="font-label-lg text-label-lg line-clamp-1">Pure Glow Serum</h4>
+          <p class="text-primary font-bold">₵320</p>
+          <button class="mt-2 w-full text-sm bg-primary-container text-on-primary-container font-bold rounded-lg py-1 flex items-center justify-center gap-1 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                  data-name="Pure Glow Serum" 
+                  data-price="320" 
+                  data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuDD1BOQFRprpJ056n-P4uKXGh8SZt20lCWe2W15ppTtRAnq-nOHcAyML4NOPJgcqvOK7Rg3TOWUJputA379YYASsi3Lupu6W6jPC2g9SLrl4kRA_uJ9BtvVX5HlEZbQYXEm7CWqgh0EWvni7PO9qsGWQRCw-92kUmlyfo3DOCVD1xNjK0MPyykTU51SZ8PSKnrwA8c3MhH0yeZGwmaNSMbHfzhzsKk1QLg3RIrJXY5k1oZaySOT2miAOmbkPt-0IDydlOtakb6Y-g">
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-surface-container-highest dark:bg-surface-dim border-t border-outline-variant mt-xxl">
+    <div class="flex flex-col md:flex-row justify-between items-start px-margin-mobile md:px-margin-desktop py-xl max-w-container-max mx-auto gap-xxl">
+      <div class="max-w-md w-full">
+        <a class="font-title-lg text-title-lg font-bold text-primary mb-md block" href="index.html">ShopGhana</a>
+        <p class="text-on-surface-variant font-body-md text-body-md mb-lg">Subscribe to our newsletter to get updates on our latest offers and local marketplace news.</p>
+        <form class="flex gap-2">
+          <input class="flex-1 bg-surface-container rounded-lg border-outline-variant focus:ring-primary focus:border-primary" placeholder="Email address" type="email" />
+          <button class="bg-primary text-white font-bold px-lg py-2 rounded-lg hover:opacity-80 transition-opacity">Join</button>
+        </form>
+        <div class="flex gap-md mt-lg">
+          <a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
+            <span class="material-symbols-outlined text-md">public</span>
+          </a>
+          <a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
+            <span class="material-symbols-outlined text-md">share</span>
+          </a>
+          <a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#">
+            <span class="material-symbols-outlined text-md">contact_mail</span>
+          </a>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-xl flex-1">
+        <div>
+          <h4 class="font-label-lg text-label-lg mb-lg uppercase tracking-wider text-on-surface">Company</h4>
+          <ul class="space-y-md">
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">About Us</a></li>
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">Contact</a></li>
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-label-lg text-label-lg mb-lg uppercase tracking-wider text-on-surface">Support</h4>
+          <ul class="space-y-md">
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">Shipping Policy</a></li>
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">Terms of Service</a></li>
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-label-lg text-label-lg mb-lg uppercase tracking-wider text-on-surface">Sell</h4>
+          <ul class="space-y-md">
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">Seller Center</a></li>
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">Merchant FAQ</a></li>
+            <li><a class="text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" href="product-detail.html">Safety Tips</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-outline-variant/30 py-lg px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
+      <div class="flex items-center gap-xl opacity-60">
+        <span class="material-symbols-outlined text-xxl">payments</span>
+        <span class="material-symbols-outlined text-xxl">verified_user</span>
+        <span class="material-symbols-outlined text-xxl">local_shipping</span>
+      </div>
+      <p class="font-body-md text-body-md text-on-surface-variant">© 2024 ShopGhana. Premium Marketplace.</p>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="js/main.js" defer></script>
+</body>
+</html>

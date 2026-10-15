@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Checkout | ShopGhana</title>
+  <!-- Tailwind + Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#914d00",
+            "inverse-primary": "#ffb77e",
+            "on-surface": "#1a1c1c",
+            "secondary-fixed": "#e2e2e2",
+            "tertiary-container": "#a7a6a6",
+            "primary-fixed-dim": "#ffb77e",
+            "on-secondary-fixed": "#1a1c1c",
+            "inverse-surface": "#2f3131",
+            "surface-variant": "#e2e2e2",
+            "surface-dim": "#dadada",
+            "outline-variant": "#dcc2af",
+            "on-background": "#1a1c1c",
+            "inverse-on-surface": "#f1f1f1",
+            "on-surface-variant": "#554335",
+            "background": "#f9f9f9",
+            "secondary-fixed-dim": "#c6c6c7",
+            "on-tertiary-container": "#3c3c3c",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#6e3900",
+            "tertiary": "#5f5e5e",
+            "on-tertiary-fixed-variant": "#474747",
+            "on-secondary-fixed-variant": "#454747",
+            "error": "#ba1a1a",
+            "on-tertiary": "#ffffff",
+            "outline": "#897363",
+            "primary-fixed": "#ffdcc3",
+            "on-primary-container": "#5e3000",
+            "secondary": "#5d5f5f",
+            "surface-tint": "#914d00",
+            "on-secondary-container": "#616363",
+            "primary-container": "#f68b1e",
+            "surface-container-highest": "#e2e2e2",
+            "surface-container": "#eeeeee",
+            "secondary-container": "#dfe0e0",
+            "surface-container-low": "#f3f3f3",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#2f1500",
+            "on-primary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f9f9f9",
+            "tertiary-fixed-dim": "#c8c6c6",
+            "surface": "#f9f9f9",
+            "tertiary-fixed": "#e4e2e1",
+            "on-tertiary-fixed": "#1b1c1c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#e8e8e8"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          spacing: {
+            xs: "4px",
+            "container-max": "1280px",
+            "margin-desktop": "24px",
+            "margin-mobile": "16px",
+            xl: "32px",
+            sm: "8px",
+            base: "8px",
+            lg: "24px",
+            xxl: "48px",
+            md: "16px",
+            gutter: "16px"
+          },
+          fontFamily: {
+            "label-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "display-sm": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"],
+            "title-md": ["Inter"],
+            "price-lg": ["Inter"],
+            "label-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "title-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "display-lg": ["Inter"],
+            "price-sm": ["Inter"]
+          },
+          fontSize: {
+            "label-md": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+            "headline-lg": ["30px", { lineHeight: "38px", fontWeight: "600" }],
+            "display-sm": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "title-md": ["16px", { lineHeight: "24px", fontWeight: "500" }],
+            "price-lg": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+            "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "title-lg": ["18px", { lineHeight: "26px", fontWeight: "500" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "price-sm": ["16px", { lineHeight: "24px", fontWeight: "700" }]
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS (separate file) -->
+  <link rel="stylesheet" href="css/checkout.css" />
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+  <!-- ====== TOP NAV ====== -->
+  <header class="bg-surface/80 glass-header sticky top-0 z-50 border-b border-outline-variant">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-sm flex items-center justify-between">
+      <div class="flex items-center gap-md">
+        <a class="font-display-sm text-display-sm font-black text-primary" href="#">ShopGhana</a>
+        <div class="h-6 w-[1px] bg-outline-variant hidden md:block"></div>
+        <span class="font-title-md text-title-md text-on-surface-variant hidden md:block">Secure Checkout</span>
+      </div>
+      <div class="flex items-center gap-md">
+        <span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">lock</span>
+        <span class="font-label-lg text-label-lg uppercase tracking-wider text-on-surface-variant">Secure SSL Encryption</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== MAIN ====== -->
+  <main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+    <!-- Progress Stepper -->
+    <nav class="mb-xxl max-w-3xl mx-auto">
+      <div class="relative flex items-center justify-between">
+        <!-- Progress Line Background -->
+        <div class="absolute top-1/2 left-0 w-full h-0.5 bg-surface-container-highest -translate-y-1/2 z-0"></div>
+        <!-- Active Progress Line -->
+        <div class="absolute top-1/2 left-0 w-2/3 h-0.5 bg-primary -translate-y-1/2 z-0 transition-all duration-700 ease-in-out"></div>
+        <!-- Step 1 -->
+        <div class="relative z-10 flex flex-col items-center gap-xs">
+          <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 700;">check</span>
+          </div>
+          <span class="font-label-lg text-label-lg text-primary">Shipping</span>
+        </div>
+        <!-- Step 2 -->
+        <div class="relative z-10 flex flex-col items-center gap-xs">
+          <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 700;">check</span>
+          </div>
+          <span class="font-label-lg text-label-lg text-primary">Delivery</span>
+        </div>
+        <!-- Step 3 (Active) -->
+        <div class="relative z-10 flex flex-col items-center gap-xs">
+          <div class="w-10 h-10 rounded-full bg-primary-container border-4 border-surface flex items-center justify-center text-on-primary-container shadow-sm ring-2 ring-primary">
+            <span class="font-label-lg text-label-lg">3</span>
+          </div>
+          <span class="font-label-lg text-label-lg text-primary font-bold">Payment</span>
+        </div>
+        <!-- Step 4 -->
+        <div class="relative z-10 flex flex-col items-center gap-xs">
+          <div class="w-10 h-10 rounded-full bg-surface-container-highest border-4 border-surface flex items-center justify-center text-on-surface-variant">
+            <span class="font-label-lg text-label-lg">4</span>
+          </div>
+          <span class="font-label-lg text-label-lg text-on-surface-variant">Review</span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+      <!-- Main Content Area (Form) -->
+      <div class="lg:col-span-8 space-y-lg">
+        <!-- Payment Methods Card -->
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+          <h2 class="font-headline-md text-headline-md mb-md flex items-center gap-sm">
+            <span class="material-symbols-outlined text-primary">payments</span>
+            Select Payment Method
+          </h2>
+          <p class="font-body-md text-body-md text-on-surface-variant mb-xl">All transactions are secure and encrypted. Choose your preferred method below.</p>
+
+          <!-- Payment Options -->
+          <div class="space-y-md">
+            <!-- Mobile Money (Active) -->
+            <label class="block relative border-2 border-primary bg-primary/5 rounded-xl p-lg cursor-pointer transition-all hover:bg-primary/10">
+              <input checked class="absolute top-lg right-lg w-5 h-5 text-primary border-outline-variant focus:ring-primary" name="payment_method" type="radio" value="momo" />
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+                <div class="flex items-center gap-md">
+                  <div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg">
+                    <span class="material-symbols-outlined text-primary text-3xl">smartphone</span>
+                  </div>
+                  <div>
+                    <h3 class="font-title-lg text-title-lg font-bold">Mobile Money (MoMo)</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Pay using MTN, Vodafone, or AirtelTigo</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-sm">
+                  <img alt="MTN" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKyz3TpU22HHpqBBFWKX891YyvhFRLL4G-S6K6OoewHL5qRue_Vj7kXWk7uOm9dccaewe_91Tept9FIwQYgqbQLrP1f95hipn2UEzGfyHMXXhdF3mGkaKsR8-23hXC0Yk65O1llhZTWW64X_FY-jMLYXOEuEHoM4LzYWEDnve2XDPvY208QymcuULhXg2bBMo-gdMkFGEeszzOFuVTjqRlVUIIQX5FjgT2e3Jn8oNEW_5wJNht9CZZwGhJjcnImvUkXx5Xujdcvw" />
+                  <img alt="Vodafone" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAljCIJJtyBzW-V-HJssl6yH9gtPlC60Ew-PMNu7pIPDPBj2-NBa__IFAeFvVBYzrOvCMRKV9Jy1Y7w9r2-u7C89JWF6K_5MV8aW9oYeWhTv2T5xNH1WCmcxYC96anzIkOUKUBxZtS4o9ioxLtYOE_4XvTd0fhieg4fXXqp2d01eDauhE7IveO6cw8EdpAoZ-90QtYDXT__eo4rjdfwItWIzvc5wZ2cm7jfJq92H8auvVuwy04Do710dgKt-SJkruurcYtwCUmK3Q" />
+                  <img alt="AirtelTigo" class="h-6 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5XkX8YWqwTf3gSOyiipB3sybWXf95Jf7PrksEnWpKHubyH3DiqzhRbo0aNDjbwhaW6LjFQtK8K1ZkXWGfHK7OF6adrdMt-dqMt3ppq9WH-7xWPgHZZjBXa-B51oS7x80-MeGVFM48bDz7gp7FhuzXHnlGrRhQKPCTS3aK3c2XU1KVWNnoOOgmjtAUVTLdtHVDF4dZU24ZAvHv3TOkaZpnE58vvox3cqzj-7JxlHsKWIt8mu0rNbv4kvrHKY425B88zSLJ3nbCWQ" />
+                </div>
+              </div>
+              <!-- MoMo Form Reveal -->
+              <div class="mt-lg pt-lg border-t border-primary/20">
+                <div class="max-w-md space-y-md">
+                  <div>
+                    <label class="block font-label-lg text-label-lg mb-xs">Select Provider</label>
+                    <select class="w-full bg-surface-container-lowest border border-outline rounded-lg py-3 px-md focus:border-primary focus:ring-1 focus:ring-primary">
+                      <option>MTN Mobile Money</option>
+                      <option>Vodafone Cash</option>
+                      <option>AirtelTigo Money</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block font-label-lg text-label-lg mb-xs">Phone Number</label>
+                    <input class="w-full bg-surface-container-lowest border border-outline rounded-lg py-3 px-md focus:border-primary focus:ring-1 focus:ring-primary" placeholder="0XX XXX XXXX" type="tel" />
+                  </div>
+                  <p class="text-xs text-on-surface-variant italic">A prompt will be sent to your phone to authorize the transaction.</p>
+                </div>
+              </div>
+            </label>
+
+            <!-- Card Option -->
+            <label class="block relative border border-outline-variant bg-surface rounded-xl p-lg cursor-pointer transition-all hover:border-primary/50 group">
+              <input class="absolute top-lg right-lg w-5 h-5 text-primary border-outline-variant focus:ring-primary" name="payment_method" type="radio" value="card" />
+              <div class="flex flex-col md:flex-row md:items-center justify-between gap-md">
+                <div class="flex items-center gap-md">
+                  <div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg group-hover:bg-primary-fixed">
+                    <span class="material-symbols-outlined text-on-surface-variant text-3xl group-hover:text-primary">credit_card</span>
+                  </div>
+                  <div>
+                    <h3 class="font-title-lg text-title-lg">Debit or Credit Card</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Visa, Mastercard, or Maestro</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-sm opacity-60">
+                  <span class="material-symbols-outlined text-4xl">brand_family</span>
+                </div>
+              </div>
+            </label>
+
+            <!-- Bank Transfer Option -->
+            <label class="block relative border border-outline-variant bg-surface rounded-xl p-lg cursor-pointer transition-all hover:border-primary/50 group">
+              <input class="absolute top-lg right-lg w-5 h-5 text-primary border-outline-variant focus:ring-primary" name="payment_method" type="radio" value="bank" />
+              <div class="flex items-center gap-md">
+                <div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg group-hover:bg-primary-fixed">
+                  <span class="material-symbols-outlined text-on-surface-variant text-3xl group-hover:text-primary">account_balance</span>
+                </div>
+                <div>
+                  <h3 class="font-title-lg text-title-lg">Bank Transfer</h3>
+                  <p class="font-body-md text-body-md text-on-surface-variant">Direct transfer from your local bank account</p>
+                </div>
+              </div>
+            </label>
+          </div>
+        </section>
+
+        <!-- Billing Address Toggle -->
+        <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+          <div class="flex items-center gap-md">
+            <input checked class="w-5 h-5 text-primary border-outline-variant rounded focus:ring-primary" id="billing_same" type="checkbox" />
+            <label class="font-body-lg text-body-lg" for="billing_same">Billing address is the same as shipping address</label>
+          </div>
+        </section>
+
+        <div class="flex flex-col md:flex-row justify-between items-center gap-md pt-md">
+          <button class="flex items-center gap-sm text-on-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back to Delivery
+          </button>
+          <button class="w-full md:w-auto bg-primary text-on-primary px-xxl py-md rounded-lg font-bold text-lg shadow-lg hover:bg-primary-fixed-dim transition-all active:scale-[0.98]">
+            Review Order &amp; Pay
+          </button>
+        </div>
+      </div>
+
+      <!-- Sidebar Summary -->
+      <aside class="lg:col-span-4 space-y-lg sticky top-28">
+        <!-- Order Summary Card -->
+        <div class="bg-surface-container-low border border-outline-variant rounded-xl overflow-hidden shadow-sm">
+          <div class="p-lg bg-surface-container border-b border-outline-variant">
+            <h3 class="font-title-lg text-title-lg font-bold">Order Summary</h3>
+          </div>
+          <div class="p-lg space-y-md">
+            <!-- Items List -->
+            <div class="space-y-md max-h-64 overflow-y-auto pr-sm">
+              <div class="flex gap-md">
+                <div class="w-16 h-16 bg-surface-container-lowest rounded-lg border border-outline-variant flex-shrink-0 overflow-hidden">
+                  <img alt="Product" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEHvQTxfxNFFMnQcgA1ZqgWwGe4gy_PaWmAv5Dsw7n0M2zUDcwn0LCjVogonCWi4ZXt94U9zvD6lMW-Xr9T-U90e-QuMTC0QcA9J_6c_Yoy1VX5U4me5m9drtRj0Gsalnzf-n2jNnNyzlliLuyoxpMtnWJmmjyCDAEQ-nm9xj_1TPvdQIp5SH_2VReZxKvMtv99vltXgHcnVQgjOwVAiZBtHECMerU-Jxfhbg70KF3JR5vCOJ6wj68zWTLQ7lRWKLhMWqFFQTRiQ" />
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-label-lg text-label-lg line-clamp-1">SonicMaster Elite Headphones</h4>
+                  <p class="text-xs text-on-surface-variant">Qty: 1 • Color: Midnight Black</p>
+                  <p class="font-price-sm text-price-sm text-primary">GH₵ 1,250.00</p>
+                </div>
+              </div>
+              <div class="flex gap-md">
+                <div class="w-16 h-16 bg-surface-container-lowest rounded-lg border border-outline-variant flex-shrink-0 overflow-hidden">
+                  <img alt="Product" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCuq6-hPBiAF0gr_5SvAasEqfwbSBHTIySdEFi1wvOpiJigjwX30t96v9H0_WwFDOFFTF92RDpYY8yOzghl4wlbbAAmQDhSHGVT2DS3nqtDkTKjlaw3idpef6tX9dS4XArnJWQfkiH9E0hYoC5uBc2bxE-Genhybxtf3fcqJA1ejnlSXvEuHdu5Ub_M_Ini82BS09c1HTya2duLggQ2jxPxnTo_L5zfyqg2_EZV6wdve5ouwS3wPSjS4P6Ev5eGKGjMACnQLOR5g" />
+                </div>
+                <div class="flex-grow">
+                  <h4 class="font-label-lg text-label-lg line-clamp-1">Nordic Minimalist Watch</h4>
+                  <p class="text-xs text-on-surface-variant">Qty: 1 • Strap: Tan Leather</p>
+                  <p class="font-price-sm text-price-sm text-primary">GH₵ 850.00</p>
+                </div>
+              </div>
+            </div>
+            <!-- Divider -->
+            <div class="h-[1px] bg-outline-variant"></div>
+            <!-- Calculations -->
+            <div class="space-y-sm">
+              <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+                <span>Subtotal</span>
+                <span>GH₵ 2,100.00</span>
+              </div>
+              <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+                <span>Shipping (Express)</span>
+                <span class="text-on-surface font-medium">GH₵ 45.00</span>
+              </div>
+              <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+                <span>Estimated VAT</span>
+                <span>GH₵ 12.50</span>
+              </div>
+            </div>
+            <!-- Total -->
+            <div class="pt-md border-t border-outline-variant flex justify-between items-center">
+              <span class="font-title-lg text-title-lg font-bold">Total</span>
+              <span class="font-price-lg text-price-lg text-primary">GH₵ 2,157.50</span>
+            </div>
+          </div>
+          <!-- Promo Code -->
+          <div class="p-lg bg-surface-container-highest/30 border-t border-outline-variant">
+            <div class="flex gap-sm">
+              <input class="flex-grow bg-surface-container-lowest border border-outline rounded-lg px-md py-2 text-sm focus:ring-1 focus:ring-primary" placeholder="Promo Code" type="text" />
+              <button class="bg-on-surface text-surface py-2 px-lg rounded-lg font-bold text-sm hover:opacity-90">Apply</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust Badges -->
+        <div class="bg-surface-container-low border border-outline-variant rounded-xl p-lg space-y-md">
+          <div class="flex items-center gap-md">
+            <span class="material-symbols-outlined text-primary">verified_user</span>
+            <div>
+              <p class="font-label-lg text-label-lg">Buyer Protection</p>
+              <p class="text-xs text-on-surface-variant">Full refund if item not as described.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-md">
+            <span class="material-symbols-outlined text-primary">security</span>
+            <div>
+              <p class="font-label-lg text-label-lg">SSL Secured Payment</p>
+              <p class="text-xs text-on-surface-variant">Your data is always encrypted.</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-md">
+            <span class="material-symbols-outlined text-primary">local_shipping</span>
+            <div>
+              <p class="font-label-lg text-label-lg">Tracked Delivery</p>
+              <p class="text-xs text-on-surface-variant">Real-time SMS updates on your order.</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="bg-surface-container-highest mt-xxl border-t border-outline-variant">
+    <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-xl flex flex-col md:flex-row justify-between items-center gap-lg">
+      <div class="flex flex-col items-center md:items-start gap-xs">
+        <span class="font-title-lg text-title-lg font-bold text-primary">ShopGhana</span>
+        <p class="text-sm text-on-surface-variant">© 2024 ShopGhana. Premium Marketplace.</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-md text-sm text-on-surface-variant">
+        <a class="hover:text-primary hover:underline transition-colors" href="#">Privacy Policy</a>
+        <a class="hover:text-primary hover:underline transition-colors" href="#">Terms of Service</a>
+        <a class="hover:text-primary hover:underline transition-colors" href="#">Refund Policy</a>
+        <a class="hover:text-primary hover:underline transition-colors" href="#">Help Center</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====== SEPARATE JS ====== -->
+  <script src="js/checkout.js"></script>
+</body>
+</html>

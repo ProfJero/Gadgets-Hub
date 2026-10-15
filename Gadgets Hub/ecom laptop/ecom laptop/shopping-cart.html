@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>ShopGhana | Shopping Cart</title>
+  <!-- Tailwind + Google Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#914d00",
+            "inverse-primary": "#ffb77e",
+            "on-surface": "#1a1c1c",
+            "secondary-fixed": "#e2e2e2",
+            "tertiary-container": "#a7a6a6",
+            "primary-fixed-dim": "#ffb77e",
+            "on-secondary-fixed": "#1a1c1c",
+            "inverse-surface": "#2f3131",
+            "surface-variant": "#e2e2e2",
+            "surface-dim": "#dadada",
+            "outline-variant": "#dcc2af",
+            "on-background": "#1a1c1c",
+            "inverse-on-surface": "#f1f1f1",
+            "on-surface-variant": "#554335",
+            "background": "#f9f9f9",
+            "secondary-fixed-dim": "#c6c6c7",
+            "on-tertiary-container": "#3c3c3c",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#6e3900",
+            "tertiary": "#5f5e5e",
+            "on-tertiary-fixed-variant": "#474747",
+            "on-secondary-fixed-variant": "#454747",
+            "error": "#ba1a1a",
+            "on-tertiary": "#ffffff",
+            "outline": "#897363",
+            "primary-fixed": "#ffdcc3",
+            "on-primary-container": "#5e3000",
+            "secondary": "#5d5f5f",
+            "surface-tint": "#914d00",
+            "on-secondary-container": "#616363",
+            "primary-container": "#f68b1e",
+            "surface-container-highest": "#e2e2e2",
+            "surface-container": "#eeeeee",
+            "secondary-container": "#dfe0e0",
+            "surface-container-low": "#f3f3f3",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#2f1500",
+            "on-primary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f9f9f9",
+            "tertiary-fixed-dim": "#c8c6c6",
+            "surface": "#f9f9f9",
+            "tertiary-fixed": "#e4e2e1",
+            "on-tertiary-fixed": "#1b1c1c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#e8e8e8"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          spacing: {
+            xs: "4px",
+            "container-max": "1280px",
+            "margin-desktop": "24px",
+            "margin-mobile": "16px",
+            xl: "32px",
+            sm: "8px",
+            base: "8px",
+            lg: "24px",
+            xxl: "48px",
+            md: "16px",
+            gutter: "16px"
+          },
+          fontFamily: {
+            "label-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "display-sm": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"],
+            "title-md": ["Inter"],
+            "price-lg": ["Inter"],
+            "label-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "title-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "display-lg": ["Inter"],
+            "price-sm": ["Inter"]
+          },
+          fontSize: {
+            "label-md": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+            "headline-lg": ["30px", { lineHeight: "38px", fontWeight: "600" }],
+            "display-sm": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "title-md": ["16px", { lineHeight: "24px", fontWeight: "500" }],
+            "price-lg": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+            "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "title-lg": ["18px", { lineHeight: "26px", fontWeight: "500" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "price-sm": ["16px", { lineHeight: "24px", fontWeight: "700" }]
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS (separate file) -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="bg-background text-on-surface">
+  <!-- ====== TOP NAV ====== -->
+  <header class="bg-surface/80 backdrop-blur-xl docked full-width top-0 sticky z-50 border-b border-outline-variant shadow-sm transition-all duration-200">
+    <div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop py-sm max-w-container-max mx-auto h-16">
+      <div class="flex items-center gap-lg">
+        <span class="font-display-sm text-display-sm font-black text-primary">ShopGhana</span>
+        <nav class="hidden md:flex gap-md">
+          <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Electronics</a>
+          <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Fashion</a>
+          <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Home</a>
+          <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Beauty</a>
+          <a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Groceries</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-md">
+        <div class="hidden sm:flex items-center bg-surface-container-low rounded-full px-md py-xs border border-outline-variant">
+          <span class="material-symbols-outlined text-on-surface-variant mr-xs">search</span>
+          <input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-48 lg:w-64" placeholder="Search for products..." type="text" />
+        </div>
+        <button class="text-on-surface-variant hover:text-primary transition-colors relative" aria-label="Favorites">
+          <span class="material-symbols-outlined">favorite</span>
+        </button>
+        <button class="text-on-surface-variant hover:text-primary transition-colors relative" aria-label="Notifications">
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button class="flex items-center gap-xs font-label-lg text-label-lg text-primary border-b-2 border-primary font-bold pb-1 transition-all" aria-label="Cart">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          <span>Cart</span>
+          <span class="bg-primary text-on-primary text-[10px] rounded-full h-4 w-4 flex items-center justify-center -mt-4 ml-1">3</span>
+        </button>
+        <button class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" aria-label="Account">
+          <span class="material-symbols-outlined">account_circle</span>
+          <span>Account</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== MAIN ====== -->
+  <main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+    <h1 class="font-headline-lg text-headline-lg mb-xl">Your Shopping Cart</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg items-start">
+      <!-- Left Column: Cart Items -->
+      <section class="lg:col-span-8 space-y-md">
+        <!-- Cart Item 1 -->
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col md:flex-row gap-md cart-item-card transition-all duration-200">
+          <div class="w-full md:w-40 h-40 shrink-0 bg-surface-container overflow-hidden rounded-lg">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlEOwcmvk-keXGXwG4BVLbZQaRc0lGBj36vW7TRbc31WOQz9SeTkqWZZFPsaz-Qpzf_ryTXtYAjCqz4cH4kGcwqsoTNWMmtNS1vIgblN1NdsD7c3e21skTjddBbI_BnBQUGUmti4UShpmUnFpwJbwNBBIDwRXEoIcHnC3S2Iqqw-3e-jn1bDLyXxSLOL_hamxxDpLk-7iNQCpp8OHKemkwi_tSbC_T9TmbH7lTSPbrdC-DxMrz0jRlGXVnNpHfcuyCcFTjI3D18A" alt="SonicWave Pro Wireless Headphones" />
+          </div>
+          <div class="flex-grow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start">
+                <h3 class="font-title-lg text-title-lg text-on-surface">SonicWave Pro Wireless Headphones</h3>
+                <p class="font-price-lg text-price-lg text-on-surface">GH₵ 1,250.00</p>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Color: Midnight Black | Series: V2</p>
+              <p class="text-green-600 font-label-md text-label-md mt-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-[16px]">check_circle</span> In Stock
+              </p>
+            </div>
+            <div class="flex items-center justify-between mt-md">
+              <div class="flex items-center border border-outline-variant rounded-lg overflow-hidden">
+                <button class="px-sm py-xs bg-surface-container hover:bg-surface-variant text-on-surface transition-colors quantity-btn" data-action="decrease">
+                  <span class="material-symbols-outlined text-[18px]">remove</span>
+                </button>
+                <input class="w-12 text-center border-none focus:ring-0 font-label-lg text-label-lg bg-surface-container-lowest quantity-input" min="1" type="number" value="1" />
+                <button class="px-sm py-xs bg-surface-container hover:bg-surface-variant text-on-surface transition-colors quantity-btn" data-action="increase">
+                  <span class="material-symbols-outlined text-[18px]">add</span>
+                </button>
+              </div>
+              <div class="flex gap-md">
+                <button class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md save-for-later">
+                  <span class="material-symbols-outlined text-[18px]">favorite</span> Save for Later
+                </button>
+                <button class="remove-btn flex items-center gap-xs text-error hover:opacity-80 transition-all font-label-md text-label-md remove-item">
+                  <span class="material-symbols-outlined text-[18px]">delete</span> Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cart Item 2 -->
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col md:flex-row gap-md cart-item-card transition-all duration-200">
+          <div class="w-full md:w-40 h-40 shrink-0 bg-surface-container overflow-hidden rounded-lg">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAET3WQbSHYfdk1TaLiIz-aNm2S_WX4IzKWPiLX7VB1Ls7D1LLebiG0pc8OTzshhZml_EbcJ3u9vLBWK64kp-v4B4KvQd-cqA0cU682QQzVdw_P7qqrL-XIjJoy7LIAZKZsrlb7oGuBLoF7_2FhONjMkIlweNE_z30U5LPcT6QJNrdcCJUO92gk8u2CYRL9_3rwEDUc2tucFbEQMaeIqUgR9XnP_O31hVKMhVoeZSTcFlb-HrIoixlmavTv1yMH1gWUB7O5Vehhhg" alt="Classic Minimalist Leather Watch" />
+          </div>
+          <div class="flex-grow flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start">
+                <h3 class="font-title-lg text-title-lg text-on-surface">Classic Minimalist Leather Watch</h3>
+                <p class="font-price-lg text-price-lg text-on-surface">GH₵ 850.00</p>
+              </div>
+              <p class="font-body-md text-body-md text-on-surface-variant mt-xs">Strap: Genuine Brown Leather | Face: Silver</p>
+              <p class="text-amber-600 font-label-md text-label-md mt-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-[18px]">warning</span> Only 3 left in stock
+              </p>
+            </div>
+            <div class="flex items-center justify-between mt-md">
+              <div class="flex items-center border border-outline-variant rounded-lg overflow-hidden">
+                <button class="px-sm py-xs bg-surface-container hover:bg-surface-variant text-on-surface transition-colors quantity-btn" data-action="decrease">
+                  <span class="material-symbols-outlined text-[18px]">remove</span>
+                </button>
+                <input class="w-12 text-center border-none focus:ring-0 font-label-lg text-label-lg bg-surface-container-lowest quantity-input" min="1" type="number" value="1" />
+                <button class="px-sm py-xs bg-surface-container hover:bg-surface-variant text-on-surface transition-colors quantity-btn" data-action="increase">
+                  <span class="material-symbols-outlined text-[18px]">add</span>
+                </button>
+              </div>
+              <div class="flex gap-md">
+                <button class="flex items-center gap-xs text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md save-for-later">
+                  <span class="material-symbols-outlined text-[18px]">favorite</span> Save for Later
+                </button>
+                <button class="remove-btn flex items-center gap-xs text-error hover:opacity-80 transition-all font-label-md text-label-md remove-item">
+                  <span class="material-symbols-outlined text-[18px]">delete</span> Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shipping Estimator -->
+        <div class="bg-surface-container-low rounded-xl p-lg border border-outline-variant mt-xl">
+          <h3 class="font-headline-sm text-headline-sm mb-md flex items-center gap-xs">
+            <span class="material-symbols-outlined text-primary">local_shipping</span>
+            Estimate Shipping &amp; Taxes
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+            <div class="flex flex-col gap-xs">
+              <label class="font-label-lg text-label-lg">City / Region</label>
+              <select class="rounded-lg border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-lowest text-body-md h-12 shipping-select">
+                <option>Accra, Greater Accra</option>
+                <option>Kumasi, Ashanti</option>
+                <option>Tamale, Northern</option>
+                <option>Takoradi, Western</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-xs">
+              <label class="font-label-lg text-label-lg">Zip / Postal Code</label>
+              <input class="rounded-lg border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-lowest text-body-md h-12 shipping-zip" placeholder="e.g. GA123" type="text" />
+            </div>
+            <div class="flex items-end">
+              <button class="h-12 w-full bg-secondary-container hover:bg-surface-variant text-on-surface font-bold rounded-lg transition-colors calculate-shipping">
+                Calculate
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save for Later Section -->
+        <div class="mt-xxl">
+          <h3 class="font-headline-sm text-headline-sm mb-lg">Saved for Later (2)</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-sm flex gap-md items-center group cursor-pointer hover:border-primary transition-colors">
+              <div class="w-20 h-20 bg-surface-container rounded-lg overflow-hidden shrink-0">
+                <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtqSUitBw9Kd_WoK30DhdfA4qKQR2Ept158YD21Chhx0SOjw76PXEhQDDTLOeWPHs5MQdHG2H3SbskavfqkDPmT83sYMJa1B5A_Jm6IEF15Ix_Jn975vYRcT-CpDfQgNqCjGWLe_nK7j5W3Ge2qNDvHxTx50ODq4ehXrnfYxNzlEGXzGV2lE6t8wM0OOERWDFJOiZhwztacZ4OY-uI9kBTwCkLCkAbwj9liabRI6sUVZmvjxBM3-WoDXmcCxr1_BCjn6QGoXItbw" alt="Nebula X Running Shoes" />
+              </div>
+              <div class="flex-grow">
+                <h4 class="font-label-lg text-label-lg truncate">Nebula X Running Shoes</h4>
+                <p class="font-price-sm text-price-sm text-primary">GH₵ 420.00</p>
+                <button class="text-primary hover:underline font-label-md text-label-md mt-xs flex items-center gap-xs move-to-cart">
+                  <span class="material-symbols-outlined text-[14px]">shopping_cart</span> Move to Cart
+                </button>
+              </div>
+            </div>
+            <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-sm flex gap-md items-center group cursor-pointer hover:border-primary transition-colors">
+              <div class="w-20 h-20 bg-surface-container rounded-lg overflow-hidden shrink-0">
+                <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCG55AI8s9saqBnZ5hyHv-LxlhkUl5gLU680HVGbBVHAolC09rVwsDogXfbSeUZVfBhdXV2ISGvO1m24_K0P2fyMaf_FmjGkFmXOnFKUgSgftYApiNLGRxgj_wUum2p7gXWxNRN7GjYkoVNhrBw-hyvAWHK7THeqmbrFe51i1AA1rQL3zLbDBpwsD3HE98bghg6KVahIgkfFL18BGZ_tRNSkWiFDYKOCzrqS3i-MG40AqCMgidhpAYWpAjx03lgg5ZSEnmw_fllhQ" alt="Aviator Dark Shades" />
+              </div>
+              <div class="flex-grow">
+                <h4 class="font-label-lg text-label-lg truncate">Aviator Dark Shades</h4>
+                <p class="font-price-sm text-price-sm text-primary">GH₵ 180.00</p>
+                <button class="text-primary hover:underline font-label-md text-label-md mt-xs flex items-center gap-xs move-to-cart">
+                  <span class="material-symbols-outlined text-[14px]">shopping_cart</span> Move to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Order Summary -->
+      <aside class="lg:col-span-4 sticky top-24">
+        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm">
+          <h2 class="font-headline-sm text-headline-sm mb-lg">Order Summary</h2>
+          <div class="space-y-md border-b border-outline-variant pb-md mb-md">
+            <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+              <span>Subtotal (2 items)</span>
+              <span class="subtotal-amount">GH₵ 2,100.00</span>
+            </div>
+            <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+              <span>Shipping &amp; Handling</span>
+              <span class="shipping-amount">GH₵ 45.00</span>
+            </div>
+            <div class="flex justify-between font-body-md text-body-md text-on-surface-variant">
+              <span>Estimated Tax</span>
+              <span class="tax-amount">GH₵ 0.00</span>
+            </div>
+          </div>
+          <!-- Promo Code -->
+          <div class="mb-md">
+            <label class="font-label-md text-label-md mb-xs block">Promo Code</label>
+            <div class="flex gap-sm">
+              <input class="flex-grow rounded-lg border-outline-variant focus:border-primary focus:ring-primary bg-surface-container-low text-body-md promo-input" placeholder="Enter code" type="text" />
+              <button class="bg-tertiary-fixed text-on-tertiary-fixed font-bold px-md rounded-lg hover:bg-tertiary-fixed-dim transition-colors apply-promo">Apply</button>
+            </div>
+          </div>
+          <div class="flex justify-between items-baseline mb-lg">
+            <span class="font-title-lg text-title-lg">Grand Total</span>
+            <span class="font-price-lg text-price-lg text-primary grand-total">GH₵ 2,145.00</span>
+          </div>
+          <button class="w-full bg-primary-container hover:bg-primary text-on-primary font-bold py-md rounded-lg text-title-lg transition-all active:scale-95 shadow-md flex items-center justify-center gap-sm checkout-btn">
+            <span>Proceed to Checkout</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+          <div class="mt-lg p-md bg-green-50 rounded-lg border border-green-100 flex items-start gap-sm">
+            <span class="material-symbols-outlined text-green-600">verified_user</span>
+            <p class="text-[12px] text-green-800 leading-tight">
+              Your transaction is secured by ShopGhana's Buyer Protection. Money-back guarantee on all qualified purchases.
+            </p>
+          </div>
+          <div class="mt-md flex justify-center gap-md grayscale opacity-40">
+            <img alt="PayPal" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMxWSDrjxlpPMU19RxJj_DtUW6LTFO2LlWxYNJHRePPkaKysccZMXb6Kw2v353R7V5Y90vs5VRc3VENtnfDsQUao0YEp0hMx_payfxsFpxw2N68-XIgGh1xYaqibzx4-1MRgimrLJBexS7iLgxifdTKlNgQQKNCRYCi8I7yE_q1PUP36BCBEd67CbVb5SihanZZsnmbKa88JGNMGDYJ6rWQdC6FaKzMYNNF7go5SHgwVkydOGMStW75IOHUJ0FlKvxQeSeoddHVQ" />
+            <img alt="Mastercard" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaCscbypMXT8enZQWnqmVVvaWChkNcFsNhH2_pKE6bSoins2ggV4Ox6GbkNExglusE_vGkUtgoLYJ7tIbfjFab8nzCTSm6Yp7LupyQkIpGaeII_9ScBq-4I8oSnHZnfOJht6o9gMLrQehZbsC95uQ5F3WV3ytHu9ZA2WVOGBOy53oDc6b1cuQu28az-IpeLQBrYwk2zkbYqlO_OKYxJkvokPDXKCq1q3FPkW5_FihLR-DweGhU_OuzWMoOB_jg_7taWQ1lG5VOCg" />
+            <img alt="Visa" class="h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjaHxwiYiDQPNperJMTEdrR27dSRm_5YlgJXbugTm5kYGhy-IWawfxmnOi6CMTCvuIGPrktr_JwMNj51slSHUnGr1DzqfOdsEGp2lDYAuJlCeEAC7RwKznaDEWF8As4Yp0qPJmOowt9aHvbBiqXGiWopAMdpuaNQtUKHZ35Hsgv1C_9uuxrNaziu45mNiQAOJMPriD-LaMtOJkI7_K4FN7r77_aGUvzSLgTCGSnR1ncgn-T9fA3pMM8mDLn9nnMR1mAC5H9pKMzg" />
+          </div>
+        </div>
+        <!-- Assistance Card -->
+        <div class="mt-md bg-white border border-outline-variant rounded-xl p-md flex items-center gap-md">
+          <div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined">support_agent</span>
+          </div>
+          <div>
+            <p class="font-label-lg text-label-lg">Need help with your order?</p>
+            <a class="text-primary font-bold text-label-md hover:underline" href="#">Chat with a Specialist</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="bg-surface-container-highest border-t border-outline-variant mt-xxl">
+    <div class="flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop py-xl max-w-container-max mx-auto gap-lg">
+      <div class="flex flex-col gap-sm">
+        <span class="font-title-lg text-title-lg font-bold text-primary">ShopGhana</span>
+        <p class="font-body-md text-body-md text-on-surface-variant max-w-xs">
+          The premium marketplace for electronics, fashion, and lifestyle essentials in Ghana.
+        </p>
+        <p class="font-label-md text-label-md text-on-surface-variant mt-md">© 2024 ShopGhana. Premium Marketplace.</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-xl">
+        <div class="flex flex-col gap-sm">
+          <h4 class="font-label-lg text-label-lg text-on-surface font-bold uppercase tracking-wider">Company</h4>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">About Us</a>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Careers</a>
+        </div>
+        <div class="flex flex-col gap-sm">
+          <h4 class="font-label-lg text-label-lg text-on-surface font-bold uppercase tracking-wider">Support</h4>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Contact</a>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Shipping Policy</a>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">FAQ</a>
+        </div>
+        <div class="flex flex-col gap-sm">
+          <h4 class="font-label-lg text-label-lg text-on-surface font-bold uppercase tracking-wider">Legal</h4>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Terms of Service</a>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary hover:underline transition-all" href="#">Privacy Policy</a>
+        </div>
+      </div>
+      <div class="flex flex-col items-center md:items-end gap-md">
+        <h4 class="font-label-lg text-label-lg text-on-surface font-bold">Follow Us</h4>
+        <div class="flex gap-md">
+          <a class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all" href="#" aria-label="Twitter">
+            <svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+          </a>
+          <a class="h-10 w-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-on-primary transition-all" href="#" aria-label="Instagram">
+            <svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====== SEPARATE JS ====== -->
+  <script src="js/script.js"></script>
+</body>
+</html>

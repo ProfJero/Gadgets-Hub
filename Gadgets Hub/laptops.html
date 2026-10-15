@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>LuxeTech | Premium Laptops</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#404758",
+                    "secondary": "#575e70",
+                    "surface-container": "#e6eeff",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "on-tertiary-container": "#bdffdb",
+                    "surface-container-low": "#eff4ff",
+                    "tertiary-container": "#007d55",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#dee9fc",
+                    "surface": "#f8f9ff",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d0dbed",
+                    "primary-container": "#2563eb",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "secondary-fixed-dim": "#c0c6db",
+                    "surface-bright": "#f8f9ff",
+                    "inverse-primary": "#b4c5ff",
+                    "tertiary": "#006242",
+                    "outline": "#737686",
+                    "primary": "#004ac6",
+                    "on-surface-variant": "#434655",
+                    "surface-container-highest": "#d9e3f6",
+                    "background": "#f8f9ff",
+                    "tertiary-fixed": "#6ffbbe",
+                    "on-tertiary-fixed": "#002113",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "secondary-container": "#d9dff5",
+                    "on-primary-container": "#eeefff",
+                    "primary-fixed": "#dbe1ff",
+                    "on-secondary-container": "#5c6274",
+                    "on-secondary-fixed": "#141b2b",
+                    "on-surface": "#121c2a",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface-variant": "#d9e3f6",
+                    "on-background": "#121c2a",
+                    "error": "#ba1a1a",
+                    "secondary-fixed": "#dce2f7",
+                    "on-primary-fixed": "#00174b",
+                    "surface-tint": "#0053db",
+                    "outline-variant": "#c3c6d7",
+                    "inverse-surface": "#27313f",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#eaf1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-desktop": "48px",
+                    "margin-mobile": "16px",
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "unit": "4px",
+                    "container-max": "1280px",
+                    "stack-lg": "32px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Poppins"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Poppins"],
+                    "display": ["Poppins"],
+                    "headline-lg-mobile": ["Poppins"],
+                    "label-md": ["Inter"],
+                    "button": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "button": ["16px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-effect { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .product-card-hover { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease; }
+        .product-card-hover:active { transform: scale(0.98); }
+        
+        body {
+            background-color: #f8f9ff;
+            color: #121c2a;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl shadow-sm h-16 flex items-center px-margin-mobile justify-between">
+<div class="flex items-center gap-4">
+<button class="p-2 active:scale-95 duration-200 transition-opacity hover:opacity-80">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md-mobile font-bold tracking-tight text-primary">LuxeTech</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 active:scale-95 duration-200 transition-opacity hover:opacity-80">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+<button class="p-2 active:scale-95 duration-200 transition-opacity hover:opacity-80">
+<span class="material-symbols-outlined text-on-surface-variant">shopping_cart</span>
+</button>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="pt-20 px-margin-mobile">
+<!-- Search Bar Sub-Header -->
+<div class="mb-stack-lg relative">
+<input class="w-full h-12 bg-surface-container-low border-none rounded-full px-6 py-2 text-body-md focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-outline" placeholder="Search premium hardware..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline">mic</span>
+</div>
+<!-- Sticky Filter Bar -->
+<section class="sticky top-16 z-40 bg-background/90 backdrop-blur-md -mx-margin-mobile px-margin-mobile py-stack-sm mb-stack-md flex items-center gap-3 overflow-x-auto no-scrollbar">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full font-label-md text-label-md flex-shrink-0 active:scale-95 transition-transform shadow-md" onclick="toggleFilterDrawer()">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+<span>Filters</span>
+</button>
+<div class="h-6 w-px bg-outline-variant mx-1"></div>
+<button class="px-4 py-2 border border-outline-variant rounded-full text-on-surface-variant font-label-md text-label-md whitespace-nowrap bg-surface hover:bg-surface-container-low transition-colors">Brand: Apple</button>
+<button class="px-4 py-2 border border-outline-variant rounded-full text-on-surface-variant font-label-md text-label-md whitespace-nowrap bg-surface hover:bg-surface-container-low transition-colors">Price: Under $2k</button>
+<button class="px-4 py-2 border border-outline-variant rounded-full text-on-surface-variant font-label-md text-label-md whitespace-nowrap bg-surface hover:bg-surface-container-low transition-colors">Usage: Gaming</button>
+<button class="px-4 py-2 border border-outline-variant rounded-full text-on-surface-variant font-label-md text-label-md whitespace-nowrap bg-surface hover:bg-surface-container-low transition-colors">OS: macOS</button>
+</section>
+<!-- Sorting & Results Count -->
+<div class="flex justify-between items-center mb-stack-md px-1">
+<span class="text-label-md font-label-md text-on-surface-variant">128 Laptops Found</span>
+<div class="flex items-center gap-1 text-primary font-label-md cursor-pointer">
+<span>Most Popular</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Product Feed (Grid) -->
+<div class="grid grid-cols-2 gap-gutter">
+<!-- Laptop Card 1 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-stack-sm border border-outline-variant/30 shadow-sm product-card-hover overflow-hidden">
+<div class="absolute top-2 left-2 z-10">
+<span class="bg-error text-on-error text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">15% OFF</span>
+</div>
+<button class="absolute top-2 right-2 z-10 p-1.5 bg-surface/50 rounded-full text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</button>
+<div class="aspect-square mb-stack-sm bg-surface-container-low rounded-lg flex items-center justify-center p-4">
+<img class="w-full h-full object-contain mix-blend-multiply" data-alt="A professional high-angle studio shot of a slim, midnight black MacBook Pro on a pristine white desk. The lighting is soft and cinematic with subtle blue lens flares, emphasizing the premium metallic texture and ultra-thin profile. The background is a minimalist, high-key architectural space, creating a corporate modern aesthetic with significant whitespace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCCOgxACyNbGjpXsTgaqOSwWu38LeFEVLDOvQtXtuVxGh7S_z2DBBOZ8gg7M8oESnQbMIb3e1_muz7b0DdMUL18WYhPP8_QKWuRvzFwPues9ymSkZ7oX8N6wCrGGK5dZHmo4_ndizYVV2imZbWjcGjVMpzyBu-tQDg_0LwAd6MwLYiiqC9WFJ2MXyPepEZdx95jkGbmeP1Rl6bSl4Zxbms8w8LGWkqzneUm37SVMzL0kuCH5oQFtQOi_E356ZU0l3sgYhaafpj13E"/>
+</div>
+<div class="px-1">
+<h3 class="font-label-md text-label-md text-on-surface truncate">MacBook Pro 14"</h3>
+<div class="flex items-center gap-1 my-1">
+<span class="material-symbols-outlined text-tertiary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[12px] font-bold text-on-surface">4.9</span>
+<span class="text-[12px] text-outline">(2.1k)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-primary text-[18px]">$1,699</span>
+<span class="text-[12px] text-outline line-through">$1,999</span>
+</div>
+<button class="mt-stack-sm w-full py-2 bg-surface-container-high text-on-surface font-label-md text-[12px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity active:scale-95">Quick View</button>
+</div>
+</div>
+<!-- Laptop Card 2 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-stack-sm border border-outline-variant/30 shadow-sm product-card-hover overflow-hidden">
+<div class="absolute top-2 left-2 z-10">
+<span class="bg-tertiary text-on-tertiary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">NEW</span>
+</div>
+<button class="absolute top-2 right-2 z-10 p-1.5 bg-surface/50 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+<div class="aspect-square mb-stack-sm bg-surface-container-low rounded-lg flex items-center justify-center p-4">
+<img class="w-full h-full object-contain mix-blend-multiply" data-alt="A sleek, futuristic silver Razer Blade gaming laptop with glowing RGB keyboard backlighting in vibrant blue and green. The laptop is angled to show its sharp edges and premium aluminum finish. Set against a dark, tech-infused background with glowing hexagonal patterns and professional atmospheric smoke, reflecting high-performance power and elite hardware design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb0LOh6OlkEAXP0NCcg-WM1y05YDopwgWI6pSEn7A7RE1OSqfGfFJhlROs19O40SwxK07GuxP2RkMlY0O4UYqpN8f0o8BxBmMV4Y4_pe8GCmRSwGMr-NXNBnlN6hJr7qLHOQARRYZLQXsjxUC5ACkcnxyYHxVINRbMjcsMDDIiyQwyw1m0TRt2iGlDkFocjhZrAOyeG3FolWVWMiD6rijZeFpKsiryIK-KN3TuqLZMo2rrO4PfiW3jnNAXvSfLYLq53PXJEBAmUzo"/>
+</div>
+<div class="px-1">
+<h3 class="font-label-md text-label-md text-on-surface truncate">Razer Blade 16</h3>
+<div class="flex items-center gap-1 my-1">
+<span class="material-symbols-outlined text-tertiary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[12px] font-bold text-on-surface">4.7</span>
+<span class="text-[12px] text-outline">(850)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-primary text-[18px]">$2,899</span>
+</div>
+<button class="mt-stack-sm w-full py-2 bg-surface-container-high text-on-surface font-label-md text-[12px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">Quick View</button>
+</div>
+</div>
+<!-- Laptop Card 3 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-stack-sm border border-outline-variant/30 shadow-sm product-card-hover overflow-hidden">
+<button class="absolute top-2 right-2 z-10 p-1.5 bg-surface/50 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+<div class="aspect-square mb-stack-sm bg-surface-container-low rounded-lg flex items-center justify-center p-4">
+<img class="w-full h-full object-contain mix-blend-multiply" data-alt="A high-performance Dell XPS 15 workstation laptop featuring a stunning edge-to-edge bezel-less display showing a vibrant digital art piece. The laptop is finished in a carbon fiber interior and platinum silver exterior. The environment is a clean, modern creative studio with soft morning sunlight streaming in, casting long elegant shadows and highlighting the device's sleek, corporate design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2qMZCQdh-jxOVo9CXtjLKw2TrYb0GPo0OKD7Gs8n6pSQgP8Ajk8Xw_sARImzkS9Ze76RVATWGx7Rh42rEWA8xjloVCY4QtnFu7JyjZotkKGXv_NfObBHSZnvBuICimIVc_EqhVyM-yFlcv48lzyquJneT2ri0bhHeHIx9BkeKelCNE6aXSB0xcHXPO69PlfOmVSfLgWykf2WhvP8JHi0kZmiy4sV4LLcB_XDb1Ec6n68CByF7loImqrzJaJeapzwEgh32zqo5Omg"/>
+</div>
+<div class="px-1">
+<h3 class="font-label-md text-label-md text-on-surface truncate">Dell XPS 15</h3>
+<div class="flex items-center gap-1 my-1">
+<span class="material-symbols-outlined text-tertiary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[12px] font-bold text-on-surface">4.8</span>
+<span class="text-[12px] text-outline">(1.5k)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-primary text-[18px]">$2,149</span>
+</div>
+<button class="mt-stack-sm w-full py-2 bg-surface-container-high text-on-surface font-label-md text-[12px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">Quick View</button>
+</div>
+</div>
+<!-- Laptop Card 4 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-stack-sm border border-outline-variant/30 shadow-sm product-card-hover overflow-hidden">
+<div class="absolute top-2 left-2 z-10">
+<span class="bg-primary text-on-primary text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">LIMITED</span>
+</div>
+<button class="absolute top-2 right-2 z-10 p-1.5 bg-surface/50 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+<div class="aspect-square mb-stack-sm bg-surface-container-low rounded-lg flex items-center justify-center p-4">
+<img class="w-full h-full object-contain mix-blend-multiply" data-alt="A sleek Surface Laptop 5 in a sophisticated sage green finish, showcased in a lifestyle setting on a polished marble surface. Beside it sits a minimalist espresso cup and a thin designer notebook. The lighting is bright and airy, following a glassmorphic aesthetic with blurred garden greenery visible through a window in the background, conveying high-end reliability and technical polish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcsZgdvjmAdCahp9ka8ib6h2K6wXMTbBJikVLRhxT2sXT_-WuhCSOe4HPzOWarcE420XXoKC7SWXxfYKq6KoIVkzbBAI3j5UznUHXGX3Pk-kY09L_ZQc6bizNfua0jQY1O3jDjiEs5r_VqvyVI7UfYOieK86hfqeo-NuKOd_zWU-ysRrth--TNAV6ePYMUTN8rHH7JAn8POa_gcusYN-fwIUN_ia7hlfBG30QMt9NaIWVWGmeQEdnkhcAnKpj5S55Dk9ZCM_YnMJ0"/>
+</div>
+<div class="px-1">
+<h3 class="font-label-md text-label-md text-on-surface truncate">Surface Laptop 5</h3>
+<div class="flex items-center gap-1 my-1">
+<span class="material-symbols-outlined text-tertiary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-[12px] font-bold text-on-surface">4.5</span>
+<span class="text-[12px] text-outline">(540)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-primary text-[18px]">$1,299</span>
+</div>
+<button class="mt-stack-sm w-full py-2 bg-surface-container-high text-on-surface font-label-md text-[12px] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">Quick View</button>
+</div>
+</div>
+</div>
+<!-- Recently Viewed Section -->
+<section class="mt-stack-lg pt-stack-lg border-t border-outline-variant">
+<h2 class="font-headline-md text-headline-md-mobile text-on-surface mb-stack-md">Recently Viewed</h2>
+<div class="flex gap-4 overflow-x-auto no-scrollbar -mx-margin-mobile px-margin-mobile pb-4">
+<div class="flex-shrink-0 w-32 bg-surface-container rounded-lg p-2 flex flex-col gap-2">
+<div class="aspect-square bg-white rounded flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A macro close-up of a sleek aluminum laptop keyboard with a large responsive trackpad, focused on the refined hinge mechanism and premium metallic finish. The lighting is soft and corporate with a slight blue tint, emphasizing technical precision and modern hardware elegance in a clean, minimalist setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuzhRXT717U4oLg7W8eHyEKRk-hcP8GU8vRfbCL_KybGHAx4Gq0YHAOtdtdBRCclu7N1uyanlzw2sNm4qBpO-XreqMFoKyQMcLjRwRxZg2z1mBpwrGqpN6OuLxEmXEgPBuT-0dZUNWYnhUnoNPtiwT-21dWUDCvKHZKRXU9zIE6jhUcP3HPPziXmTpBmiKbpi8fgsYWWwC0ecAa3_EQsQCYObtsN5ywcn2R_MxVTSiPvOIFm1CfkZiSiOiqNx1nWL1iPrhhXe51H8"/>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant truncate">ThinkPad X1 Carbon</span>
+</div>
+<div class="flex-shrink-0 w-32 bg-surface-container rounded-lg p-2 flex flex-col gap-2">
+<div class="aspect-square bg-white rounded flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A premium ASUS ZenBook laptop featuring a circular spun-metal finish on the lid, reflecting ambient gallery lighting. The device is thin and sophisticated, placed on a high-gloss black surface that creates a beautiful mirror reflection. The mood is elite and luxurious, highlighting high-speed performance through a lens of technical polish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhshG1gBhOEi5aKpbUVfY9wtKlTFBbYGC6US5X5Yy1-Fp4t5T1WNTFGUG1eCCob-lGdV7llkn0YeFRIt_ayooeu_-ATZqiHiIGmi5UKmRymOyqIStOpU5OAaWT8fOzigeIGQeDs47xnmPj-oAInnNFFtE0pCtkwHO9HDpFjy_JEOQAzpB0xAZLf1VI4ZwXyWZScZdGgPXKXEsgjS5VGDbHS5vbKtLluW0YYloBAOtaCgWHQYYp3Zyyvwm6JFKLB3OMmlry0itppbk"/>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant truncate">ZenBook S 13</span>
+</div>
+<div class="flex-shrink-0 w-32 bg-surface-container rounded-lg p-2 flex flex-col gap-2">
+<div class="aspect-square bg-white rounded flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A high-end Alienware gaming laptop with its iconic ring light glowing on the rear exhaust and a backlit alien logo on the lid. The laptop is set in a dim, mood-lit room with neon purple and blue atmospheric lighting, showcasing its aggressive but sophisticated performance-oriented industrial design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4ct1Xyc1GJIhtX5w6t6ucfRqgsiWFJ8rINJZBNjACDbb9mfKaPrvMl6anY0e9kOWmRj7yufJ57HHvK7YQlygFaNblpGEMUVMOPdBbmsf1q0eAB9Y2doEQs0JnJtzq_CwnfrEn6WGkHGKDDwnDRkgSX1YgbcRICOoif5Uq2X5PRfRCl89smghpBV5dkMn-PtxYX5Hfb0_DAJSudtG3Vc3mg2wpXZdOUVEBFbN1cfI2eptcG5pX_jzYtIQsoJThp1AWp_jYySXw_8I"/>
+</div>
+<span class="text-[10px] font-bold text-on-surface-variant truncate">Alienware m16</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Filter Drawer (Hidden by Default) -->
+<div class="fixed inset-0 z-[60] pointer-events-none transition-all duration-300" id="filterDrawer">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300" id="drawerBackdrop" onclick="toggleFilterDrawer()"></div>
+<!-- Drawer Panel -->
+<div class="absolute right-0 top-0 h-full w-[85%] max-w-sm bg-surface/90 glass-effect translate-x-full transition-transform duration-300 pointer-events-auto p-margin-mobile flex flex-col" id="drawerPanel">
+<div class="flex justify-between items-center mb-stack-lg">
+<h3 class="font-headline-md text-headline-md text-primary">Filters</h3>
+<button class="p-2" onclick="toggleFilterDrawer()"><span class="material-symbols-outlined">close</span></button>
+</div>
+<div class="flex-1 overflow-y-auto no-scrollbar space-y-stack-lg">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-stack-sm">Price Range</h4>
+<div class="h-1 bg-outline-variant rounded-full relative mb-stack-sm">
+<div class="absolute left-1/4 right-1/4 h-full bg-primary"></div>
+<div class="absolute left-1/4 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary border-2 border-white rounded-full shadow-md"></div>
+<div class="absolute right-1/4 top-1/2 -translate-y-1/2 w-4 h-4 bg-primary border-2 border-white rounded-full shadow-md"></div>
+</div>
+<div class="flex justify-between text-[12px] text-on-surface-variant">
+<span>$500</span>
+<span>$5,000+</span>
+</div>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-stack-sm">Processor</h4>
+<div class="grid grid-cols-2 gap-2">
+<label class="flex items-center gap-2 p-3 bg-surface-container-low rounded-xl cursor-pointer active:bg-primary-container transition-colors">
+<input class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="text-label-md">Apple M3</span>
+</label>
+<label class="flex items-center gap-2 p-3 bg-surface-container-low rounded-xl cursor-pointer">
+<input class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="text-label-md">Intel i9</span>
+</label>
+<label class="flex items-center gap-2 p-3 bg-surface-container-low rounded-xl cursor-pointer">
+<input class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="text-label-md">Ryzen 9</span>
+</label>
+<label class="flex items-center gap-2 p-3 bg-surface-container-low rounded-xl cursor-pointer">
+<input class="rounded text-primary focus:ring-primary w-5 h-5" type="checkbox"/>
+<span class="text-label-md">Intel i7</span>
+</label>
+</div>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-on-surface mb-stack-sm">Screen Size</h4>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 border border-outline-variant rounded-lg text-label-md">13-14"</button>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container rounded-lg text-label-md font-bold">15-16"</button>
+<button class="px-4 py-2 border border-outline-variant rounded-lg text-label-md">17"+</button>
+</div>
+</div>
+</div>
+<div class="pt-stack-lg border-t border-outline-variant flex gap-3">
+<button class="flex-1 py-3 border border-outline text-on-surface rounded-full font-button transition-colors" onclick="toggleFilterDrawer()">Reset</button>
+<button class="flex-[2] py-3 bg-primary text-on-primary rounded-full font-button shadow-lg shadow-primary/20 transition-all active:scale-95" onclick="toggleFilterDrawer()">Apply (128)</button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center py-2 px-margin-mobile pb-safe bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl shadow-[0px_-4px_20px_rgba(0,0,0,0.05)] z-50 rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low rounded-full px-4 py-1 transition-all active:scale-90">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-md text-[10px]">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-primary font-bold hover:bg-surface-container-low rounded-full px-4 py-1 transition-all active:scale-90">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">category</span>
+<span class="font-label-md text-[10px]">Categories</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low rounded-full px-4 py-1 transition-all active:scale-90">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-md text-[10px]">Wishlist</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low rounded-full px-4 py-1 transition-all active:scale-90">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-md text-[10px]">Account</span>
+</div>
+</nav>
+<script>
+        function toggleFilterDrawer() {
+            const drawer = document.getElementById('filterDrawer');
+            const backdrop = document.getElementById('drawerBackdrop');
+            const panel = document.getElementById('drawerPanel');
+            
+            if (drawer.classList.contains('pointer-events-none')) {
+                drawer.classList.remove('pointer-events-none');
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('translate-x-full');
+            } else {
+                drawer.classList.add('pointer-events-none');
+                backdrop.classList.add('opacity-0');
+                panel.classList.add('translate-x-full');
+            }
+        }
+        
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.product-card-hover').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.classList.add('shadow-xl');
+            });
+            card.addEventListener('touchend', () => {
+                card.classList.remove('shadow-xl');
+            });
+        });
+    </script>
+</body></html>

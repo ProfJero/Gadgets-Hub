@@ -1,0 +1,174 @@
+/* ====== CUSTOM STYLES ====== */
+
+/* Material Icons Configuration */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Glass Header Effect */
+.glass-header {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Step Completed State */
+.step-completed {
+  color: #914d00;
+}
+
+/* Custom Scrollbar for Order Summary */
+.max-h-64::-webkit-scrollbar {
+  width: 4px;
+}
+
+.max-h-64::-webkit-scrollbar-track {
+  background: #e2e2e2;
+  border-radius: 10px;
+}
+
+.max-h-64::-webkit-scrollbar-thumb {
+  background: #914d00;
+  border-radius: 10px;
+}
+
+.max-h-64::-webkit-scrollbar-thumb:hover {
+  background: #6e3900;
+}
+
+/* Payment Option Hover Effects */
+label.border-outline-variant:hover {
+  border-color: #914d50;
+  transition: border-color 0.2s ease;
+}
+
+/* Active Payment Method Animation */
+label.border-primary {
+  transition: all 0.3s ease;
+}
+
+/* Button Press Effect */
+button:active {
+  transform: scale(0.98);
+}
+
+/* Smooth Transitions */
+.transition-all {
+  transition-duration: 300ms;
+}
+
+/* Focus States */
+input:focus,
+select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(145, 77, 0, 0.1);
+}
+
+/* Radio Button Customization */
+input[type="radio"]:checked {
+  accent-color: #914d00;
+}
+
+input[type="checkbox"]:checked {
+  accent-color: #914d00;
+}
+
+/* Progress Stepper Line Animation */
+.absolute.top-1\/2.left-0.w-full.h-0\.5 {
+  transition: width 0.7s ease-in-out;
+}
+
+/* Trust Badge Icon Sizing */
+.material-symbols-outlined.text-primary {
+  font-size: 28px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .glass-header {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  
+  .max-h-64 {
+    max-height: 48px;
+  }
+  
+  label.p-lg {
+    padding: 16px;
+  }
+  
+  .w-12.h-12 {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .material-symbols-outlined.text-3xl {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .px-margin-mobile {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  
+  .py-xl {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  
+  .gap-lg {
+    gap: 16px;
+  }
+  
+  .space-y-md > * + * {
+    margin-top: 12px;
+  }
+}
+
+/* Loading State for Buttons (Optional) */
+button.loading {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+button.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  right: 16px;
+  margin-top: -8px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Print Styles */
+@media print {
+  .glass-header {
+    position: static;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  
+  .sticky {
+    position: static;
+  }
+  
+  button {
+    display: none !important;
+  }
+  
+  .border {
+    border-color: #ccc !important;
+  }
+}

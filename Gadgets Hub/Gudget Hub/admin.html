@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>GAOGETS HUB · Admin Console</title>
+  
+  <!-- Tailwind + Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "brand-orange": "#E46A1A",
+            "brand-orange-light": "#FF8C42",
+            "brand-orange-dark": "#B5520F",
+            "brand-orange-soft": "#FEF3E9",
+            "brand-blue": "#1A5B8C",
+            "brand-blue-light": "#3A7BBF",
+            "brand-blue-dark": "#0E3D61",
+            "brand-blue-soft": "#E8F0F8",
+            "trust": "#2E2A29",
+            "trust-light": "#4A4543",
+            "surface": "#FAF6F2",
+            "surface-card": "#FFFFFF",
+            "outline": "#E6DCD2",
+            "muted": "#7C6F64"
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          borderRadius: { 'xl': '1rem', '2xl': '1.5rem' },
+          boxShadow: {
+            'soft': '0 8px 24px rgba(0,0,0,0.04)',
+            'card': '0 4px 12px rgba(26, 91, 140, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #FAF6F2; color: #2E2A29; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    .active-nav { background-color: #E46A1A; color: #ffffff !important; }
+    .glass-header { backdrop-filter: blur(12px); background-color: rgba(255, 255, 255, 0.85); }
+    .sidebar-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      max-width: 85vw;
+      height: 100%;
+      background: white;
+      z-index: 60;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      padding-top: 20px;
+      overflow-y: auto;
+      box-shadow: 4px 0 30px rgba(0,0,0,0.1);
+    }
+    .mobile-nav.open { transform: translateX(0); }
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 59;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.show { opacity: 1; pointer-events: auto; }
+    
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1A5B8C;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      max-width: 90vw;
+      text-align: center;
+    }
+    .toast-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    
+    .product-table th { background: #F5F0EB; font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #7C6F64; }
+    .product-table td { padding: 12px 16px; border-bottom: 1px solid #E6DCD2; vertical-align: middle; }
+    .product-table tr:hover { background: #FEF3E9; }
+    
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.show { opacity: 1; pointer-events: auto; }
+    .modal-content {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      background: white;
+      z-index: 201;
+      max-width: 600px;
+      width: 95%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 16px;
+      padding: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .modal-content.show { opacity: 1; pointer-events: auto; transform: translate(-50%, -50%) scale(1); }
+    
+    .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #E6DCD2;
+      border-radius: 8px;
+      background: #FAF6F2;
+      transition: all 0.2s;
+      font-size: 14px;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #E46A1A;
+      box-shadow: 0 0 0 3px rgba(228, 106, 26, 0.1);
+      background: white;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #2E2A29;
+      margin-bottom: 4px;
+    }
+    
+    .badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-active { background: #E8F0F8; color: #1A5B8C; }
+    .badge-inactive { background: #FEF3E9; color: #B5520F; }
+    .badge-success { background: #E8F5E9; color: #2E7D32; }
+    .badge-warning { background: #FFF3E0; color: #E65100; }
+    .badge-danger { background: #FFEBEE; color: #C62828; }
+    
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+    
+    /* User avatar */
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: white;
+    }
+    
+    /* Image preview */
+    .image-preview {
+      max-width: 100%;
+      max-height: 150px;
+      border-radius: 8px;
+      border: 1px solid #E6DCD2;
+      object-fit: contain;
+      background: #FAF6F2;
+    }
+    .image-preview.error {
+      display: none;
+    }
+  </style>
+</head>
+<body class="flex min-h-screen">
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar-transition hidden lg:flex flex-col h-screen py-4 md:py-6 w-64 bg-surface-card border-r border-outline/60 fixed left-0 top-0 z-40" id="sidebar">
+    <div class="px-4 md:px-6 mb-6 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-lg bg-brand-orange flex items-center justify-center">
+        <i class="fas fa-store text-white text-lg"></i>
+      </div>
+      <div>
+        <h2 class="font-bold text-sm text-trust">Admin Console</h2>
+        <p class="text-xs text-muted">GAOGETS HUB</p>
+      </div>
+    </div>
+    
+    <nav class="flex-1 space-y-1 overflow-y-auto px-2" id="sidebarNav">
+      <a class="nav-link active-nav bg-brand-orange text-white font-bold rounded-lg px-4 py-3 flex items-center gap-3 transition-all" data-page="products" href="#">
+        <i class="fas fa-boxes w-5 text-center"></i>
+        <span class="text-sm font-semibold">Products</span>
+      </a>
+      <a class="nav-link text-trust-light hover:bg-brand-orange-soft px-4 py-3 rounded-lg flex items-center gap-3 transition-colors" data-page="users" href="#">
+        <i class="fas fa-users w-5 text-center"></i>
+        <span class="text-sm font-medium">Users</span>
+      </a>
+      <a class="nav-link text-trust-light hover:bg-brand-orange-soft px-4 py-3 rounded-lg flex items-center gap-3 transition-colors" data-page="orders" href="#">
+        <i class="fas fa-shopping-cart w-5 text-center"></i>
+        <span class="text-sm font-medium">Orders</span>
+      </a>
+      <a class="nav-link text-trust-light hover:bg-brand-orange-soft px-4 py-3 rounded-lg flex items-center gap-3 transition-colors" data-page="analytics" href="#">
+        <i class="fas fa-chart-line w-5 text-center"></i>
+        <span class="text-sm font-medium">Analytics</span>
+      </a>
+      <a class="nav-link text-trust-light hover:bg-brand-orange-soft px-4 py-3 rounded-lg flex items-center gap-3 transition-colors" data-page="settings" href="#">
+        <i class="fas fa-cog w-5 text-center"></i>
+        <span class="text-sm font-medium">Settings</span>
+      </a>
+    </nav>
+    
+    <div class="px-4 md:px-6 mt-auto pt-4 border-t border-outline/60 space-y-2">
+      <button id="addProductBtn" class="w-full bg-brand-orange hover:bg-brand-orange-dark text-white font-bold py-2.5 rounded-lg flex items-center justify-center gap-2 transition text-sm">
+        <i class="fas fa-plus-circle"></i>
+        <span>Add Product</span>
+      </button>
+      <a class="text-trust-light hover:bg-brand-orange-soft px-4 py-2.5 rounded-lg flex items-center gap-3 transition-colors text-sm" href="index.html" target="_blank">
+        <i class="fas fa-external-link-alt w-5 text-center"></i>
+        <span>View Store</span>
+      </a>
+      <a class="text-trust-light hover:bg-brand-orange-soft px-4 py-2.5 rounded-lg flex items-center gap-3 transition-colors text-sm" href="#">
+        <i class="fas fa-sign-out-alt w-5 text-center"></i>
+        <span>Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ===== MOBILE NAV ===== -->
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+  <nav id="mobileNav" class="mobile-nav">
+    <div class="px-5 py-4 border-b border-outline/60 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center">
+          <i class="fas fa-store text-white text-sm"></i>
+        </div>
+        <span class="font-bold text-brand-orange text-base">Admin Console</span>
+      </div>
+      <button id="closeMobileMenu" class="text-trust-light text-xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="px-5 py-4 space-y-2" id="mobileNavLinks">
+      <a class="nav-link block bg-brand-orange text-white font-bold rounded-lg px-4 py-3 flex items-center gap-3" data-page="products" href="#">
+        <i class="fas fa-boxes w-5"></i> Products
+      </a>
+      <a class="nav-link block text-trust-light hover:bg-brand-orange-soft rounded-lg px-4 py-3 flex items-center gap-3 transition" data-page="users" href="#">
+        <i class="fas fa-users w-5"></i> Users
+      </a>
+      <a class="nav-link block text-trust-light hover:bg-brand-orange-soft rounded-lg px-4 py-3 flex items-center gap-3 transition" data-page="orders" href="#">
+        <i class="fas fa-shopping-cart w-5"></i> Orders
+      </a>
+      <a class="nav-link block text-trust-light hover:bg-brand-orange-soft rounded-lg px-4 py-3 flex items-center gap-3 transition" data-page="analytics" href="#">
+        <i class="fas fa-chart-line w-5"></i> Analytics
+      </a>
+      <a class="nav-link block text-trust-light hover:bg-brand-orange-soft rounded-lg px-4 py-3 flex items-center gap-3 transition" data-page="settings" href="#">
+        <i class="fas fa-cog w-5"></i> Settings
+      </a>
+      <hr class="border-outline/60" />
+      <a href="index.html" target="_blank" class="block text-trust-light hover:bg-brand-orange-soft rounded-lg px-4 py-3 flex items-center gap-3 transition">
+        <i class="fas fa-external-link-alt w-5"></i> View Store
+      </a>
+      <a href="#" class="block text-red-500 hover:bg-red-50 rounded-lg px-4 py-3 flex items-center gap-3 transition">
+        <i class="fas fa-sign-out-alt w-5"></i> Logout
+      </a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="flex-1 lg:ml-64 transition-all duration-300">
+    <!-- Top App Bar -->
+    <header class="glass-header sticky top-0 z-30 border-b border-outline/60 px-4 md:px-6 py-3">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button id="mobileMenuToggle" class="lg:hidden text-trust-light hover:text-brand-orange transition text-2xl">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-black text-brand-orange">GAOGETS</span>
+            <span class="text-[10px] font-bold text-brand-blue">HUB</span>
+            <span class="text-xs text-muted ml-2 hidden sm:inline">| Admin</span>
+          </div>
+        </div>
+        
+        <div class="flex-1 max-w-md mx-4 hidden md:block">
+          <div class="relative">
+            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-muted text-sm"></i>
+            <input id="globalSearch" class="w-full pl-9 pr-4 py-2 bg-surface border border-outline rounded-lg focus:ring-2 focus:ring-brand-orange focus:border-brand-orange transition-all text-sm" placeholder="Search..." type="text" />
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <button class="text-trust-light hover:text-brand-orange transition p-1.5 relative">
+            <i class="far fa-bell text-xl"></i>
+            <span class="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          <div class="h-8 w-8 md:h-10 md:w-10 rounded-full overflow-hidden border-2 border-brand-orange/30 cursor-pointer">
+            <img alt="Admin" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=Admin&background=E46A1A&color=fff&size=40" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: PRODUCTS -->
+    <!-- ============================================================ -->
+    <div id="page-products" class="page-section active px-4 md:px-6 py-6 max-w-7xl mx-auto">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-trust">Product Management</h2>
+          <p class="text-sm text-muted">Manage all products in your store</p>
+        </div>
+        <button id="addProductBtnTop" class="bg-brand-orange hover:bg-brand-orange-dark text-white font-bold px-5 py-2.5 rounded-lg flex items-center gap-2 transition text-sm">
+          <i class="fas fa-plus-circle"></i> Add New Product
+        </button>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Total Products</p>
+          <p class="text-2xl font-bold text-trust" id="totalProducts">0</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Categories</p>
+          <p class="text-2xl font-bold text-trust">4</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">In Stock</p>
+          <p class="text-2xl font-bold text-green-600" id="inStockCount">0</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Out of Stock</p>
+          <p class="text-2xl font-bold text-red-500" id="outOfStockCount">0</p>
+        </div>
+      </div>
+
+      <div class="bg-surface-card border border-outline/60 rounded-xl overflow-hidden shadow-soft">
+        <div class="overflow-x-auto">
+          <table class="product-table w-full">
+            <thead>
+              <tr>
+                <th class="px-4 py-3 text-left">Product</th>
+                <th class="px-4 py-3 text-left hidden md:table-cell">Brand</th>
+                <th class="px-4 py-3 text-left hidden sm:table-cell">Category</th>
+                <th class="px-4 py-3 text-left">Price</th>
+                <th class="px-4 py-3 text-left hidden lg:table-cell">Status</th>
+                <th class="px-4 py-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody">
+              <tr>
+                <td colspan="6" class="text-center py-8 text-muted">
+                  <i class="fas fa-spinner fa-spin text-2xl text-brand-orange"></i>
+                  <p class="mt-2">Loading products...</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: USERS -->
+    <!-- ============================================================ -->
+    <div id="page-users" class="page-section px-4 md:px-6 py-6 max-w-7xl mx-auto">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-trust">User Management</h2>
+          <p class="text-sm text-muted">Manage all users on the platform</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="bg-brand-blue hover:bg-brand-blue-dark text-white font-bold px-4 py-2 rounded-lg transition text-sm">
+            <i class="fas fa-user-plus mr-2"></i> Add User
+          </button>
+          <button class="bg-surface border border-outline text-trust hover:bg-outline/30 font-bold px-4 py-2 rounded-lg transition text-sm">
+            <i class="fas fa-file-export mr-2"></i> Export
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Total Users</p>
+          <p class="text-2xl font-bold text-trust" id="totalUsers">1,247</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Active This Month</p>
+          <p class="text-2xl font-bold text-green-600" id="activeUsers">892</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">New This Week</p>
+          <p class="text-2xl font-bold text-brand-blue" id="newUsers">43</p>
+        </div>
+      </div>
+
+      <div class="bg-surface-card border border-outline/60 rounded-xl overflow-hidden shadow-soft">
+        <div class="overflow-x-auto">
+          <table class="product-table w-full">
+            <thead>
+              <tr>
+                <th class="px-4 py-3 text-left">User</th>
+                <th class="px-4 py-3 text-left hidden md:table-cell">Email</th>
+                <th class="px-4 py-3 text-left hidden sm:table-cell">Role</th>
+                <th class="px-4 py-3 text-left">Status</th>
+                <th class="px-4 py-3 text-left hidden lg:table-cell">Joined</th>
+                <th class="px-4 py-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="user-avatar bg-brand-orange">KA</div>
+                    <div>
+                      <p class="font-semibold text-sm text-trust">Kwame Ansah</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="hidden md:table-cell text-sm text-muted">kwame@email.com</td>
+                <td class="hidden sm:table-cell"><span class="badge badge-active">Admin</span></td>
+                <td><span class="badge badge-success">Active</span></td>
+                <td class="hidden lg:table-cell text-sm text-muted">Jan 15, 2024</td>
+                <td class="text-right">
+                  <button class="text-brand-blue hover:text-brand-blue-dark transition p-1"><i class="fas fa-edit"></i></button>
+                  <button class="text-red-500 hover:text-red-700 transition p-1"><i class="fas fa-trash-alt"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="user-avatar bg-brand-blue">AM</div>
+                    <div>
+                      <p class="font-semibold text-sm text-trust">Ama Mensah</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="hidden md:table-cell text-sm text-muted">ama@email.com</td>
+                <td class="hidden sm:table-cell"><span class="badge badge-warning">Vendor</span></td>
+                <td><span class="badge badge-success">Active</span></td>
+                <td class="hidden lg:table-cell text-sm text-muted">Feb 3, 2024</td>
+                <td class="text-right">
+                  <button class="text-brand-blue hover:text-brand-blue-dark transition p-1"><i class="fas fa-edit"></i></button>
+                  <button class="text-red-500 hover:text-red-700 transition p-1"><i class="fas fa-trash-alt"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="user-avatar bg-brand-orange-dark">JK</div>
+                    <div>
+                      <p class="font-semibold text-sm text-trust">John Kofi</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="hidden md:table-cell text-sm text-muted">john@email.com</td>
+                <td class="hidden sm:table-cell"><span class="badge badge-inactive">Customer</span></td>
+                <td><span class="badge badge-danger">Suspended</span></td>
+                <td class="hidden lg:table-cell text-sm text-muted">Mar 20, 2024</td>
+                <td class="text-right">
+                  <button class="text-brand-blue hover:text-brand-blue-dark transition p-1"><i class="fas fa-edit"></i></button>
+                  <button class="text-red-500 hover:text-red-700 transition p-1"><i class="fas fa-trash-alt"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="flex items-center gap-3">
+                    <div class="user-avatar bg-teal-600">EA</div>
+                    <div>
+                      <p class="font-semibold text-sm text-trust">Esi Adjei</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="hidden md:table-cell text-sm text-muted">esi@email.com</td>
+                <td class="hidden sm:table-cell"><span class="badge badge-active">Customer</span></td>
+                <td><span class="badge badge-success">Active</span></td>
+                <td class="hidden lg:table-cell text-sm text-muted">Apr 5, 2024</td>
+                <td class="text-right">
+                  <button class="text-brand-blue hover:text-brand-blue-dark transition p-1"><i class="fas fa-edit"></i></button>
+                  <button class="text-red-500 hover:text-red-700 transition p-1"><i class="fas fa-trash-alt"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: ORDERS -->
+    <!-- ============================================================ -->
+    <div id="page-orders" class="page-section px-4 md:px-6 py-6 max-w-7xl mx-auto">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-trust">Order Management</h2>
+          <p class="text-sm text-muted">View and manage all orders</p>
+        </div>
+        <div class="flex gap-2">
+          <select class="border border-outline rounded-lg px-3 py-2 text-sm bg-surface focus:ring-2 focus:ring-brand-orange">
+            <option>All Status</option>
+            <option>Pending</option>
+            <option>Processing</option>
+            <option>Shipped</option>
+            <option>Delivered</option>
+            <option>Cancelled</option>
+          </select>
+          <button class="bg-surface border border-outline text-trust hover:bg-outline/30 font-bold px-4 py-2 rounded-lg transition text-sm">
+            <i class="fas fa-file-export mr-2"></i> Export
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Total Orders</p>
+          <p class="text-2xl font-bold text-trust">156</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Pending</p>
+          <p class="text-2xl font-bold text-orange-500">23</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Shipped</p>
+          <p class="text-2xl font-bold text-brand-blue">45</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Delivered</p>
+          <p class="text-2xl font-bold text-green-600">78</p>
+        </div>
+      </div>
+
+      <div class="bg-surface-card border border-outline/60 rounded-xl overflow-hidden shadow-soft">
+        <div class="overflow-x-auto">
+          <table class="product-table w-full">
+            <thead>
+              <tr>
+                <th class="px-4 py-3 text-left">Order ID</th>
+                <th class="px-4 py-3 text-left hidden md:table-cell">Customer</th>
+                <th class="px-4 py-3 text-left">Total</th>
+                <th class="px-4 py-3 text-left hidden sm:table-cell">Status</th>
+                <th class="px-4 py-3 text-left hidden lg:table-cell">Date</th>
+                <th class="px-4 py-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-mono text-sm font-semibold">#ORD-001</td>
+                <td class="hidden md:table-cell text-sm">Kwame Ansah</td>
+                <td class="font-bold text-brand-orange text-sm">₵1,850</td>
+                <td class="hidden sm:table-cell"><span class="badge badge-warning">Pending</span></td>
+                <td class="hidden lg:table-cell text-sm text-muted">Today, 2:30pm</td>
+                <td class="text-right">
+                  <button class="text-brand-blue hover:text-brand-blue-dark transition p-1"><i class="fas fa-eye"></i></button>
+                  <button class="text-green-600 hover:text-green-700 transition p-1"><i class="fas fa-check"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-mono text-sm font-semibold">#ORD-002</td>
+                <td class="hidden md:table-cell text-sm">Ama Mensah</td>
+                <td class="font-bold text-brand-orange text-sm">₵5,200</td>
+                <td class="hidden sm:table-cell"><span class="badge badge-active">Processing</span></td>
+                <td class="hidden lg:table-cell text-sm text-muted">Yesterday, 4:15pm</td>
+                <td class="text-right">
+                  <button class="text-brand-blue hover:text-brand-blue-dark transition p-1"><i class="fas fa-eye"></i></button>
+                  <button class="text-green-600 hover:text-green-700 transition p-1"><i class="fas fa-check"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-mono text-sm font-semibold">#ORD-003</td>
+                <td class="hidden md:table-cell text-sm">John Kofi</td>
+                <td class="font-bold text-brand-orange text-sm">₵6,800</td>
+                <td class="hidden sm:table-cell"><span class="badge badge-success">Delivered</span></td>
+                <td class="hidden lg:table-cell text-sm text-muted">Apr 12, 2024</td>
+                <td class="text-right">
+                  <button class="text-brand-blue hover:text-brand-blue-dark transition p-1"><i class="fas fa-eye"></i></button>
+                  <button class="text-green-600 hover:text-green-700 transition p-1"><i class="fas fa-check"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td class="font-mono text-sm font-semibold">#ORD-004</td>
+                <td class="hidden md:table-cell text-sm">Esi Adjei</td>
+                <td class="font-bold text-brand-orange text-sm">₵4,200</td>
+                <td class="hidden sm:table-cell"><span class="badge badge-danger">Cancelled</span></td>
+                <td class="hidden lg:table-cell text-sm text-muted">Apr 10, 2024</td>
+                <td class="text-right">
+                  <button class="text-brand-blue hover:text-brand-blue-dark transition p-1"><i class="fas fa-eye"></i></button>
+                  <button class="text-green-600 hover:text-green-700 transition p-1"><i class="fas fa-check"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: ANALYTICS -->
+    <!-- ============================================================ -->
+    <div id="page-analytics" class="page-section px-4 md:px-6 py-6 max-w-7xl mx-auto">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-trust">Analytics Dashboard</h2>
+          <p class="text-sm text-muted">View platform analytics and insights</p>
+        </div>
+        <div class="flex gap-2">
+          <select class="border border-outline rounded-lg px-3 py-2 text-sm bg-surface focus:ring-2 focus:ring-brand-orange">
+            <option>Last 7 Days</option>
+            <option>Last 30 Days</option>
+            <option>Last 90 Days</option>
+            <option>This Year</option>
+          </select>
+          <button class="bg-brand-blue hover:bg-brand-blue-dark text-white font-bold px-4 py-2 rounded-lg transition text-sm">
+            <i class="fas fa-download mr-2"></i> Report
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Revenue (30d)</p>
+          <p class="text-2xl font-bold text-trust">₵142,850</p>
+          <p class="text-xs text-green-600"><i class="fas fa-arrow-up mr-1"></i> 12.5%</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Orders (30d)</p>
+          <p class="text-2xl font-bold text-trust">1,247</p>
+          <p class="text-xs text-green-600"><i class="fas fa-arrow-up mr-1"></i> 8.3%</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Conversion Rate</p>
+          <p class="text-2xl font-bold text-trust">3.8%</p>
+          <p class="text-xs text-green-600"><i class="fas fa-arrow-up mr-1"></i> 0.4%</p>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4">
+          <p class="text-xs text-muted">Avg. Order Value</p>
+          <p class="text-2xl font-bold text-trust">₵114.50</p>
+          <p class="text-xs text-red-500"><i class="fas fa-arrow-down mr-1"></i> 2.1%</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-6 shadow-soft">
+          <h3 class="font-semibold text-sm text-trust mb-4">Sales Overview</h3>
+          <div class="h-48 flex items-end gap-2 pt-4">
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-brand-orange/80 rounded-t" style="height: 40%"></div>
+              <span class="text-xs text-muted">Mon</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-brand-orange/80 rounded-t" style="height: 65%"></div>
+              <span class="text-xs text-muted">Tue</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-brand-orange/80 rounded-t" style="height: 30%"></div>
+              <span class="text-xs text-muted">Wed</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-brand-orange/80 rounded-t" style="height: 80%"></div>
+              <span class="text-xs text-muted">Thu</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-brand-orange/80 rounded-t" style="height: 55%"></div>
+              <span class="text-xs text-muted">Fri</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-brand-orange/80 rounded-t" style="height: 90%"></div>
+              <span class="text-xs text-muted">Sat</span>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-1">
+              <div class="w-full bg-brand-orange/80 rounded-t" style="height: 45%"></div>
+              <span class="text-xs text-muted">Sun</span>
+            </div>
+          </div>
+        </div>
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-6 shadow-soft">
+          <h3 class="font-semibold text-sm text-trust mb-4">Top Categories</h3>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span>Gaming</span>
+                <span class="font-semibold">42%</span>
+              </div>
+              <div class="w-full h-2 bg-outline/30 rounded-full overflow-hidden">
+                <div class="h-full bg-brand-orange rounded-full" style="width: 42%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span>Business</span>
+                <span class="font-semibold">28%</span>
+              </div>
+              <div class="w-full h-2 bg-outline/30 rounded-full overflow-hidden">
+                <div class="h-full bg-brand-blue rounded-full" style="width: 28%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span>Student</span>
+                <span class="font-semibold">20%</span>
+              </div>
+              <div class="w-full h-2 bg-outline/30 rounded-full overflow-hidden">
+                <div class="h-full bg-green-500 rounded-full" style="width: 20%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-1">
+                <span>Accessories</span>
+                <span class="font-semibold">10%</span>
+              </div>
+              <div class="w-full h-2 bg-outline/30 rounded-full overflow-hidden">
+                <div class="h-full bg-purple-500 rounded-full" style="width: 10%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PAGE: SETTINGS -->
+    <!-- ============================================================ -->
+    <div id="page-settings" class="page-section px-4 md:px-6 py-6 max-w-7xl mx-auto">
+      <div>
+        <h2 class="text-xl md:text-2xl font-bold text-trust mb-6">Settings</h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 space-y-6">
+          <!-- General Settings -->
+          <div class="bg-surface-card border border-outline/60 rounded-xl p-6 shadow-soft">
+            <h3 class="font-bold text-base text-trust mb-4">General Settings</h3>
+            <div class="space-y-4">
+              <div>
+                <label class="form-label">Store Name</label>
+                <input type="text" class="form-input" value="GAOGETS HUB" />
+              </div>
+              <div>
+                <label class="form-label">Store Description</label>
+                <textarea class="form-input" rows="2">Where Tech Meets Trust. Premium laptops for every need.</textarea>
+              </div>
+              <div>
+                <label class="form-label">Currency</label>
+                <select class="form-input">
+                  <option>₵ Ghana Cedis (GHS)</option>
+                  <option>$ US Dollar (USD)</option>
+                  <option>€ Euro (EUR)</option>
+                </select>
+              </div>
+              <button class="bg-brand-orange hover:bg-brand-orange-dark text-white font-bold px-6 py-2 rounded-lg transition text-sm">
+                Save Settings
+              </button>
+            </div>
+          </div>
+
+          <!-- Shipping Settings -->
+          <div class="bg-surface-card border border-outline/60 rounded-xl p-6 shadow-soft">
+            <h3 class="font-bold text-base text-trust mb-4">Shipping Settings</h3>
+            <div class="space-y-4">
+              <div>
+                <label class="form-label">Free Delivery Threshold (₵)</label>
+                <input type="number" class="form-input" value="30000" />
+              </div>
+              <div>
+                <label class="form-label">Standard Shipping Fee (₵)</label>
+                <input type="number" class="form-input" value="45" />
+              </div>
+              <div>
+                <label class="form-label">Express Shipping Fee (₵)</label>
+                <input type="number" class="form-input" value="85" />
+              </div>
+              <button class="bg-brand-orange hover:bg-brand-orange-dark text-white font-bold px-6 py-2 rounded-lg transition text-sm">
+                Save Settings
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Store Info -->
+          <div class="bg-surface-card border border-outline/60 rounded-xl p-6 shadow-soft text-center">
+            <div class="w-20 h-20 rounded-full bg-brand-orange/10 flex items-center justify-center mx-auto mb-3">
+              <i class="fas fa-store text-brand-orange text-3xl"></i>
+            </div>
+            <h3 class="font-bold text-base text-trust">GAOGETS HUB</h3>
+            <p class="text-xs text-muted">Premium Laptop Store</p>
+            <div class="mt-4 pt-4 border-t border-outline/60">
+              <p class="text-sm text-muted">Store Status</p>
+              <span class="badge badge-success">Active</span>
+            </div>
+            <div class="mt-3">
+              <p class="text-sm text-muted">Products</p>
+              <p class="text-xl font-bold text-trust" id="settingsProductCount">0</p>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="bg-surface-card border border-outline/60 rounded-xl p-6 shadow-soft">
+            <h3 class="font-bold text-sm text-trust mb-3">Quick Actions</h3>
+            <div class="space-y-2">
+              <button class="w-full bg-brand-orange-soft text-brand-orange-dark font-semibold px-4 py-2 rounded-lg hover:bg-brand-orange/10 transition text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-plus-circle"></i> Add Product
+              </button>
+              <button class="w-full bg-brand-blue-soft text-brand-blue font-semibold px-4 py-2 rounded-lg hover:bg-brand-blue/10 transition text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-database"></i> Backup Data
+              </button>
+              <button class="w-full bg-red-50 text-red-500 font-semibold px-4 py-2 rounded-lg hover:bg-red-100 transition text-sm flex items-center justify-center gap-2">
+                <i class="fas fa-undo-alt"></i> Clear Cache
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-outline/60 mt-8">
+      <div class="max-w-7xl mx-auto px-4 md:px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-2">
+        <p class="text-xs text-muted">© 2024 GAOGETS HUB. Admin Console</p>
+        <div class="flex gap-4 text-xs text-muted">
+          <a class="hover:text-brand-orange transition" href="#">Help</a>
+          <a class="hover:text-brand-orange transition" href="#">Documentation</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ===== ADD/EDIT PRODUCT MODAL ===== -->
+  <div id="modalOverlay" class="modal-overlay"></div>
+  <div id="productModal" class="modal-content">
+    <div class="flex items-center justify-between mb-5">
+      <h3 class="text-xl font-bold text-trust" id="modalTitle">Add New Product</h3>
+      <button id="closeModalBtn" class="text-trust-light hover:text-brand-orange transition text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <form id="productForm" class="space-y-4">
+      <input type="hidden" id="productId" value="" />
+      
+      <div>
+        <label class="form-label">Product Name *</label>
+        <input type="text" id="productName" class="form-input" placeholder="e.g. MacBook Pro M3" required />
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="form-label">Brand *</label>
+          <input type="text" id="productBrand" class="form-input" placeholder="e.g. Apple" required />
+        </div>
+        <div>
+          <label class="form-label">Category *</label>
+          <select id="productCategory" class="form-input" required>
+            <option value="">Select Category</option>
+            <option value="gaming">Gaming</option>
+            <option value="business">Business</option>
+            <option value="student">Student</option>
+            <option value="accessories">Accessories</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="form-label">Price (₵) *</label>
+          <input type="number" id="productPrice" class="form-input" placeholder="e.g. 4200" step="0.01" required />
+        </div>
+        <div>
+          <label class="form-label">Original Price (₵)</label>
+          <input type="number" id="productOriginalPrice" class="form-input" placeholder="e.g. 5200" step="0.01" />
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="form-label">Rating (1-5)</label>
+          <input type="number" id="productRating" class="form-input" placeholder="e.g. 4.5" min="0" max="5" step="0.1" value="4.5" />
+        </div>
+        <div>
+          <label class="form-label">Reviews Count</label>
+          <input type="number" id="productReviews" class="form-input" placeholder="e.g. 128" value="0" />
+        </div>
+      </div>
+      
+      <div>
+        <label class="form-label">Image URL *</label>
+        <input type="url" id="productImage" class="form-input" placeholder="https://drive.google.com/uc?export=view&id=..." required />
+        <p class="text-xs text-muted mt-1">
+          <i class="fas fa-info-circle"></i> Use Google Drive direct link: <span class="font-mono text-xs">https://drive.google.com/uc?export=view&id=YOUR_FILE_ID</span>
+        </p>
+        <div class="mt-2">
+          <img id="imagePreview" class="image-preview hidden" alt="Image preview" />
+        </div>
+      </div>
+      
+      <div>
+        <label class="form-label">Badge (optional)</label>
+        <select id="productBadge" class="form-input">
+          <option value="">None</option>
+          <option value="-25%">-25%</option>
+          <option value="-40%">-40%</option>
+          <option value="BESTSELLER">BESTSELLER</option>
+          <option value="NEW">NEW</option>
+          <option value="LIMITED">LIMITED</option>
+        </select>
+      </div>
+      
+      <div>
+        <label class="form-label">Description</label>
+        <textarea id="productDescription" class="form-input" rows="3" placeholder="Brief product description..."></textarea>
+      </div>
+      
+      <div class="flex gap-3 pt-2">
+        <button type="submit" class="flex-1 bg-brand-orange hover:bg-brand-orange-dark text-white font-bold py-2.5 rounded-lg transition text-sm">
+          <i class="fas fa-save mr-2"></i> Save Product
+        </button>
+        <button type="button" id="cancelModalBtn" class="px-6 bg-surface hover:bg-outline/30 text-trust font-bold py-2.5 rounded-lg transition text-sm">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ===== DELETE CONFIRM MODAL ===== -->
+  <div id="deleteOverlay" class="modal-overlay"></div>
+  <div id="deleteModal" class="modal-content" style="max-width: 420px;">
+    <div class="text-center">
+      <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-trash-alt text-red-500 text-2xl"></i>
+      </div>
+      <h3 class="text-xl font-bold text-trust mb-2">Delete Product?</h3>
+      <p class="text-muted text-sm mb-5">This action cannot be undone. Are you sure you want to delete "<span id="deleteProductName" class="font-semibold text-trust"></span>"?</p>
+      <div class="flex gap-3">
+        <button id="confirmDeleteBtn" class="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-2.5 rounded-lg transition text-sm">
+          <i class="fas fa-trash-alt mr-2"></i> Delete
+        </button>
+        <button id="cancelDeleteBtn" class="flex-1 bg-surface hover:bg-outline/30 text-trust font-bold py-2.5 rounded-lg transition text-sm">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

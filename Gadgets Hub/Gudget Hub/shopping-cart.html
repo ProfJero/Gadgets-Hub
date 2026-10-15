@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>GAOGETS HUB · Shopping Cart</title>
+  
+  <!-- Tailwind + Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Material Symbols (for cart system compatibility) -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Tailwind Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            // Brand colors from GAOGETS HUB logo
+            "brand-orange": "#E46A1A",
+            "brand-orange-light": "#FF8C42",
+            "brand-orange-dark": "#B5520F",
+            "brand-orange-soft": "#FEF3E9",
+            "brand-blue": "#1A5B8C",
+            "brand-blue-light": "#3A7BBF",
+            "brand-blue-dark": "#0E3D61",
+            "brand-blue-soft": "#E8F0F8",
+            "trust": "#2E2A29",
+            "trust-light": "#4A4543",
+            "surface": "#FAF6F2",
+            "surface-card": "#FFFFFF",
+            "outline": "#E6DCD2",
+            "muted": "#7C6F64"
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          borderRadius: {
+            'xl': '1rem',
+            '2xl': '1.5rem',
+          },
+          boxShadow: {
+            'soft': '0 8px 24px rgba(0,0,0,0.04)',
+            'card': '0 4px 12px rgba(26, 91, 140, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* Toast notification */
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1A5B8C;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      max-width: 90vw;
+      text-align: center;
+    }
+    .toast-notification.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    
+    /* Mobile nav */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 60;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      padding-top: 70px;
+      overflow-y: auto;
+    }
+    .mobile-nav.open {
+      transform: translateX(0);
+    }
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 59;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    /* Cart item quantity */
+    .quantity-btn {
+      cursor: pointer;
+      user-select: none;
+    }
+    .quantity-input::-webkit-inner-spin-button,
+    .quantity-input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .quantity-input {
+      -moz-appearance: textfield;
+    }
+    
+    /* Cart item card hover */
+    .cart-item-card:hover {
+      border-color: #E46A1A;
+      box-shadow: 0 4px 12px rgba(228, 106, 26, 0.08);
+    }
+    
+    /* Remove button */
+    .remove-btn:hover {
+      color: #ba1a1a;
+    }
+  </style>
+</head>
+<body class="bg-surface text-trust font-sans antialiased overflow-x-hidden">
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div class="bg-brand-orange text-white py-2.5 text-center text-sm font-medium tracking-wide">
+    <i class="fas fa-tag mr-2 text-brand-orange-light"></i> Free delivery in Accra on orders over ₵500 • Ghana Independence Month Deals!
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white/80 backdrop-blur-xl sticky top-0 z-50 border-b border-outline shadow-soft">
+    <div class="flex items-center justify-between px-4 md:px-6 py-3 max-w-7xl mx-auto gap-3">
+      <!-- Mobile Menu Toggle -->
+      <button id="mobileMenuToggle" class="xl:hidden text-trust-light hover:text-brand-orange transition text-2xl p-1">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <!-- Logo -->
+      <a class="flex items-center gap-2 shrink-0" href="index.html">
+        <div class="flex flex-col leading-none">
+          <span class="text-xl md:text-2xl font-black tracking-tight text-brand-orange">GAOGETS</span>
+          <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] text-brand-blue">HUB</span>
+        </div>
+        <div class="hidden sm:block h-8 w-px bg-outline mx-1"></div>
+        <div class="hidden sm:block text-[10px] md:text-xs font-medium text-muted italic leading-tight">
+          WHERE <span class="text-brand-orange font-semibold">TECH</span><br>MEETS <span class="text-brand-blue font-semibold">TRUST</span>
+        </div>
+      </a>
+      
+      <!-- Search (desktop) -->
+      <div class="hidden md:flex flex-grow max-w-lg relative">
+        <input class="w-full h-11 pl-5 pr-12 rounded-full border border-outline bg-surface/70 focus:ring-2 focus:ring-brand-orange focus:border-brand-orange transition-all text-sm" placeholder="Search laptops..." type="text" />
+        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-orange hover:text-brand-orange-dark">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden xl:flex items-center gap-5 text-sm font-semibold">
+        <a class="text-brand-orange border-b-2 border-brand-orange pb-1" href="index.html">New Arrivals</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="index.html">Gaming</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="index.html">Business</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="index.html">Student</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="index.html">Accessories</a>
+      </nav>
+
+      <!-- Icons + Cart -->
+      <div class="flex items-center gap-2 md:gap-3">
+        <button class="text-trust-light hover:text-brand-orange transition hidden sm:inline-block"><i class="far fa-bell text-lg md:text-xl"></i></button>
+        <button class="text-trust-light hover:text-brand-orange transition hidden sm:inline-block"><i class="far fa-heart text-lg md:text-xl"></i></button>
+        <div class="hidden sm:block h-7 w-px bg-outline"></div>
+        <a href="cart.html" class="flex items-center gap-1 md:gap-1.5 bg-brand-blue-soft px-2 md:px-3 py-1.5 md:py-2 rounded-full hover:bg-brand-blue/10 transition">
+          <i class="fas fa-shopping-cart text-brand-blue text-sm md:text-base"></i>
+          <span class="text-xs md:text-sm font-bold text-trust hidden sm:inline">Cart</span>
+          <span class="cart-badge bg-brand-orange text-white text-[10px] font-bold px-1.5 md:px-2 py-0.5 rounded-full hidden">0</span>
+        </a>
+        <a href="index.html" class="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-trust/5 hover:bg-trust/10 transition">
+          <i class="far fa-user-circle text-lg md:text-xl text-trust-light"></i>
+          <span class="text-xs md:text-sm font-medium hidden sm:inline">Account</span>
+        </a>
+      </div>
+    </div>
+    
+    <!-- Mobile Search Bar -->
+    <div class="md:hidden px-4 pb-3 max-w-7xl mx-auto">
+      <div class="relative">
+        <input class="w-full h-10 pl-4 pr-10 rounded-full border border-outline bg-surface/70 focus:ring-2 focus:ring-brand-orange focus:border-brand-orange transition-all text-sm" placeholder="Search laptops..." type="text" />
+        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-orange">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE NAV OVERLAY ===== -->
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+  
+  <!-- ===== MOBILE NAV ===== -->
+  <nav id="mobileNav" class="mobile-nav">
+    <div class="px-6 py-4 border-b border-outline/60 flex justify-between items-center">
+      <span class="font-bold text-brand-orange text-xl">Menu</span>
+      <button id="closeMobileMenu" class="text-trust-light text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="px-6 py-4 space-y-4">
+      <a href="index.html" class="block text-lg font-semibold text-brand-orange border-l-4 border-brand-orange pl-3">New Arrivals</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-orange transition pl-3">Gaming</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-orange transition pl-3">Business</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-orange transition pl-3">Student</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-orange transition pl-3">Accessories</a>
+      <hr class="border-outline/60" />
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-blue transition pl-3"><i class="far fa-heart mr-2"></i> Wishlist</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-blue transition pl-3"><i class="far fa-bell mr-2"></i> Notifications</a>
+      <a href="index.html" class="block text-lg font-medium text-trust-light hover:text-brand-blue transition pl-3"><i class="far fa-user-circle mr-2"></i> My Account</a>
+      <a href="cart.html" class="block text-lg font-medium text-brand-orange hover:text-brand-orange-dark transition pl-3"><i class="fas fa-shopping-cart mr-2"></i> Cart</a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main class="max-w-7xl mx-auto px-4 md:px-6 py-4 md:py-6">
+    <div class="flex items-center justify-between mb-4 md:mb-6">
+      <h1 class="text-xl md:text-2xl font-bold text-trust">Your Shopping Cart</h1>
+      <span class="text-sm text-muted cart-item-count">0 items</span>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-start">
+      <!-- Left Column: Cart Items -->
+      <section class="lg:col-span-8 space-y-3 md:space-y-4">
+        <!-- Cart items will be rendered here by JavaScript -->
+        <div id="cartItemsContainer" class="space-y-3 md:space-y-4">
+          <!-- Empty state -->
+          <div class="text-center py-12 bg-white rounded-xl border border-outline/60">
+            <i class="fas fa-shopping-cart text-5xl text-muted/30 mb-4"></i>
+            <p class="text-muted font-medium">Your cart is empty</p>
+            <p class="text-sm text-muted mt-2">Start adding some laptops to your cart!</p>
+            <a href="index.html" class="inline-block mt-4 bg-brand-orange text-white font-bold px-6 py-2 rounded-full hover:bg-brand-orange-dark transition">
+              <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+            </a>
+          </div>
+        </div>
+
+        <!-- Shipping Estimator -->
+        <div class="bg-surface-card rounded-xl p-4 md:p-6 border border-outline/60 mt-6">
+          <h3 class="font-semibold text-base md:text-lg mb-3 flex items-center gap-2">
+            <i class="fas fa-truck text-brand-orange"></i>
+            Estimate Shipping &amp; Taxes
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div>
+              <label class="text-xs font-semibold text-trust block mb-1">City / Region</label>
+              <select class="w-full rounded-lg border border-outline focus:ring-2 focus:ring-brand-orange focus:border-brand-orange bg-surface text-sm h-10 px-3">
+                <option>Accra, Greater Accra</option>
+                <option>Kumasi, Ashanti</option>
+                <option>Tamale, Northern</option>
+                <option>Takoradi, Western</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-semibold text-trust block mb-1">Zip / Postal Code</label>
+              <input class="w-full rounded-lg border border-outline focus:ring-2 focus:ring-brand-orange focus:border-brand-orange bg-surface text-sm h-10 px-3" placeholder="e.g. GA123" type="text" />
+            </div>
+            <div class="flex items-end">
+              <button class="w-full bg-brand-blue text-white font-bold rounded-lg h-10 hover:bg-brand-blue-dark transition text-sm calculate-shipping">
+                Calculate
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Order Summary -->
+      <aside class="lg:col-span-4 sticky top-24">
+        <div class="bg-surface-card border border-outline/60 rounded-xl p-4 md:p-6 shadow-soft">
+          <h2 class="font-bold text-lg mb-4">Order Summary</h2>
+          <div class="space-y-2 border-b border-outline/60 pb-3 mb-3">
+            <div class="flex justify-between text-sm text-muted">
+              <span>Subtotal (<span class="cart-item-count-summary">0</span> items)</span>
+              <span class="subtotal-amount font-semibold text-trust">₵ 0.00</span>
+            </div>
+            <div class="flex justify-between text-sm text-muted">
+              <span>Shipping &amp; Handling</span>
+              <span class="shipping-amount font-semibold text-trust">₵ 45.00</span>
+            </div>
+            <div class="flex justify-between text-sm text-muted">
+              <span>Estimated Tax</span>
+              <span class="tax-amount font-semibold text-trust">₵ 0.00</span>
+            </div>
+          </div>
+          <!-- Promo Code -->
+          <div class="mb-3">
+            <label class="text-xs font-semibold text-trust block mb-1">Promo Code</label>
+            <div class="flex gap-2">
+              <input class="flex-1 rounded-lg border border-outline focus:ring-2 focus:ring-brand-orange focus:border-brand-orange bg-surface text-sm h-10 px-3 promo-input" placeholder="Enter code" type="text" />
+              <button class="bg-brand-orange-soft text-brand-orange-dark font-semibold px-4 rounded-lg hover:bg-brand-orange/10 transition text-sm apply-promo">Apply</button>
+            </div>
+          </div>
+          <div class="flex justify-between items-baseline mb-4 pt-2 border-t border-outline/60">
+            <span class="font-bold text-base">Grand Total</span>
+            <span class="text-xl md:text-2xl font-bold text-brand-orange grand-total">₵ 0.00</span>
+          </div>
+          <button class="w-full bg-brand-orange hover:bg-brand-orange-dark text-white font-bold py-3 rounded-full transition active:scale-95 flex items-center justify-center gap-2 checkout-btn">
+            <span>Proceed to Checkout</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <div class="mt-4 p-3 bg-brand-blue-soft rounded-lg border border-brand-blue/20 flex items-start gap-2">
+            <i class="fas fa-shield-alt text-brand-blue mt-0.5"></i>
+            <p class="text-xs text-brand-blue-dark leading-tight">
+              Your transaction is secured by GAOGETS HUB Buyer Protection. Money-back guarantee on all qualified purchases.
+            </p>
+          </div>
+          <div class="mt-3 flex justify-center gap-3 grayscale opacity-40">
+            <i class="fab fa-cc-paypal text-2xl"></i>
+            <i class="fab fa-cc-mastercard text-2xl"></i>
+            <i class="fab fa-cc-visa text-2xl"></i>
+          </div>
+        </div>
+        <!-- Assistance Card -->
+        <div class="mt-3 bg-surface-card border border-outline/60 rounded-xl p-3 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-brand-orange-soft flex items-center justify-center text-brand-orange">
+            <i class="fas fa-headset"></i>
+          </div>
+          <div>
+            <p class="font-semibold text-sm">Need help with your order?</p>
+            <a class="text-brand-blue font-medium text-xs hover:underline" href="#">Chat with a Specialist</a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-white border-t border-outline/60 mt-8 md:mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-xl md:text-2xl font-black text-brand-orange">GAOGETS</span>
+          <span class="text-[10px] md:text-xs font-bold text-brand-blue">HUB</span>
+        </div>
+        <p class="text-muted text-xs md:text-sm mb-4">Premium marketplace for quality electronics and lifestyle products in Ghana and beyond.</p>
+        <div class="flex gap-3">
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-surface flex items-center justify-center text-trust-light hover:bg-brand-orange hover:text-white transition" href="#"><i class="fab fa-twitter text-sm md:text-base"></i></a>
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-surface flex items-center justify-center text-trust-light hover:bg-brand-blue hover:text-white transition" href="#"><i class="fab fa-instagram text-sm md:text-base"></i></a>
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-surface flex items-center justify-center text-trust-light hover:bg-brand-orange hover:text-white transition" href="#"><i class="fab fa-youtube text-sm md:text-base"></i></a>
+        </div>
+      </div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider text-trust mb-3">Company</h4><ul class="space-y-2 text-xs md:text-sm text-muted"><li><a href="#" class="hover:text-brand-orange">About Us</a></li><li><a href="#" class="hover:text-brand-orange">Contact</a></li><li><a href="#" class="hover:text-brand-orange">Careers</a></li></ul></div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider text-trust mb-3">Support</h4><ul class="space-y-2 text-xs md:text-sm text-muted"><li><a href="#" class="hover:text-brand-blue">FAQ</a></li><li><a href="#" class="hover:text-brand-blue">Shipping Policy</a></li><li><a href="#" class="hover:text-brand-blue">Returns</a></li></ul></div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider text-trust mb-3">Legal</h4><ul class="space-y-2 text-xs md:text-sm text-muted"><li><a href="#" class="hover:text-brand-orange">Terms of Service</a></li><li><a href="#" class="hover:text-brand-orange">Privacy Policy</a></li></ul></div>
+    </div>
+    <div class="border-t border-outline/30 py-3 md:py-4 px-4 md:px-6 flex flex-col md:flex-row justify-between items-center text-[10px] md:text-xs text-muted gap-2 max-w-7xl mx-auto">
+      <div class="flex gap-3 md:gap-4">
+        <i class="fas fa-credit-card text-brand-blue"></i>
+        <i class="fas fa-shield-alt text-brand-orange"></i>
+        <i class="fas fa-truck text-brand-blue"></i>
+      </div>
+      <p>© 2024 GAOGETS HUB. <span class="text-brand-orange">Where Tech</span> <span class="text-brand-blue">Meets Trust</span>.</p>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ==========================================
+    // MOBILE NAV TOGGLE
+    // ==========================================
+    (function() {
+      const menuToggle = document.getElementById('mobileMenuToggle');
+      const closeMenu = document.getElementById('closeMobileMenu');
+      const mobileNav = document.getElementById('mobileNav');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      
+      function openMobileNav() {
+        mobileNav.classList.add('open');
+        mobileOverlay.classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeMobileNav() {
+        mobileNav.classList.remove('open');
+        mobileOverlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+      
+      if (menuToggle) menuToggle.addEventListener('click', openMobileNav);
+      if (closeMenu) closeMenu.addEventListener('click', closeMobileNav);
+      if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileNav);
+      
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeMobileNav();
+      });
+      
+      mobileNav.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', closeMobileNav);
+      });
+    })();
+
+    // ==========================================
+    // CART SYSTEM (Full implementation)
+    // ==========================================
+    (function() {
+      let cart = [];
+      let cartCount = 0;
+
+      function loadCart() {
+        try {
+          const saved = localStorage.getItem('shopghana_cart');
+          if (saved) {
+            cart = JSON.parse(saved);
+            cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            updateCartBadge();
+            renderCartItems();
+          }
+        } catch (e) { console.warn('Failed to load cart:', e); }
+      }
+
+      function saveCart() {
+        try {
+          localStorage.setItem('shopghana_cart', JSON.stringify(cart));
+        } catch (e) { console.warn('Failed to save cart:', e); }
+      }
+
+      function updateCartBadge() {
+        const badges = document.querySelectorAll('.cart-badge');
+        badges.forEach(badge => {
+          if (cartCount > 0) {
+            badge.textContent = cartCount;
+            badge.classList.remove('hidden');
+          } else {
+            badge.textContent = '0';
+            badge.classList.add('hidden');
+          }
+        });
+        // Update item count in summary
+        const countElements = document.querySelectorAll('.cart-item-count, .cart-item-count-summary');
+        countElements.forEach(el => {
+          el.textContent = cartCount;
+        });
+      }
+
+      function getCartTotal() {
+        return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+      }
+
+      function showToast(message, duration = 2500) {
+        const existingToast = document.querySelector('.toast-notification');
+        if (existingToast) existingToast.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        requestAnimationFrame(() => {
+          toast.classList.add('show');
+        });
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, duration);
+      }
+
+      function removeFromCart(itemId) {
+        cart = cart.filter(item => item.id !== itemId);
+        cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        updateCartBadge();
+        saveCart();
+        renderCartItems();
+        if (cart.length === 0) showToast('🛒 Cart is now empty');
+      }
+
+      function updateCartQuantity(itemId, newQuantity) {
+        const item = cart.find(item => item.id === itemId);
+        if (item) {
+          if (newQuantity <= 0) {
+            removeFromCart(itemId);
+            return;
+          }
+          item.quantity = newQuantity;
+          cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+          updateCartBadge();
+          saveCart();
+          renderCartItems();
+        }
+      }
+
+      function renderCartItems() {
+        const container = document.getElementById('cartItemsContainer');
+        const subtotalElement = document.querySelector('.subtotal-amount');
+        const grandTotalElement = document.querySelector('.grand-total');
+        const shippingElement = document.querySelector('.shipping-amount');
+        
+        if (!container) return;
+
+        if (cart.length === 0) {
+          container.innerHTML = `
+            <div class="text-center py-12 bg-white rounded-xl border border-outline/60">
+              <i class="fas fa-shopping-cart text-5xl text-muted/30 mb-4"></i>
+              <p class="text-muted font-medium">Your cart is empty</p>
+              <p class="text-sm text-muted mt-2">Start adding some laptops to your cart!</p>
+              <a href="index.html" class="inline-block mt-4 bg-brand-orange text-white font-bold px-6 py-2 rounded-full hover:bg-brand-orange-dark transition">
+                <i class="fas fa-arrow-left mr-2"></i> Continue Shopping
+              </a>
+            </div>
+          `;
+          if (subtotalElement) subtotalElement.textContent = '₵ 0.00';
+          if (grandTotalElement) grandTotalElement.textContent = '₵ 0.00';
+          if (shippingElement) shippingElement.textContent = '₵ 45.00';
+          updateCartBadge();
+          return;
+        }
+
+        let html = '';
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          html += `
+            <div class="bg-surface-card border border-outline/60 rounded-xl p-3 md:p-4 flex flex-col sm:flex-row gap-3 md:gap-4 cart-item-card transition-all duration-200" data-id="${item.id}">
+              <div class="w-full sm:w-32 md:w-40 h-32 md:h-40 shrink-0 bg-surface/50 overflow-hidden rounded-lg">
+                <img class="w-full h-full object-cover" src="${item.image || 'https://via.placeholder.com/160'}" alt="${item.name}" />
+              </div>
+              <div class="flex-grow flex flex-col justify-between">
+                <div>
+                  <div class="flex flex-wrap justify-between items-start gap-2">
+                    <h3 class="font-semibold text-sm md:text-base text-trust">${item.name}</h3>
+                    <p class="font-bold text-brand-orange text-sm md:text-base">₵ ${item.price.toFixed(2)}</p>
+                  </div>
+                  ${item.options && Object.keys(item.options).length > 0 ? 
+                    `<p class="text-xs text-muted mt-0.5">${Object.values(item.options).join(' • ')}</p>` : ''}
+                  <p class="text-green-600 text-xs font-medium mt-1 flex items-center gap-1">
+                    <i class="fas fa-check-circle"></i> In Stock
+                  </p>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2 mt-3">
+                  <div class="flex items-center border border-outline rounded-lg overflow-hidden">
+                    <button class="quantity-btn w-8 h-8 flex items-center justify-center hover:bg-brand-orange-soft transition text-sm" data-action="decrease" data-id="${item.id}">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input class="quantity-input w-10 text-center border-none focus:ring-0 font-semibold text-sm bg-surface" min="1" type="number" value="${item.quantity}" data-id="${item.id}" />
+                    <button class="quantity-btn w-8 h-8 flex items-center justify-center hover:bg-brand-orange-soft transition text-sm" data-action="increase" data-id="${item.id}">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <div class="flex gap-3">
+                    <button class="save-for-later text-xs text-muted hover:text-brand-orange transition flex items-center gap-1" data-id="${item.id}">
+                      <i class="far fa-heart"></i> Save
+                    </button>
+                    <button class="remove-item text-xs text-red-500 hover:text-red-700 transition flex items-center gap-1" data-id="${item.id}">
+                      <i class="fas fa-trash-alt"></i> Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+
+        // Calculate totals
+        const subtotal = getCartTotal();
+        const shipping = cart.length > 0 ? 45 : 0;
+        const tax = 0;
+        const grandTotal = subtotal + shipping + tax;
+
+        if (subtotalElement) subtotalElement.textContent = `₵ ${subtotal.toFixed(2)}`;
+        if (grandTotalElement) grandTotalElement.textContent = `₵ ${grandTotal.toFixed(2)}`;
+        if (shippingElement) shippingElement.textContent = `₵ ${shipping.toFixed(2)}`;
+        updateCartBadge();
+
+        // Event listeners for cart item actions
+        container.querySelectorAll('.quantity-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const item = cart.find(i => i.id === id);
+            if (!item) return;
+            const action = this.dataset.action;
+            let newQty = item.quantity;
+            if (action === 'increase') newQty++;
+            else if (action === 'decrease') newQty--;
+            updateCartQuantity(id, newQty);
+          });
+        });
+
+        container.querySelectorAll('.quantity-input').forEach(input => {
+          input.addEventListener('change', function() {
+            const id = this.dataset.id;
+            let val = parseInt(this.value) || 1;
+            if (val < 1) val = 1;
+            updateCartQuantity(id, val);
+          });
+        });
+
+        container.querySelectorAll('.remove-item').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            removeFromCart(id);
+            showToast('🗑️ Item removed from cart');
+          });
+        });
+
+        container.querySelectorAll('.save-for-later').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = this.dataset.id;
+            const item = cart.find(i => i.id === id);
+            if (item) {
+              showToast(`💾 "${item.name}" saved for later`);
+            }
+          });
+        });
+      }
+
+      // Checkout
+      document.querySelector('.checkout-btn')?.addEventListener('click', function() {
+        if (cart.length === 0) {
+          showToast('🛒 Your cart is empty!');
+          return;
+        }
+        const total = getCartTotal();
+        showToast(`💳 Proceeding to checkout. Total: ₵ ${total.toFixed(2)}`);
+      });
+
+      // Apply promo
+      document.querySelector('.apply-promo')?.addEventListener('click', function() {
+        const input = document.querySelector('.promo-input');
+        if (input && input.value.trim()) {
+          showToast(`🎫 Promo code "${input.value.trim()}" applied! (10% off)`);
+          input.value = '';
+        } else {
+          showToast('⚠️ Please enter a promo code');
+        }
+      });
+
+      // Calculate shipping
+      document.querySelector('.calculate-shipping')?.addEventListener('click', function() {
+        showToast('📦 Shipping estimate updated');
+      });
+
+      // Load cart on page load
+      loadCart();
+      
+      console.log('🛒 GAOGETS HUB Cart page initialized');
+    })();
+  </script>
+</body>
+</html>

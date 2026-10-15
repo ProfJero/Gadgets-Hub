@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>GAOGETS HUB · Where Tech Meets Trust</title>
+  
+  <!-- Tailwind + Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "brand-orange": "#E46A1A",
+            "brand-orange-light": "#FF8C42",
+            "brand-orange-dark": "#B5520F",
+            "brand-orange-soft": "#FEF3E9",
+            "brand-blue": "#1A5B8C",
+            "brand-blue-light": "#3A7BBF",
+            "brand-blue-dark": "#0E3D61",
+            "brand-blue-soft": "#E8F0F8",
+            "trust": "#2E2A29",
+            "trust-light": "#4A4543",
+            "surface": "#F5F0EB",
+            "surface-card": "#FFFFFF",
+            "outline": "#E6DCD2",
+            "muted": "#7C6F64"
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          borderRadius: { 'xl': '1rem', '2xl': '1.5rem' },
+          boxShadow: {
+            'soft': '0 8px 24px rgba(0,0,0,0.04)',
+            'card': '0 4px 12px rgba(26, 91, 140, 0.08)',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1A5B8C;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      max-width: 90vw;
+      text-align: center;
+    }
+    .toast-notification.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    
+    .cart-drawer, .notification-drawer, .wishlist-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      background: white;
+      z-index: 100;
+      box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-drawer.open, .notification-drawer.open, .wishlist-drawer.open { transform: translateX(0); }
+    
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .drawer-overlay.show { opacity: 1; pointer-events: auto; }
+    
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 320px;
+      max-width: 85vw;
+      height: 100%;
+      background: white;
+      z-index: 60;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      padding-top: 20px;
+      overflow-y: auto;
+      box-shadow: 4px 0 30px rgba(0,0,0,0.1);
+    }
+    .mobile-nav.open { transform: translateX(0); }
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.3);
+      z-index: 59;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.show { opacity: 1; pointer-events: auto; }
+    
+    .scroll-reveal { opacity: 0; transform: translateY(30px); transition: all 0.6s ease-out; }
+    .scroll-reveal.visible { opacity: 1; transform: translateY(0); }
+    
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 768px) { .bento-grid { grid-template-columns: 1fr 1fr; } }
+    
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid #E6DCD2;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .qty-btn:hover { background: #E8F0F8; }
+    
+    .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; }
+    .hero-slide.active { opacity: 1; }
+    
+    .cart-btn-wrapper { position: relative; }
+    .cart-badge {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 50%;
+      background: #E46A1A;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid white;
+    }
+    
+    .category-card { cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .category-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+    
+    footer { background: #2E2A29; color: #D4D0CC; }
+    footer a { color: #D4D0CC; }
+    footer a:hover { color: #E46A1A; }
+    
+    /* Product card image fix */
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 8px;
+    }
+    .product-image.error {
+      display: none;
+    }
+    
+    /* Loading skeleton */
+    .skeleton { animation: pulse 1.5s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 0.8; } }
+  </style>
+</head>
+<body class="bg-surface text-trust font-sans antialiased overflow-x-hidden">
+
+  <!-- ===== ANNOUNCEMENT BAR ===== -->
+  <div id="announcementBar" class="bg-brand-orange text-white py-2.5 text-center text-sm font-medium tracking-wide">
+    <i class="fas fa-tag mr-2 text-brand-orange-light"></i> 
+    <span id="announcementText">Free delivery on orders over ₵30,000 • Ghana Independence Month Deals!</span>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-white/80 backdrop-blur-xl sticky top-0 z-50 border-b border-outline shadow-soft">
+    <div class="flex items-center justify-between px-4 md:px-6 py-3 max-w-7xl mx-auto gap-3">
+      <button id="mobileMenuToggle" class="xl:hidden text-trust-light hover:text-brand-orange transition text-2xl p-1">
+        <i class="fas fa-bars"></i>
+      </button>
+      
+      <a class="flex items-center gap-2 shrink-0" href="index.html">
+        <div class="flex flex-col leading-none">
+          <span class="text-xl md:text-2xl font-black tracking-tight text-brand-orange">GAOGETS</span>
+          <span class="text-[10px] md:text-xs font-bold tracking-[0.2em] text-brand-blue">HUB</span>
+        </div>
+        <div class="hidden sm:block h-8 w-px bg-outline mx-1"></div>
+        <div class="hidden sm:block text-[10px] md:text-xs font-medium text-muted italic leading-tight">
+          WHERE <span class="text-brand-orange font-semibold">TECH</span><br>MEETS <span class="text-brand-blue font-semibold">TRUST</span>
+        </div>
+      </a>
+      
+      <div class="hidden md:flex flex-grow max-w-lg relative">
+        <input id="searchInput" class="w-full h-11 pl-5 pr-12 rounded-full border border-outline bg-surface/70 focus:ring-2 focus:ring-brand-orange focus:border-brand-orange transition-all text-sm" placeholder="Search laptops..." type="text" />
+        <button id="searchBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-orange hover:text-brand-orange-dark">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <nav class="hidden xl:flex items-center gap-5 text-sm font-semibold">
+        <a class="text-brand-orange border-b-2 border-brand-orange pb-1" href="#" data-category="all">All Laptops</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="#" data-category="gaming">Gaming</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="#" data-category="business">Business</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="#" data-category="student">Student</a>
+        <a class="text-trust-light hover:text-brand-orange transition" href="#" data-category="accessories">Accessories</a>
+      </nav>
+
+      <div class="flex items-center gap-2 md:gap-3">
+        <button id="notificationToggle" class="text-trust-light hover:text-brand-orange transition hidden sm:inline-block">
+          <i class="far fa-bell text-lg md:text-xl"></i>
+          <span class="notification-dot hidden w-2 h-2 bg-red-500 rounded-full inline-block ml-0.5"></span>
+        </button>
+        <button id="wishlistToggle" class="text-trust-light hover:text-brand-orange transition hidden sm:inline-block">
+          <i class="far fa-heart text-lg md:text-xl"></i>
+        </button>
+        <div class="hidden sm:block h-7 w-px bg-outline"></div>
+        <button class="cart-btn-wrapper flex items-center gap-1 md:gap-1.5 bg-brand-blue-soft px-2 md:px-3 py-1.5 md:py-2 rounded-full hover:bg-brand-blue/10 transition" data-cart-toggle="true">
+          <i class="fas fa-shopping-cart text-brand-blue text-sm md:text-base"></i>
+          <span class="text-xs md:text-sm font-bold text-trust hidden sm:inline">Cart</span>
+          <span class="cart-badge hidden" id="cartBadge">0</span>
+        </button>
+        <a href="product-detail.html" class="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1.5 md:py-2 rounded-full bg-trust/5 hover:bg-trust/10 transition">
+          <i class="far fa-user-circle text-lg md:text-xl text-trust-light"></i>
+          <span class="text-xs md:text-sm font-medium hidden sm:inline">Account</span>
+        </a>
+      </div>
+    </div>
+    
+    <div class="md:hidden px-4 pb-3 max-w-7xl mx-auto">
+      <div class="relative">
+        <input id="mobileSearchInput" class="w-full h-10 pl-4 pr-10 rounded-full border border-outline bg-surface/70 focus:ring-2 focus:ring-brand-orange focus:border-brand-orange transition-all text-sm" placeholder="Search laptops..." type="text" />
+        <button id="mobileSearchBtn" class="absolute right-3 top-1/2 -translate-y-1/2 text-brand-orange">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MOBILE NAV ===== -->
+  <div id="mobileOverlay" class="mobile-overlay"></div>
+  <nav id="mobileNav" class="mobile-nav">
+    <div class="px-5 py-4 border-b border-outline/60 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-lg font-black text-brand-orange">GAOGETS</span>
+        <span class="text-[10px] font-bold text-brand-blue">HUB</span>
+      </div>
+      <button id="closeMobileMenu" class="text-trust-light text-2xl">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="px-5 py-4 space-y-3">
+      <a href="#" class="block text-base font-semibold text-brand-orange border-l-4 border-brand-orange pl-3 flex items-center gap-3" data-category="all">
+        <i class="fas fa-laptop"></i> All Laptops
+      </a>
+      <a href="#" class="block text-base font-medium text-trust-light hover:text-brand-orange transition pl-3 flex items-center gap-3" data-category="gaming">
+        <i class="fas fa-gamepad"></i> Gaming
+      </a>
+      <a href="#" class="block text-base font-medium text-trust-light hover:text-brand-orange transition pl-3 flex items-center gap-3" data-category="business">
+        <i class="fas fa-briefcase"></i> Business
+      </a>
+      <a href="#" class="block text-base font-medium text-trust-light hover:text-brand-orange transition pl-3 flex items-center gap-3" data-category="student">
+        <i class="fas fa-graduation-cap"></i> Student
+      </a>
+      <a href="#" class="block text-base font-medium text-trust-light hover:text-brand-orange transition pl-3 flex items-center gap-3" data-category="accessories">
+        <i class="fas fa-headphones"></i> Accessories
+      </a>
+      <hr class="border-outline/60" />
+      <a href="#" class="block text-base font-medium text-trust-light hover:text-brand-blue transition pl-3 flex items-center gap-3" id="mobileWishlistLink">
+        <i class="far fa-heart"></i> Wishlist
+      </a>
+      <a href="#" class="block text-base font-medium text-trust-light hover:text-brand-blue transition pl-3 flex items-center gap-3" id="mobileNotificationsLink">
+        <i class="far fa-bell"></i> Notifications
+      </a>
+      <a href="product-detail.html" class="block text-base font-medium text-trust-light hover:text-brand-blue transition pl-3 flex items-center gap-3">
+        <i class="far fa-user-circle"></i> My Account
+      </a>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN ===== -->
+  <main class="max-w-7xl mx-auto px-4 md:px-6 space-y-10 md:space-y-12 py-4 md:py-6">
+
+    <!-- Hero Slider -->
+    <section class="relative h-[400px] md:h-[520px] rounded-2xl overflow-hidden group shadow-soft scroll-reveal">
+      <div id="heroSlides" class="relative w-full h-full">
+        <div class="hero-slide active">
+          <div class="absolute inset-0 bg-brand-orange/70 z-10"></div>
+          <div class="absolute inset-0 bg-brand-blue/30 z-10"></div>
+          <img class="absolute inset-0 w-full h-full object-cover" src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Laptop hero" />
+          <div class="relative z-20 h-full flex flex-col justify-center px-6 md:px-12 max-w-xl text-white">
+            <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-1.5 rounded-full text-xs font-bold w-fit mb-4 border border-white/30">
+              <i class="fas fa-bolt mr-1 text-brand-orange-light"></i> GHANA INDEPENDENCE MONTH
+            </span>
+            <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-3">Next-Gen Laptops <br>Up to 40% Off</h1>
+            <p class="text-sm md:text-base opacity-90 mb-5">Premium performance, trusted brands. From gaming rigs to ultrabooks.</p>
+            <div class="flex flex-wrap gap-3">
+              <a href="#products" class="bg-white text-brand-orange font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-surface transition shadow-lg flex items-center gap-2 text-sm md:text-base"><i class="fas fa-laptop"></i> Shop Now</a>
+              <button class="bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-white/30 transition flex items-center gap-2 text-sm md:text-base"><i class="fas fa-play-circle"></i> Learn More</button>
+            </div>
+          </div>
+        </div>
+        <div class="hero-slide">
+          <div class="absolute inset-0 bg-brand-blue/70 z-10"></div>
+          <div class="absolute inset-0 bg-brand-orange/20 z-10"></div>
+          <img class="absolute inset-0 w-full h-full object-cover" src="https://images.pexels.com/photos/303383/pexels-photo-303383.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Laptop hero 2" />
+          <div class="relative z-20 h-full flex flex-col justify-center px-6 md:px-12 max-w-xl text-white">
+            <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-1.5 rounded-full text-xs font-bold w-fit mb-4 border border-white/30">
+              <i class="fas fa-rocket mr-1"></i> NEW ARRIVALS
+            </span>
+            <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-3">AI-Powered <br>Performance</h1>
+            <p class="text-sm md:text-base opacity-90 mb-5">Experience the future of computing with our latest AI-enhanced laptops.</p>
+            <div class="flex flex-wrap gap-3">
+              <a href="#products" class="bg-white text-brand-blue font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-surface transition shadow-lg flex items-center gap-2 text-sm md:text-base"><i class="fas fa-laptop"></i> Explore Now</a>
+              <button class="bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-white/30 transition flex items-center gap-2 text-sm md:text-base"><i class="fas fa-play-circle"></i> Learn More</button>
+            </div>
+          </div>
+        </div>
+        <div class="hero-slide">
+          <div class="absolute inset-0 bg-brand-orange/80 z-10"></div>
+          <div class="absolute inset-0 bg-black/20 z-10"></div>
+          <img class="absolute inset-0 w-full h-full object-cover" src="https://images.pexels.com/photos/205421/pexels-photo-205421.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Laptop hero 3" />
+          <div class="relative z-20 h-full flex flex-col justify-center px-6 md:px-12 max-w-xl text-white">
+            <span class="bg-white/20 backdrop-blur-sm text-white px-4 py-1.5 rounded-full text-xs font-bold w-fit mb-4 border border-white/30">
+              <i class="fas fa-tag mr-1 text-brand-orange-light"></i> LIMITED OFFER
+            </span>
+            <h1 class="text-3xl md:text-5xl font-extrabold leading-tight mb-3">Premium Laptops <br>From ₵2,500</h1>
+            <p class="text-sm md:text-base opacity-90 mb-5">High-performance laptops at unbeatable prices. Limited stock available.</p>
+            <div class="flex flex-wrap gap-3">
+              <a href="#products" class="bg-white text-brand-orange font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-surface transition shadow-lg flex items-center gap-2 text-sm md:text-base"><i class="fas fa-shopping-bag"></i> Shop Deals</a>
+              <button class="bg-white/20 backdrop-blur-sm border border-white/30 text-white font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-white/30 transition flex items-center gap-2 text-sm md:text-base"><i class="fas fa-play-circle"></i> Learn More</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        <button class="hero-dot w-3 h-3 rounded-full bg-white/60 hover:bg-white transition" data-index="0"></button>
+        <button class="hero-dot w-3 h-3 rounded-full bg-white/30 hover:bg-white transition" data-index="1"></button>
+        <button class="hero-dot w-3 h-3 rounded-full bg-white/30 hover:bg-white transition" data-index="2"></button>
+      </div>
+      <button id="heroPrev" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/40 transition flex items-center justify-center">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button id="heroNext" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/40 transition flex items-center justify-center">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </section>
+
+    <!-- Flash Sales Section -->
+    <section id="products" class="scroll-reveal">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-5 gap-2">
+        <div class="flex flex-wrap items-center gap-3">
+          <h2 class="text-xl md:text-3xl font-bold text-trust"><i class="fas fa-bolt text-brand-orange"></i> Flash Sales</h2>
+          <div class="flex items-center gap-2 bg-brand-orange-soft text-brand-orange-dark px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-bold">
+            <i class="far fa-clock"></i>
+            <span class="tabular-nums" id="countdown">08 : 24 : 12</span>
+          </div>
+        </div>
+        <a class="text-brand-blue font-bold hover:underline flex items-center gap-1 text-sm" href="#products">
+          View All <i class="fas fa-chevron-right text-xs"></i>
+        </a>
+      </div>
+      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+        <!-- Loading skeletons -->
+        <div class="col-span-full flex justify-center py-12">
+          <i class="fas fa-spinner fa-spin text-3xl text-brand-orange"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Bento -->
+    <section class="scroll-reveal">
+      <h2 class="text-xl md:text-3xl font-bold text-trust mb-4 md:mb-6">Browse by Purpose</h2>
+      <div class="bento-grid h-[350px] md:h-[450px]">
+        <div class="col-span-12 md:col-span-6 bg-surface-card rounded-2xl relative overflow-hidden group cursor-pointer shadow-soft category-card" data-category="gaming">
+          <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" src="https://images.pexels.com/photos/1181243/pexels-photo-1181243.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gaming" />
+          <div class="absolute inset-0 bg-brand-blue/70 flex flex-col justify-end p-4 md:p-6">
+            <h3 class="text-white text-xl md:text-2xl font-bold">Gaming Laptops</h3>
+            <p class="text-white/80 text-sm">RTX 40 series, high refresh</p>
+          </div>
+        </div>
+        <div class="col-span-6 md:col-span-3 bg-surface-card rounded-2xl relative overflow-hidden group cursor-pointer shadow-soft category-card" data-category="business">
+          <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" src="https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Business" />
+          <div class="absolute inset-0 bg-brand-orange/70 flex flex-col justify-end p-3 md:p-4">
+            <h3 class="text-white text-lg md:text-xl font-bold">Business</h3>
+          </div>
+        </div>
+        <div class="col-span-6 md:col-span-3 bg-surface-card rounded-2xl relative overflow-hidden group cursor-pointer shadow-soft category-card" data-category="student">
+          <img class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" src="https://images.pexels.com/photos/682933/pexels-photo-682933.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Student" />
+          <div class="absolute inset-0 bg-brand-blue/70 flex flex-col justify-end p-3 md:p-4">
+            <h3 class="text-white text-lg md:text-xl font-bold">Student</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Promo Banner -->
+    <section class="bg-brand-orange rounded-2xl p-6 md:p-10 flex flex-col md:flex-row items-center gap-6 md:gap-8 relative overflow-hidden shadow-soft scroll-reveal">
+      <div class="relative z-10 flex-1">
+        <h2 class="text-2xl md:text-4xl font-bold text-white mb-3">Where Tech Meets Trust</h2>
+        <p class="text-white/90 text-sm md:text-base max-w-xl mb-5">Genuine laptops, verified sellers, and a community that values quality. Join thousands of tech lovers in Ghana.</p>
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="#products" class="bg-white text-brand-orange font-bold px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-surface transition shadow-lg text-sm md:text-base"><i class="fas fa-store mr-2"></i> Browse Store</a>
+          <div class="flex items-center gap-2 text-white/80 text-sm"><i class="fas fa-check-circle text-white/60"></i> <span>Verified Sellers</span></div>
+        </div>
+      </div>
+      <div class="relative z-10 w-full md:w-1/3 aspect-video md:aspect-square bg-white/10 rounded-xl overflow-hidden border border-white/20">
+        <img class="w-full h-full object-cover" src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600" alt="Trust" />
+      </div>
+    </section>
+
+    <!-- Trending Now -->
+    <section class="scroll-reveal">
+      <div class="flex items-center justify-between mb-4 md:mb-6">
+        <h2 class="text-xl md:text-3xl font-bold text-trust">Trending Laptops</h2>
+        <div class="flex gap-2">
+          <button class="trending-prev w-8 h-8 md:w-9 md:h-9 rounded-full border border-outline flex items-center justify-center hover:bg-brand-orange-soft transition"><i class="fas fa-chevron-left text-xs md:text-sm"></i></button>
+          <button class="trending-next w-8 h-8 md:w-9 md:h-9 rounded-full border border-outline flex items-center justify-center hover:bg-brand-orange-soft transition"><i class="fas fa-chevron-right text-xs md:text-sm"></i></button>
+        </div>
+      </div>
+      <div id="trendingGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+        <div class="col-span-full flex justify-center py-8">
+          <i class="fas fa-spinner fa-spin text-2xl text-brand-orange"></i>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="mt-8 md:mt-12">
+    <div class="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-10 grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+      <div class="col-span-2 md:col-span-1">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-xl md:text-2xl font-black text-brand-orange">GAOGETS</span>
+          <span class="text-[10px] md:text-xs font-bold text-brand-blue">HUB</span>
+        </div>
+        <p class="text-sm mb-4 opacity-80" id="footerDescription">Where Tech Meets Trust. Premium laptops for every need.</p>
+        <div class="flex gap-3">
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-orange hover:text-white transition" href="#"><i class="fab fa-twitter text-sm md:text-base"></i></a>
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-blue hover:text-white transition" href="#"><i class="fab fa-instagram text-sm md:text-base"></i></a>
+          <a class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-brand-orange hover:text-white transition" href="#"><i class="fab fa-youtube text-sm md:text-base"></i></a>
+        </div>
+      </div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider mb-3">Shop</h4><ul class="space-y-2 text-sm"><li><a href="#" data-category="gaming">Gaming</a></li><li><a href="#" data-category="business">Business</a></li><li><a href="#" data-category="student">Student</a></li></ul></div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider mb-3">Support</h4><ul class="space-y-2 text-sm"><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">FAQ</a></li></ul></div>
+      <div><h4 class="font-bold text-xs md:text-sm uppercase tracking-wider mb-3">Company</h4><ul class="space-y-2 text-sm"><li><a href="#">About</a></li><li><a href="#">Contact</a></li><li><a href="#">Careers</a></li></ul></div>
+    </div>
+    <div class="border-t border-white/10 py-3 md:py-4 px-4 md:px-6 flex flex-col md:flex-row justify-between items-center text-xs gap-2 max-w-7xl mx-auto opacity-70">
+      <div class="flex gap-3 md:gap-4">
+        <i class="fas fa-credit-card"></i>
+        <i class="fas fa-shield-alt"></i>
+        <i class="fas fa-truck"></i>
+      </div>
+      <p>© 2024 GAOGETS HUB. <span class="text-brand-orange">Where Tech</span> <span class="text-brand-blue">Meets Trust</span>.</p>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

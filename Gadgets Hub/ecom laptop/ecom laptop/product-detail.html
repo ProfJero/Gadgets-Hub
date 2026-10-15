@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>ShopGhana | Product Details</title>
+  
+  <!-- Tailwind + Fonts -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  
+  <!-- Tailwind Config -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#914d00",
+            "inverse-primary": "#ffb77e",
+            "on-surface": "#1a1c1c",
+            "secondary-fixed": "#e2e2e2",
+            "tertiary-container": "#a7a6a6",
+            "primary-fixed-dim": "#ffb77e",
+            "on-secondary-fixed": "#1a1c1c",
+            "inverse-surface": "#2f3131",
+            "surface-variant": "#e2e2e2",
+            "surface-dim": "#dadada",
+            "outline-variant": "#dcc2af",
+            "on-background": "#1a1c1c",
+            "inverse-on-surface": "#f1f1f1",
+            "on-surface-variant": "#554335",
+            "background": "#f9f9f9",
+            "secondary-fixed-dim": "#c6c6c7",
+            "on-tertiary-container": "#3c3c3c",
+            "on-error": "#ffffff",
+            "on-primary-fixed-variant": "#6e3900",
+            "tertiary": "#5f5e5e",
+            "on-tertiary-fixed-variant": "#474747",
+            "on-secondary-fixed-variant": "#454747",
+            "error": "#ba1a1a",
+            "on-tertiary": "#ffffff",
+            "outline": "#897363",
+            "primary-fixed": "#ffdcc3",
+            "on-primary-container": "#5e3000",
+            "secondary": "#5d5f5f",
+            "surface-tint": "#914d00",
+            "on-secondary-container": "#616363",
+            "primary-container": "#f68b1e",
+            "surface-container-highest": "#e2e2e2",
+            "surface-container": "#eeeeee",
+            "secondary-container": "#dfe0e0",
+            "surface-container-low": "#f3f3f3",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#2f1500",
+            "on-primary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f9f9f9",
+            "tertiary-fixed-dim": "#c8c6c6",
+            "surface": "#f9f9f9",
+            "tertiary-fixed": "#e4e2e1",
+            "on-tertiary-fixed": "#1b1c1c",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-high": "#e8e8e8"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          spacing: {
+            xs: "4px",
+            "container-max": "1280px",
+            "margin-desktop": "24px",
+            "margin-mobile": "16px",
+            xl: "32px",
+            sm: "8px",
+            base: "8px",
+            lg: "24px",
+            xxl: "48px",
+            md: "16px",
+            gutter: "16px"
+          },
+          fontFamily: {
+            "label-md": ["Inter"],
+            "headline-lg": ["Inter"],
+            "display-sm": ["Inter"],
+            "headline-lg-mobile": ["Inter"],
+            "body-lg": ["Inter"],
+            "title-md": ["Inter"],
+            "price-lg": ["Inter"],
+            "label-lg": ["Inter"],
+            "body-md": ["Inter"],
+            "title-lg": ["Inter"],
+            "headline-md": ["Inter"],
+            "headline-sm": ["Inter"],
+            "display-lg": ["Inter"],
+            "price-sm": ["Inter"]
+          },
+          fontSize: {
+            "label-md": ["12px", { lineHeight: "16px", fontWeight: "500" }],
+            "headline-lg": ["30px", { lineHeight: "38px", fontWeight: "600" }],
+            "display-sm": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-lg-mobile": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "title-md": ["16px", { lineHeight: "24px", fontWeight: "500" }],
+            "price-lg": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+            "label-lg": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "title-lg": ["18px", { lineHeight: "26px", fontWeight: "500" }],
+            "headline-md": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+            "headline-sm": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "price-sm": ["16px", { lineHeight: "24px", fontWeight: "700" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+
+  <!-- ===== HEADER ===== -->
+  <header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl sticky top-0 z-50 shadow-sm dark:shadow-none border-b border-outline-variant dark:border-outline">
+    <div class="flex items-center justify-between px-margin-mobile md:px-margin-desktop py-sm max-w-container-max mx-auto">
+      <div class="flex items-center gap-xl">
+        <a class="font-display-sm text-display-sm font-black text-primary dark:text-primary-fixed-dim" href="index.html">ShopGhana</a>
+        <nav class="hidden lg:flex items-center gap-lg">
+          <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="index.html">Electronics</a>
+          <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="index.html">Fashion</a>
+          <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="index.html">Home</a>
+          <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="index.html">Beauty</a>
+          <a class="text-on-surface-variant dark:text-surface-variant hover:text-primary transition-colors font-label-lg text-label-lg" href="index.html">Groceries</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-md">
+        <div class="hidden md:flex items-center bg-surface-container-low dark:bg-surface-dim px-md py-xs rounded-full border border-outline-variant">
+          <span class="material-symbols-outlined text-on-surface-variant mr-xs">search</span>
+          <input class="bg-transparent border-none focus:ring-0 text-body-md font-body-md w-64" placeholder="Search products..." type="text" />
+        </div>
+        <div class="flex items-center gap-sm">
+          <button class="p-xs hover:bg-surface-container-low rounded-full transition-all duration-200">
+            <span class="material-symbols-outlined text-primary">notifications</span>
+          </button>
+          <button class="p-xs hover:bg-surface-container-low rounded-full transition-all duration-200">
+            <span class="material-symbols-outlined text-primary">favorite</span>
+          </button>
+          <button class="flex items-center gap-xs px-md py-xs hover:bg-surface-container-low rounded-full transition-all duration-200 relative" data-cart-toggle="true">
+            <span class="material-symbols-outlined text-primary">shopping_cart</span>
+            <span class="font-label-lg text-label-lg text-on-surface">Cart</span>
+            <span class="cart-badge bg-error text-white text-[10px] px-1.5 py-0.5 rounded-full hidden">0</span>
+          </button>
+          <a href="index.html" class="flex items-center gap-xs px-md py-xs hover:bg-surface-container-low rounded-full transition-all duration-200">
+            <div class="w-8 h-8 rounded-full overflow-hidden">
+              <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbf9MMHGBOEdgTMX4q1-SAxomhc062BHhq-dqJYiljQ4mQWhxM4fjNtglefAATQBnutCO-0N26C2hXko6T-c1Ny5aMkzLV86_wwGxQymO97uDWatT0QH1i3CsVXILc4aGewMrHhn2Anu93eRhIqm_a8dTm-XqmVE1ibg3MxIl4g-xP5J4RKU179mCrZWDvl4r_ZtAi8QQ52kfa_2kS8mjBwhNZrngCJerH7yZhkSw9uB3YjibJ15e7qaFw7LxM_eLBlxF9NaO8DA" />
+            </div>
+            <span class="font-label-lg text-label-lg text-on-surface hidden sm:block">Account</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-xl">
+
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-xs text-on-surface-variant font-label-md text-label-md mb-lg">
+      <a class="hover:text-primary" href="index.html">Home</a>
+      <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+      <a class="hover:text-primary" href="index.html">Electronics</a>
+      <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+      <a class="hover:text-primary" href="index.html">Laptops</a>
+      <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+      <span class="text-on-surface">Premium UltraBook X1</span>
+    </nav>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-xxl items-start">
+
+      <!-- Left: Gallery -->
+      <div class="lg:col-span-7 flex flex-col md:flex-row gap-md">
+        <!-- Thumbnails -->
+        <div class="flex md:flex-col order-2 md:order-1 gap-sm overflow-x-auto md:overflow-y-auto max-h-[600px] custom-scrollbar">
+          <div class="thumbnail-item min-w-[80px] w-20 h-20 rounded-lg border-2 border-primary cursor-pointer overflow-hidden flex-shrink-0" data-thumbnail>
+            <img alt="Product view 1" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvrOL7mlvnx4RWIC1rKdKUtHgKwCg3Mhv4thmQkhzrs3W9Rr8-NzPFXEF8b2yKgduLIureZto9k8IgqUlAs905DCIo3QbDN4eRhfh4E8eZGE5_zhf5zgOEyc7JxMTeJvtSmfFx6IRfDPAb5tJI6DZL46T_3iYD_a7WVyGD2OiDbfYjosucFKYcG2T0DIp_6I7SNEhLfTgHdc1iU74quCTWRmSEgZcYNtB_Q5PndVDVceDaCz7x973_8vgG_oHaXeyBv847p3DkUg" />
+          </div>
+          <div class="thumbnail-item min-w-[80px] w-20 h-20 rounded-lg border border-outline-variant cursor-pointer hover:border-primary transition-colors overflow-hidden flex-shrink-0" data-thumbnail>
+            <img alt="Product view 2" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnyCeeT-zBthVx5OllanSIZJufsECOSt_LbTbOpxAFLgi-6KzTZ7H9XYd54aid2s6bbIP6ATGQBoY_kaBV63NDomYwfCpDxJBfIrA9F5RT_2ZcUkkPIJSvNC-nqxDTGUTdaK3ibEeJZXrYdlYK3c-ZkHrqW9709rXJvDqOt53CUw99yH8LOGfzQbE4L7ISl3YS_6aiBTxAyhzPH5BXBDFno8Hn7BcrereU_HMopjCuINFvBovkkfOlxuoShNH4x89V50zKRlFBkw" />
+          </div>
+          <div class="thumbnail-item min-w-[80px] w-20 h-20 rounded-lg border border-outline-variant cursor-pointer hover:border-primary transition-colors overflow-hidden flex-shrink-0" data-thumbnail>
+            <img alt="Product view 3" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATpgXFCWWcNS1KTb0AhrnrKZ-elc0RuIu-GJdhBgu-Gzu5Z90oZXbUIUuvdcKAS-uhU7SofhEWAontlab2EzKKjZ6WlBeFz84L1SPY43sadDMT1LE5LAoLPt7kPAU73bxOLk1kDNmzZ-Di-McX7mRBIo8fVO1GXSpxUzLSf7scwefbYWHoZ4OGghCWqHaJ1rgXGL5zTvJcmoUKrAdbyrJQHV8hXxtVZOmfD__2tQaPazMFU8immBYJtuWH6ISJ9SeQxh4mcSFMyQ" />
+          </div>
+        </div>
+
+        <!-- Main Image -->
+        <div class="flex-1 order-1 md:order-2">
+          <div class="zoom-container relative aspect-square rounded-xl overflow-hidden bg-white border border-outline-variant cursor-zoom-in group">
+            <img alt="Main Product Image" class="main-image w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHHxKTZYwFyrqzjITf7iWTrvawnMjGbMdaKGYGw2Lclb6xYCrs8nbrE6Q1idwT5qDVzbpqzxV9_U9KyDJi46UbYlLADV-ifyZOdIPH5gpkfD1xDRaBS2r7UbzotxP8vIq5sCcc8jr1NPmZU5YAXMHER_DfX2-SrW5pb5__Pwtvh4DBHlR9MeHTGyc33H4AWs8AUFheRxXO0CGppP6qeZxgi0OkhbHtp0zXszEg3aPsPJePBleKo6QJQlKYB_IVSzm2mz8j4ybB8w" />
+            <div class="absolute top-4 left-4 bg-error text-on-error px-md py-xs rounded-full font-label-lg text-label-lg uppercase tracking-wider">20% OFF</div>
+            <button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur shadow-md flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">favorite</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Product Info -->
+      <div class="lg:col-span-5 space-y-lg">
+        <div class="space-y-sm">
+          <p class="text-primary font-label-lg text-label-lg uppercase tracking-widest">Premium Collection</p>
+          <h1 class="font-headline-lg text-headline-lg text-on-surface">Premium UltraBook X1 - 14" Titanium Edition</h1>
+          <div class="flex items-center gap-md">
+            <div class="flex items-center text-[#FFB600]">
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star_half</span>
+              <span class="ml-xs text-on-surface font-label-lg text-label-lg">4.5/5 (128 reviews)</span>
+            </div>
+            <div class="h-4 w-[1px] bg-outline-variant"></div>
+            <span class="text-success-green flex items-center gap-xs font-label-lg text-label-lg text-[#00875A]">
+              <span class="material-symbols-outlined text-[18px]">check_circle</span>
+              In Stock
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-baseline gap-md">
+          <span class="font-price-lg text-price-lg text-primary">GH₵ 12,499.00</span>
+          <span class="font-title-md text-title-md text-on-surface-variant line-through opacity-60">GH₵ 15,624.00</span>
+        </div>
+
+        <!-- Options -->
+        <div class="p-md bg-surface-container rounded-xl border border-outline-variant space-y-md">
+          <div class="space-y-xs">
+            <p class="font-label-lg text-label-lg text-on-surface">Select Processor</p>
+            <div class="flex flex-wrap gap-sm">
+              <button class="option-btn px-md py-xs rounded-lg border-2 border-primary bg-primary-fixed text-on-primary-fixed font-label-lg text-label-lg selected" data-group="processor">Core i7-13th Gen</button>
+              <button class="option-btn px-md py-xs rounded-lg border border-outline text-on-surface-variant font-label-lg text-label-lg hover:border-primary transition-colors" data-group="processor">Core i9-13th Gen</button>
+            </div>
+          </div>
+          <div class="space-y-xs">
+            <p class="font-label-lg text-label-lg text-on-surface">Select Storage</p>
+            <div class="flex flex-wrap gap-sm">
+              <button class="option-btn px-md py-xs rounded-lg border border-outline text-on-surface-variant font-label-lg text-label-lg hover:border-primary transition-colors" data-group="storage">512GB SSD</button>
+              <button class="option-btn px-md py-xs rounded-lg border-2 border-primary bg-primary-fixed text-on-primary-fixed font-label-lg text-label-lg selected" data-group="storage">1TB NVMe SSD</button>
+              <button class="option-btn px-md py-xs rounded-lg border border-outline text-on-surface-variant font-label-lg text-label-lg hover:border-primary transition-colors" data-group="storage">2TB NVMe SSD</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col gap-sm">
+          <div class="flex gap-md">
+            <div class="flex items-center border border-outline rounded-lg overflow-hidden">
+              <button class="qty-btn w-12 h-12 flex items-center justify-center hover:bg-surface-container-high" data-action="decrease">-</button>
+              <input class="qty-input w-16 border-none text-center font-bold focus:ring-0" type="number" value="1" min="1" />
+              <button class="qty-btn w-12 h-12 flex items-center justify-center hover:bg-surface-container-high" data-action="increase">+</button>
+            </div>
+            <button class="flex-1 bg-primary-container text-on-primary-container font-bold rounded-lg h-12 flex items-center justify-center gap-xs hover:opacity-90 active:scale-[0.98] transition-all add-to-cart-btn">
+              <span class="material-symbols-outlined">shopping_cart</span>
+              Add to Cart
+            </button>
+          </div>
+          <button class="buy-now-btn w-full bg-[#F68B1E] text-white font-bold rounded-lg h-12 flex items-center justify-center hover:opacity-90 active:scale-[0.98] transition-all">
+            Buy Now
+          </button>
+        </div>
+
+        <!-- Delivery Info -->
+        <div class="grid grid-cols-2 gap-md pt-md border-t border-outline-variant">
+          <div class="flex items-center gap-xs text-on-surface-variant">
+            <span class="material-symbols-outlined text-primary">local_shipping</span>
+            <div>
+              <p class="font-label-lg text-label-lg text-on-surface">Free Delivery</p>
+              <p class="text-[12px]">Within Accra &amp; Kumasi</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-xs text-on-surface-variant">
+            <span class="material-symbols-outlined text-primary">verified_user</span>
+            <div>
+              <p class="font-label-lg text-label-lg text-on-surface">2 Years Warranty</p>
+              <p class="text-[12px]">Manufacturer Direct</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Info Tabs Section -->
+    <div class="mt-xxl">
+      <div class="flex border-b border-outline-variant overflow-x-auto">
+        <button class="tab-btn px-xl py-md font-label-lg text-label-lg border-b-2 border-primary text-primary font-bold active" data-tab="description">Description</button>
+        <button class="tab-btn px-xl py-md font-label-lg text-label-lg border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-colors" data-tab="specifications">Specifications</button>
+        <button class="tab-btn px-xl py-md font-label-lg text-label-lg border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-colors" data-tab="reviews">Reviews (128)</button>
+      </div>
+      <div class="py-xl">
+        <!-- Description Tab -->
+        <div class="tab-content space-y-lg max-w-3xl" id="tab-description">
+          <h3 class="font-headline-sm text-headline-sm">Performance Meets Elegance</h3>
+          <p class="text-body-lg font-body-lg text-on-surface-variant leading-relaxed">
+            The UltraBook X1 is engineered for the modern professional who demands both power and portability. Encased in a precision-milled titanium chassis, this machine weighs just 1.1kg while housing the latest 13th Generation processor. Its Stunning 14-inch OLED display offers 100% DCI-P3 color gamut, making it the perfect companion for creative workflows and immersive entertainment.
+          </p>
+          <div class="grid md:grid-cols-2 gap-lg mt-xl">
+            <div class="p-lg bg-surface-container-low rounded-xl border border-outline-variant">
+              <span class="material-symbols-outlined text-primary mb-sm">battery_charging_full</span>
+              <h4 class="font-title-lg text-title-lg mb-xs">20-Hour Battery</h4>
+              <p class="text-on-surface-variant">Intelligent power management ensures you can work all day without reaching for a charger.</p>
+            </div>
+            <div class="p-lg bg-surface-container-low rounded-xl border border-outline-variant">
+              <span class="material-symbols-outlined text-primary mb-sm">security</span>
+              <h4 class="font-title-lg text-title-lg mb-xs">Titanium Security</h4>
+              <p class="text-on-surface-variant">Next-gen biometric encryption and a hardware-level kill switch for your peace of mind.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Specifications Tab -->
+        <div class="tab-content hidden space-y-md max-w-3xl" id="tab-specifications">
+          <div class="grid grid-cols-2 py-md border-b border-outline-variant">
+            <span class="font-bold text-on-surface">Processor</span>
+            <span class="text-on-surface-variant">Intel® Core™ i7-13700H (Up to 5.0 GHz)</span>
+          </div>
+          <div class="grid grid-cols-2 py-md border-b border-outline-variant">
+            <span class="font-bold text-on-surface">Graphics</span>
+            <span class="text-on-surface-variant">Intel® Iris® Xe Graphics</span>
+          </div>
+          <div class="grid grid-cols-2 py-md border-b border-outline-variant">
+            <span class="font-bold text-on-surface">Memory</span>
+            <span class="text-on-surface-variant">16GB LPDDR5 5200MHz</span>
+          </div>
+          <div class="grid grid-cols-2 py-md border-b border-outline-variant">
+            <span class="font-bold text-on-surface">Display</span>
+            <span class="text-on-surface-variant">14.0" 2.8K (2880 x 1800) OLED 90Hz</span>
+          </div>
+          <div class="grid grid-cols-2 py-md border-b border-outline-variant">
+            <span class="font-bold text-on-surface">Weight</span>
+            <span class="text-on-surface-variant">1.12 kg (2.47 lbs)</span>
+          </div>
+        </div>
+
+        <!-- Reviews Tab -->
+        <div class="tab-content hidden" id="tab-reviews">
+          <div class="flex flex-col md:flex-row gap-xxl">
+            <div class="md:w-1/3 space-y-md">
+              <h3 class="font-display-sm text-display-sm">4.5</h3>
+              <div class="flex text-[#FFB600]">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star_half</span>
+              </div>
+              <p class="text-on-surface-variant">Based on 128 global reviews</p>
+              <div class="space-y-sm">
+                <div class="flex items-center gap-md">
+                  <span class="w-8 text-label-md">5 ★</span>
+                  <div class="flex-1 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                    <div class="bg-[#FFB600] h-full w-[70%]"></div>
+                  </div>
+                  <span class="w-8 text-label-md">70%</span>
+                </div>
+                <div class="flex items-center gap-md">
+                  <span class="w-8 text-label-md">4 ★</span>
+                  <div class="flex-1 h-2 bg-surface-container-highest rounded-full overflow-hidden">
+                    <div class="bg-[#FFB600] h-full w-[20%]"></div>
+                  </div>
+                  <span class="w-8 text-label-md">20%</span>
+                </div>
+              </div>
+            </div>
+            <div class="md:w-2/3 space-y-lg">
+              <div class="pb-lg border-b border-outline-variant">
+                <div class="flex justify-between items-start mb-sm">
+                  <div>
+                    <p class="font-bold">Kwame Mensah</p>
+                    <div class="flex text-[#FFB600] text-[16px]">
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                      <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                    </div>
+                  </div>
+                  <span class="text-on-surface-variant text-[12px]">Oct 12, 2023</span>
+                </div>
+                <p class="text-on-surface-variant">Absolutely brilliant machine. The OLED screen is a game changer for my photography work. Delivery to Kumasi was surprisingly fast!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommendations Slider -->
+    <section class="mt-xxl mb-xxl">
+      <div class="flex justify-between items-end mb-lg">
+        <div>
+          <h2 class="font-headline-md text-headline-md mb-xs">Customers also viewed</h2>
+          <p class="text-on-surface-variant">Handpicked alternatives based on your interests</p>
+        </div>
+        <div class="flex gap-sm">
+          <button class="slider-nav w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container-low transition-colors" data-direction="prev">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <button class="slider-nav w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center hover:bg-surface-container-low transition-colors" data-direction="next">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+      </div>
+      <div class="flex gap-lg overflow-x-auto pb-lg custom-scrollbar product-slider">
+        <!-- Product Card 1 -->
+        <div class="min-w-[280px] group product-card-hover bg-white rounded-xl border border-outline-variant overflow-hidden transition-all duration-300">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square relative overflow-hidden">
+              <img alt="Recommended Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALLCvnWuC_wirNGGjsSHFnDhp4s1nd_0VIYMOQq0NCU48QtidVUWx5wEUQX9A4a61f6IKtGTg-I4NFwVJUH4BCWlCvEYAGRLcMMJa2DWHtLA2FooxoCuwYpT4u1TAVyCbClDazAqMVJXBxUez1wtfP-iPDKl2_mlKGP0EmyoEsMr0JR7e2SlpoxNTAR5IwaydDYYnT1TW-wAK97wcQdpiGR5gHOe0FJT-iPrIgNfoof_0FADQZBGppuU5MrNaCoHOiYmRkeN45Qw" />
+            </div>
+          </a>
+          <div class="p-md space-y-xs">
+            <p class="text-on-surface-variant font-label-md text-label-md">Tablets</p>
+            <h4 class="font-title-md text-title-md line-clamp-2">Galaxy Tab S9 Ultra - 14.6" Dynamic AMOLED</h4>
+            <div class="flex items-center text-[#FFB600] text-xs">
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="ml-xs text-on-surface-variant">(42)</span>
+            </div>
+            <p class="font-price-sm text-price-sm text-primary">GH₵ 8,200.00</p>
+            <button class="mt-2 w-full bg-primary-container text-on-primary-container font-bold rounded-lg py-2 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                    data-name='Galaxy Tab S9 Ultra - 14.6" Dynamic AMOLED' 
+                    data-price="8200" 
+                    data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuALLCvnWuC_wirNGGjsSHFnDhp4s1nd_0VIYMOQq0NCU48QtidVUWx5wEUQX9A4a61f6IKtGTg-I4NFwVJUH4BCWlCvEYAGRLcMMJa2DWHtLA2FooxoCuwYpT4u1TAVyCbClDazAqMVJXBxUez1wtfP-iPDKl2_mlKGP0EmyoEsMr0JR7e2SlpoxNTAR5IwaydDYYnT1TW-wAK97wcQdpiGR5gHOe0FJT-iPrIgNfoof_0FADQZBGppuU5MrNaCoHOiYmRkeN45Qw">
+              <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+        <!-- Product Card 2 -->
+        <div class="min-w-[280px] group product-card-hover bg-white rounded-xl border border-outline-variant overflow-hidden transition-all duration-300">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square relative overflow-hidden">
+              <img alt="Recommended Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlLMOtYgJqNvNanHiDUIRl_eJae6FXJDs_byIHjvUNyPTgGtoRz4P6Bu5NvMoif0nzGwmabXyCBk_8JHsbtlJWwWtM-OYAKxP8g_XsxDlnJhg1E2IETbbei1FaMW5wvcP7cbKRtNkWbCB95KXyhXh7V57oiCw9g5grDHkpAivgxfSZ_XKYADmNVvt0wFw_kgsnCrPSnmRQKIzeGvhJUFokZPbtEIeLHtc1EDjhyAxb6D9Zj9H28igSMp0zo85R7yEK15K4QZp30g" />
+            </div>
+          </a>
+          <div class="p-md space-y-xs">
+            <p class="text-on-surface-variant font-label-md text-label-md">Monitors</p>
+            <h4 class="font-title-md text-title-md line-clamp-2">Studio Display 5K - Nanotexture Glass</h4>
+            <div class="flex items-center text-[#FFB600] text-xs">
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="ml-xs text-on-surface-variant">(86)</span>
+            </div>
+            <p class="font-price-sm text-price-sm text-primary">GH₵ 18,500.00</p>
+            <button class="mt-2 w-full bg-primary-container text-on-primary-container font-bold rounded-lg py-2 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                    data-name="Studio Display 5K - Nanotexture Glass" 
+                    data-price="18500" 
+                    data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuDlLMOtYgJqNvNanHiDUIRl_eJae6FXJDs_byIHjvUNyPTgGtoRz4P6Bu5NvMoif0nzGwmabXyCBk_8JHsbtlJWwWtM-OYAKxP8g_XsxDlnJhg1E2IETbbei1FaMW5wvcP7cbKRtNkWbCB95KXyhXh7V57oiCw9g5grDHkpAivgxfSZ_XKYADmNVvt0wFw_kgsnCrPSnmRQKIzeGvhJUFokZPbtEIeLHtc1EDjhyAxb6D9Zj9H28igSMp0zo85R7yEK15K4QZp30g">
+              <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+        <!-- Product Card 3 -->
+        <div class="min-w-[280px] group product-card-hover bg-white rounded-xl border border-outline-variant overflow-hidden transition-all duration-300">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square relative overflow-hidden">
+              <img alt="Recommended Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArERZjwjUs557U0AgHZ4RCEoKnkZ0X_e-u95FHHe5035yStXbyqOFjGxtCLRCoYSKywrEvdw3fmY2xHLIRyp3Gu4ugnZmXwO40k9GaHq7AVmQj3uX1g4mFElEqADRFPm8ZBW2g0xHm_eN_FIO44g2tfJwgW8ZP7dVfJ_52coHLQd8xrtT682iaLvWU55moMZOMHP_3UPk-n89Aq30ofSwfiieakx0bYzk3dPdEoS3iO29HAdwBA6iiPK74UvHIMyDWJB6Oq8dNOg" />
+            </div>
+          </a>
+          <div class="p-md space-y-xs">
+            <p class="text-on-surface-variant font-label-md text-label-md">Audio</p>
+            <h4 class="font-title-md text-title-md line-clamp-2">Acoustic Pro Wireless Headphones ANC</h4>
+            <div class="flex items-center text-[#FFB600] text-xs">
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="ml-xs text-on-surface-variant">(215)</span>
+            </div>
+            <p class="font-price-sm text-price-sm text-primary">GH₵ 2,450.00</p>
+            <button class="mt-2 w-full bg-primary-container text-on-primary-container font-bold rounded-lg py-2 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                    data-name="Acoustic Pro Wireless Headphones ANC" 
+                    data-price="2450" 
+                    data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuArERZjwjUs557U0AgHZ4RCEoKnkZ0X_e-u95FHHe5035yStXbyqOFjGxtCLRCoYSKywrEvdw3fmY2xHLIRyp3Gu4ugnZmXwO40k9GaHq7AVmQj3uX1g4mFElEqADRFPm8ZBW2g0xHm_eN_FIO44g2tfJwgW8ZP7dVfJ_52coHLQd8xrtT682iaLvWU55moMZOMHP_3UPk-n89Aq30ofSwfiieakx0bYzk3dPdEoS3iO29HAdwBA6iiPK74UvHIMyDWJB6Oq8dNOg">
+              <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+        <!-- Product Card 4 -->
+        <div class="min-w-[280px] group product-card-hover bg-white rounded-xl border border-outline-variant overflow-hidden transition-all duration-300">
+          <a href="product-detail.html" class="block">
+            <div class="aspect-square relative overflow-hidden">
+              <img alt="Recommended Product" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgI-HpqKZceJVyyoTJKEMEoZI0p0fiHv0TODtp2hHuliwPThXzFUSVICGQwXW6vRx56PpCKgBrxxz7LUTXAvXeQ2bibk1TnQ0OdRbyt0eSSbaPn1sb46UMNwLVC45DHr8F624dDyq41aazn_9mhfd-89e85DCsPyDF35NIo_d3c1wXSEYpZeBSrE5fsHEgIwBckE_7rLacC_zVw6aV2kHXeE8w3gNRXKylxx-hLzUMBNjmog8hN2biBuxEAwWFYHi-pCddq99oXw" />
+            </div>
+          </a>
+          <div class="p-md space-y-xs">
+            <p class="text-on-surface-variant font-label-md text-label-md">Cameras</p>
+            <h4 class="font-title-md text-title-md line-clamp-2">Lumix GH6 Mirrorless Cinema Camera</h4>
+            <div class="flex items-center text-[#FFB600] text-xs">
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              <span class="ml-xs text-on-surface-variant">(33)</span>
+            </div>
+            <p class="font-price-sm text-price-sm text-primary">GH₵ 11,200.00</p>
+            <button class="mt-2 w-full bg-primary-container text-on-primary-container font-bold rounded-lg py-2 flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all add-to-cart-btn-home" 
+                    data-name="Lumix GH6 Mirrorless Cinema Camera" 
+                    data-price="11200" 
+                    data-image="https://lh3.googleusercontent.com/aida-public/AB6AXuCgI-HpqKZceJVyyoTJKEMEoZI0p0fiHv0TODtp2hHuliwPThXzFUSVICGQwXW6vRx56PpCKgBrxxz7LUTXAvXeQ2bibk1TnQ0OdRbyt0eSSbaPn1sb46UMNwLVC45DHr8F624dDyq41aazn_9mhfd-89e85DCsPyDF35NIo_d3c1wXSEYpZeBSrE5fsHEgIwBckE_7rLacC_zVw6aV2kHXeE8w3gNRXKylxx-hLzUMBNjmog8hN2biBuxEAwWFYHi-pCddq99oXw">
+              <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-surface-container-highest dark:bg-surface-dim border-t border-outline-variant">
+    <div class="flex flex-col md:flex-row justify-between items-start px-margin-mobile md:px-margin-desktop py-xl max-w-container-max mx-auto gap-xl">
+      <div class="space-y-md max-w-sm">
+        <h3 class="font-title-lg text-title-lg font-bold text-primary">ShopGhana</h3>
+        <p class="text-on-surface-variant font-body-md text-body-md">Premium Marketplace for quality electronics, fashion, and lifestyle products in Ghana and beyond. We bring world-class shopping to your doorstep.</p>
+        <div class="flex gap-md">
+          <a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">face_nod</span></a>
+          <a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-primary hover:text-white transition-all" href="#"><span class="material-symbols-outlined">share</span></a>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-xl">
+        <div class="space-y-sm">
+          <p class="font-bold text-on-surface">Company</p>
+          <nav class="flex flex-col gap-xs">
+            <a class="text-on-surface-variant hover:text-on-surface hover:underline decoration-primary transition-colors text-label-md font-label-md" href="index.html">About Us</a>
+            <a class="text-on-surface-variant hover:text-on-surface hover:underline decoration-primary transition-colors text-label-md font-label-md" href="index.html">Contact</a>
+            <a class="text-on-surface-variant hover:text-on-surface hover:underline decoration-primary transition-colors text-label-md font-label-md" href="index.html">Careers</a>
+          </nav>
+        </div>
+        <div class="space-y-sm">
+          <p class="font-bold text-on-surface">Support</p>
+          <nav class="flex flex-col gap-xs">
+            <a class="text-on-surface-variant hover:text-on-surface hover:underline decoration-primary transition-colors text-label-md font-label-md" href="index.html">FAQ</a>
+            <a class="text-on-surface-variant hover:text-on-surface hover:underline decoration-primary transition-colors text-label-md font-label-md" href="index.html">Shipping Policy</a>
+            <a class="text-on-surface-variant hover:text-on-surface hover:underline decoration-primary transition-colors text-label-md font-label-md" href="index.html">Returns</a>
+          </nav>
+        </div>
+        <div class="space-y-sm col-span-2 md:col-span-1">
+          <p class="font-bold text-on-surface">Legal</p>
+          <nav class="flex flex-col gap-xs">
+            <a class="text-on-surface-variant hover:text-on-surface hover:underline decoration-primary transition-colors text-label-md font-label-md" href="index.html">Terms of Service</a>
+            <a class="text-on-surface-variant hover:text-on-surface hover:underline decoration-primary transition-colors text-label-md font-label-md" href="index.html">Privacy Policy</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div class="px-margin-mobile md:px-margin-desktop py-lg border-t border-outline-variant max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-md">
+      <p class="font-body-md text-body-md text-on-surface-variant">© 2024 ShopGhana. Premium Marketplace.</p>
+      <div class="flex gap-md opacity-60 grayscale">
+        <span class="material-symbols-outlined">credit_card</span>
+        <span class="material-symbols-outlined">payments</span>
+        <span class="material-symbols-outlined">wallet</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script src="js/main.js" defer></script>
+</body>
+</html>
