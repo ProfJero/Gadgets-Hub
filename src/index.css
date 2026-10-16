@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { -webkit-tap-highlight-color: transparent; }
+  body { @apply bg-slate-50 text-ink antialiased; font-feature-settings: 'cv11', 'ss01'; }
+  ::selection { @apply bg-brand-200; }
+  input, select, textarea { font-size: 16px; } /* prevents iOS zoom on focus */
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .card { @apply rounded-2xl bg-white shadow-card ring-1 ring-slate-900/5; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[.98] disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2; }
+  .btn-primary { @apply btn bg-brand-500 text-white shadow-sm hover:bg-brand-600 focus-visible:ring-brand-400; }
+  .btn-navy { @apply btn bg-navy-700 text-white shadow-sm hover:bg-navy-800 focus-visible:ring-navy-400; }
+  .btn-outline { @apply btn bg-white text-ink ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus-visible:ring-navy-400; }
+  .btn-ghost { @apply btn text-ink-soft hover:bg-slate-100; }
+  .btn-danger { @apply btn bg-rose-600 text-white hover:bg-rose-700 focus-visible:ring-rose-400; }
+  .btn-wa { @apply btn bg-[#25D366] text-white hover:bg-[#1ebe5a] focus-visible:ring-green-400; }
+  .btn-lg { @apply px-6 py-3.5 text-base; }
+  .btn-sm { @apply px-3 py-1.5 text-xs rounded-lg; }
+  .input { @apply block w-full rounded-xl border-0 bg-white px-3.5 py-2.5 text-ink shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-navy-500 disabled:bg-slate-50 disabled:text-slate-500; }
+  .label { @apply mb-1.5 block text-sm font-medium text-ink-soft; }
+  .chip { @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium ring-1 ring-inset transition; }
+  .chip-off { @apply chip bg-white text-ink-soft ring-slate-200 hover:ring-slate-300; }
+  .chip-on { @apply chip bg-navy-700 text-white ring-navy-700; }
+  .badge { @apply inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset; }
+  .link { @apply font-semibold text-navy-600 hover:text-navy-800 hover:underline; }
+  .section-title { @apply font-display text-2xl font-bold tracking-tight text-ink sm:text-3xl; }
+  .no-scrollbar { scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  .skeleton { @apply relative overflow-hidden rounded-lg bg-slate-200/70; }
+  .skeleton::after { content: ''; @apply absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/60 to-transparent; animation: shimmer 1.4s infinite; }
+  .kente-strip { background: repeating-linear-gradient(90deg, #F4B400 0 18px, #0F9D58 18px 30px, #D93025 30px 40px, #1E2124 40px 44px); }
+}
+
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+}

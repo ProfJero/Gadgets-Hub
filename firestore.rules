@@ -1,0 +1,160 @@
+rules_version = '2';
+
+// Gadgets Hub — Firestore security rules.
+// Roles live on /users/{uid}.role; minor admins get a `permissions` list.
+// The very first owner is bootstrapped through /meta/owner (first claim wins).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function hasProfile() { return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function isOwner() { return hasProfile() && me().role == 'superadmin'; }
+    function isStaff() {
+      return hasProfile()
+        && me().role in ['superadmin', 'admin', 'manager', 'staff']
+        && me().get('disabled', false) != true;
+    }
+    function can(p) { return isOwner() || (isStaff() && p in me().get('permissions', [])); }
+    function changed() { return request.resource.data.diff(resource.data).affectedKeys(); }
+
+    // ---------------------------------------------------------------- catalogue
+    match /products/{id} {
+      allow read: if resource.data.active == true || isStaff();
+      allow create, delete: if can('products');
+      allow update: if can('products')
+        // order handling moves stock; review moderation updates the rating
+        || (can('orders') && changed().hasOnly(['stock', 'soldCount']))
+        || (can('marketing') && changed().hasOnly(['rating', 'reviewCount']));
+    }
+
+    match /categories/{id} {
+      allow read: if true;
+      allow write: if can('products');
+    }
+
+    // ------------------------------------------------------------ store config
+    match /settings/{id} {
+      allow read: if true;
+      allow write: if can('settings');
+    }
+    match /content/{id} {
+      allow read: if true;
+      allow write: if can('marketing');
+    }
+
+    // ------------------------------------------------------------------ orders
+    match /orders/{id} {
+      // Order IDs are random order numbers (GH-XXXXXXXX, ~10^12 combinations), so the
+      // number on the receipt works as a tracking token for guest checkouts. Listing is limited to the owner and staff.
+      allow get: if true;
+      allow list: if (signedIn() && resource.data.userId == request.auth.uid) || can('orders') || can('reports');
+
+      allow create: if request.resource.data.status == 'pending'
+        && request.resource.data.payment.status == 'pending'
+        && request.resource.data.get('stockDeducted', false) == false
+        && ((signedIn() && request.resource.data.userId == request.auth.uid)
+            || (!signedIn() && request.resource.data.userId == null))
+        && request.resource.data.total is number && request.resource.data.total >= 0
+        && request.resource.data.items is list && request.resource.data.items.size() > 0
+        && request.resource.data.items.size() <= 50;
+
+      allow update: if can('orders')
+        // customer confirms a Paystack payment (staff still verify the reference)
+        || (changed().hasOnly(['payment'])
+            && resource.data.payment.status == 'pending'
+            && request.resource.data.payment.status == 'paid'
+            && request.resource.data.payment.method == 'paystack'
+            && resource.data.payment.method == 'paystack')
+        // customer submits a manual MoMo transaction ID
+        || (changed().hasOnly(['payment'])
+            && request.resource.data.payment.status == resource.data.payment.status
+            && request.resource.data.payment.method == resource.data.payment.method)
+        // signed-in customer cancels while still pending
+        || (signedIn() && resource.data.userId == request.auth.uid
+            && resource.data.status == 'pending'
+            && request.resource.data.status == 'cancelled'
+            && changed().hasOnly(['status', 'timeline', 'updatedAt']));
+
+      allow delete: if isOwner();
+    }
+
+    // ----------------------------------------------------------------- reviews
+    match /reviews/{id} {
+      allow read: if resource.data.status == 'approved' || can('marketing');
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1 && request.resource.data.rating <= 5
+        && request.resource.data.comment.size() <= 2000;
+      allow update, delete: if can('marketing');
+    }
+
+    // ----------------------------------------------------------------- coupons
+    match /coupons/{code} {
+      allow get: if true;
+      allow list: if can('marketing');
+      allow create, delete: if can('marketing');
+      allow update: if can('marketing')
+        || (changed().hasOnly(['usedCount']) && request.resource.data.usedCount == resource.data.get('usedCount', 0) + 1);
+    }
+
+    // ------------------------------------------------------------------- users
+    match /users/{uid} {
+      allow get: if (signedIn() && request.auth.uid == uid) || can('customers') || can('staff') || can('orders');
+      allow list: if can('customers') || can('staff');
+
+      allow create: if
+        // a shopper creating their own profile
+        (signedIn() && request.auth.uid == uid
+          && request.resource.data.role == 'customer'
+          && request.resource.data.permissions.size() == 0)
+        // the very first owner (paired with the /meta/owner claim in one batch)
+        || (signedIn() && request.auth.uid == uid
+          && request.resource.data.role == 'superadmin'
+          && !exists(/databases/$(database)/documents/meta/owner)
+          && getAfter(/databases/$(database)/documents/meta/owner).data.uid == uid)
+        // staff manager creating a minor admin
+        || (can('staff') && request.resource.data.role in ['admin', 'manager', 'staff', 'customer']);
+
+      allow update: if
+        // users edit their own profile but can never change their own access
+        (signedIn() && request.auth.uid == uid
+          && !changed().hasAny(['role', 'permissions', 'disabled']))
+        // first-run owner claim on an existing profile (paired with /meta/owner)
+        || (signedIn() && request.auth.uid == uid
+          && request.resource.data.role == 'superadmin'
+          && !exists(/databases/$(database)/documents/meta/owner)
+          && getAfter(/databases/$(database)/documents/meta/owner).data.uid == uid)
+        // owner can change anything except demoting themselves
+        || (isOwner() && request.auth.uid != uid)
+        // staff managers handle non-owner accounts and can't mint owners
+        || (can('staff') && resource.data.role != 'superadmin'
+          && request.resource.data.role in ['admin', 'manager', 'staff', 'customer']
+          && request.auth.uid != uid)
+        // customer service can block/unblock and annotate shoppers
+        || (can('customers') && resource.data.role == 'customer'
+          && changed().hasOnly(['disabled', 'notes', 'updatedAt']));
+
+      allow delete: if isOwner() && request.auth.uid != uid;
+    }
+
+    match /meta/owner {
+      allow get: if true;
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+    }
+
+    // ---------------------------------------------------------------- misc
+    match /activity/{id} {
+      allow create: if isStaff() && request.resource.data.uid == request.auth.uid;
+      allow read: if can('staff');
+    }
+
+    match /restockAlerts/{id} {
+      allow create: if request.resource.data.keys().hasOnly(['productId', 'contact', 'createdAt'])
+        && request.resource.data.contact is string && request.resource.data.contact.size() <= 120;
+      allow read, delete: if can('products');
+    }
+  }
+}

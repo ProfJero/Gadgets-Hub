@@ -1,0 +1,13 @@
+{
+  "name": "Gadgets Hub Ghana",
+  "short_name": "Gadgets Hub",
+  "description": "Genuine laptops & accessories in Ghana",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1B3D82",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
